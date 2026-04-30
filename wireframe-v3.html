@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CardioU — Wireframe v3 · Minimal SaaS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ─── TOKENS (LaCardio) ──────────────────────────────────── */
+    :root {
+      --brand-primary:         #002D72;
+      --brand-primary-hover:   #00245C;
+      --brand-primary-subtle:  #E5EBEF;
+      --brand-secondary:       #E40046;
+      --brand-secondary-subtle:#FEE5EB;
+
+      --text-primary:   #1a1a1a;
+      --text-secondary: #5F5E5A;
+      --text-tertiary:  #888780;
+
+      --bg-page:    #F4F3F0;
+      --bg-surface: #ffffff;
+      --border:     rgba(0,0,0,0.10);
+      --border-md:  rgba(0,0,0,0.16);
+
+      --radius-sm:   4px;
+      --radius-md:   8px;
+      --radius-lg:  12px;
+      --radius-xl:  16px;
+      --radius-2xl: 24px;
+      --radius-full:9999px;
+
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.07);
+      --shadow-md: 0 4px 12px rgba(0,0,0,.08);
+      --shadow-lg: 0 10px 30px rgba(0,0,0,.10);
+
+      --font:         'Inter', system-ui, sans-serif;
+      --font-display: 'Fira Sans', 'Inter', sans-serif;
+      --font-body:    'Open Sans', 'Inter', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--bg-surface); color: var(--text-primary); font-size: 16px; line-height: 1.5; }
+
+    h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
+    h1 { font-size: 46px; font-weight: 400; line-height: 56px; letter-spacing: 0; }
+    h2 { font-size: 40px; font-weight: 500; line-height: 52px; letter-spacing: -0.01em; }
+    h3 { font-size: 36px; font-weight: 500; line-height: 44px; letter-spacing: -0.01em; }
+    h4 { font-size: 32px; font-weight: 500; line-height: 41px; letter-spacing: -0.01em; }
+    h5 { font-size: 24px; font-weight: 500; line-height: 32px; letter-spacing: -0.01em; }
+    h6 { font-size: 20px; font-weight: 500; line-height: 28px; letter-spacing: 0; }
+    p { font-family: var(--font-body); font-size: 18px; font-weight: 400; line-height: 24px; letter-spacing: 0.015em; }
+
+    .max-w { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .max-w--narrow { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+    /* ─── WIREFRAME ANNOTATION ───────────────────────────────── */
+    .wf-label {
+      position: sticky; top: 0; z-index: 10;
+      background: #B3F0D4; color: #003320;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 3px 10px;
+      display: flex; align-items: center; gap: 6px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+    .wf-label::before { content: '◈'; font-size: 9px; opacity: 0.6; }
+
+    /* ─── PLACEHOLDER ────────────────────────────────────────── */
+    .ph {
+      background: #E8E7E4; border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      color: #888780; font-size: 11px; font-weight: 500;
+      letter-spacing: 0.04em; text-transform: uppercase; flex-shrink: 0;
+    }
+
+    /* ─── BUTTONS ────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      font-family: var(--font-body); font-weight: 700; cursor: pointer;
+      border: 1px solid transparent; text-decoration: none; white-space: nowrap;
+      transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.1s;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn--sm  { font-size: 12px; padding: 5px 12px;  border-radius: var(--radius-full); }
+    .btn--md  { font-size: 13px; padding: 7px 16px;  border-radius: var(--radius-full); }
+    .btn--lg  { font-size: 15px; padding: 10px 22px; border-radius: var(--radius-full); }
+    .btn--xl  { font-size: 16px; padding: 14px 28px; border-radius: var(--radius-full); }
+    .btn--primary        { background: var(--brand-primary);   color: #fff; }
+    .btn--primary:hover  { background: var(--brand-primary-hover); }
+    .btn--secondary       { background: transparent; color: var(--brand-primary); border-color: var(--brand-primary); }
+    .btn--secondary:hover { background: var(--brand-primary-subtle); }
+    .btn--ghost       { background: transparent; color: var(--brand-primary); }
+    .btn--ghost:hover { background: var(--brand-primary-subtle); }
+    .btn--danger       { background: var(--brand-secondary); color: #fff; }
+    .btn--danger:hover { background: #B70038; }
+    .btn--white        { background: #fff; color: var(--brand-primary); }
+    .btn--white:hover  { background: var(--brand-primary-subtle); }
+    .btn--outline-white       { background: transparent; color: #fff; border-color: rgba(255,255,255,0.5); }
+    .btn--outline-white:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
+
+    /* ─── BADGE ──────────────────────────────────────────────── */
+    .badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 11px; font-weight: 600; padding: 2px 8px;
+      border-radius: var(--radius-full); text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .badge--primary  { background: var(--brand-primary-subtle); color: var(--brand-primary); }
+    .badge--danger   { background: var(--brand-secondary-subtle); color: var(--brand-secondary); }
+    .badge--neutral  { background: #E6E5E2; color: #5F5E5A; }
+
+    /* ─── STARS ──────────────────────────────────────────────── */
+    .stars { display: flex; gap: 2px; color: #EF9F27; font-size: 13px; }
+
+    /* ═══════════════════════════════════════════════════════════
+       HEADER — idéntico Opción C
+       ═══════════════════════════════════════════════════════════ */
+    .header-sticky { position: sticky; top: 0; z-index: 100; }
+    .topbar { background: var(--brand-primary); height: 36px; display: flex; align-items: center; }
+    .topbar__inner { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+    .topbar__left { display: flex; align-items: center; gap: 20px; }
+    .topbar__item {
+      font-family: var(--font); font-size: 12px; color: rgba(255,255,255,0.65);
+      display: flex; align-items: center; gap: 5px;
+      text-decoration: none; transition: color 0.15s; white-space: nowrap;
+    }
+    .topbar__item:hover { color: #fff; }
+    .topbar__sep { width: 1px; height: 12px; background: rgba(255,255,255,0.2); flex-shrink: 0; }
+    .topbar__right { display: flex; align-items: center; gap: 4px; }
+    .topbar__btn {
+      font-family: var(--font); font-size: 12px; color: rgba(255,255,255,0.65);
+      text-decoration: none; padding: 3px 10px; border-radius: var(--radius-sm);
+      transition: color 0.15s, background 0.15s;
+    }
+    .topbar__btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
+    .topbar__btn--cta {
+      color: #fff; background: var(--brand-secondary);
+      padding: 3px 14px; border-radius: var(--radius-full); font-weight: 700;
+    }
+    .topbar__btn--cta:hover { background: #B70038; }
+    .navbar { background: var(--bg-surface); height: 80px; display: flex; align-items: center; border-bottom: 3px solid var(--brand-secondary); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .navbar__inner { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+    .navbar__logo { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; }
+    .navbar__logo img { height: 42px; width: auto; display: block; }
+    .navbar__right { display: flex; align-items: center; gap: 28px; }
+    .navbar__links { display: flex; align-items: center; }
+    .navbar__link {
+      font-family: var(--font); font-size: 15px; font-weight: 500;
+      color: var(--text-secondary); text-decoration: none;
+      padding: 8px 16px; position: relative;
+      display: inline-flex; align-items: center; gap: 4px;
+      transition: color 0.15s; white-space: nowrap;
+    }
+    .navbar__link::after {
+      content: ''; position: absolute;
+      bottom: -3px; left: 16px; right: 16px;
+      height: 3px; background: var(--brand-primary);
+      transform: scaleX(0); transition: transform 0.2s; border-radius: 2px;
+    }
+    .navbar__link:hover        { color: var(--brand-primary); }
+    .navbar__link:hover::after { transform: scaleX(1); }
+    .navbar__link--active      { color: var(--brand-primary); font-weight: 600; }
+    .navbar__link--active::after { transform: scaleX(1); }
+    .navbar__dropdown { position: relative; }
+    .navbar__dropdown-menu {
+      display: none; position: absolute;
+      top: calc(100% + 9px); left: 0;
+      background: var(--bg-surface); border: 1px solid var(--border-md);
+      border-top: 3px solid var(--brand-primary);
+      border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
+      min-width: 260px; padding: 8px; z-index: 200;
+    }
+    .navbar__dropdown:hover .navbar__dropdown-menu { display: flex; flex-direction: column; }
+    .navbar__dropdown-label {
+      font-family: var(--font-display); font-size: 10px; font-weight: 400;
+      color: var(--text-tertiary); letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 6px 10px 4px;
+    }
+    .navbar__dropdown-item {
+      font-family: var(--font); font-size: 14px; color: var(--text-secondary);
+      text-decoration: none; padding: 9px 12px; border-radius: var(--radius-md);
+      transition: all 0.15s;
+    }
+    .navbar__dropdown-item:hover { color: var(--brand-primary); background: var(--brand-primary-subtle); }
+    .navbar__chevron { width: 13px; height: 13px; transition: transform 0.2s; }
+    .navbar__dropdown:hover .navbar__chevron { transform: rotate(180deg); }
+    .navbar__search { position: relative; flex-shrink: 0; }
+    .navbar__search-icon {
+      position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+      color: var(--text-tertiary); pointer-events: none; display: flex;
+    }
+    .navbar__search-input {
+      height: 36px; width: 200px; padding: 0 12px 0 34px;
+      font-family: var(--font-body); font-size: 13px; color: var(--text-primary);
+      background: var(--bg-page); border: 1px solid var(--border-md);
+      border-radius: var(--radius-full); outline: none;
+      transition: width 0.2s, border-color 0.15s, box-shadow 0.15s;
+    }
+    .navbar__search-input::placeholder { color: var(--text-tertiary); }
+    .navbar__search-input:focus {
+      width: 260px; border-color: var(--brand-primary);
+      box-shadow: 0 0 0 3px rgba(0,45,114,0.08); background: var(--bg-surface);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       V3 — MINIMAL / SAAS LAYOUT
+       Concepto: whitespace generoso, centrado, jerarquía tipográfica
+       como ancla. Inspirado en Linear, Vercel, Stripe Docs.
+       Sin texturas, sin full-bleed backgrounds, sin slants.
+       Las secciones "respiran" — el contenido flota sobre blanco.
+       ═══════════════════════════════════════════════════════════ */
+
+    /* ── A. HERO MÍNIMO — centrado, pill de confianza, H1 grande ─ */
+    .hero-min {
+      padding: 96px 0 80px;
+      background: var(--bg-surface);
+      text-align: center;
+    }
+    .hero-min__trust {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--brand-primary-subtle);
+      border: 1px solid rgba(0,45,114,0.15);
+      border-radius: var(--radius-full);
+      padding: 5px 16px 5px 6px;
+      margin-bottom: 32px;
+    }
+    .hero-min__trust-dot {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--brand-secondary);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .hero-min__trust-dot svg { display: block; }
+    .hero-min__trust-text {
+      font-family: var(--font); font-size: 13px; font-weight: 500;
+      color: var(--brand-primary);
+    }
+    .hero-min__h1 {
+      font-family: var(--font-display);
+      font-size: 60px; font-weight: 400;
+      line-height: 68px; letter-spacing: -0.01em;
+      color: var(--text-primary);
+      max-width: 820px; margin: 0 auto 24px;
+    }
+    .hero-min__h1 em { font-style: normal; color: var(--brand-secondary); }
+    .hero-min__sub {
+      font-family: var(--font-body);
+      font-size: 18px; line-height: 28px;
+      color: var(--text-secondary);
+      max-width: 560px; margin: 0 auto 40px;
+    }
+    .hero-min__actions {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      margin-bottom: 56px;
+    }
+    /* Logos de confianza */
+    .hero-min__logos {
+      border-top: 1px solid var(--border);
+      padding-top: 40px;
+      display: flex; flex-direction: column; align-items: center; gap: 20px;
+    }
+    .hero-min__logos-label {
+      font-family: var(--font); font-size: 12px; font-weight: 500;
+      color: var(--text-tertiary); letter-spacing: 0.04em;
+    }
+    .hero-min__logos-row {
+      display: flex; align-items: center; gap: 40px;
+      opacity: 0.45;
+    }
+    .hero-min__logo-ph {
+      height: 28px; background: var(--text-tertiary);
+      border-radius: var(--radius-sm);
+      opacity: 0.4;
+    }
+
+    /* ── B. STATS — fila de 4 números ──────────────────────────── */
+    .stats-min {
+      padding: 48px 0;
+      background: var(--brand-primary);
+    }
+    .stats-min__row {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      divide: 1px solid rgba(255,255,255,0.1);
+    }
+    .stat-min {
+      padding: 0 32px;
+      border-right: 1px solid rgba(255,255,255,0.12);
+      text-align: center;
+    }
+    .stat-min:first-child { border-left: none; padding-left: 0; }
+    .stat-min:last-child  { border-right: none; padding-right: 0; }
+    .stat-min__val {
+      font-family: var(--font-display);
+      font-size: 40px; font-weight: 400;
+      color: #fff; line-height: 1;
+    }
+    .stat-min__val em { font-style: normal; color: var(--brand-secondary); }
+    .stat-min__lbl { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 6px; }
+
+    /* ── C. ESCUELAS — grid de tarjetas con icono y contador ────── */
+    .schools {
+      padding: 96px 0;
+      background: var(--bg-page);
+    }
+    .schools__header { text-align: center; margin-bottom: 56px; }
+    .schools__eyebrow {
+      font-family: var(--font-display); font-size: 11px;
+      letter-spacing: 0.26em; text-transform: uppercase;
+      color: var(--brand-secondary); margin-bottom: 16px;
+    }
+    .schools__grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .school-card {
+      background: var(--bg-surface);
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      border: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      gap: 16px;
+      transition: box-shadow 0.2s, border-color 0.2s;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .school-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: rgba(0,45,114,0.2);
+    }
+    .school-card__icon {
+      width: 48px; height: 48px; border-radius: var(--radius-md);
+      background: var(--brand-primary-subtle);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--brand-primary); font-size: 22px;
+    }
+    .school-card__name {
+      font-family: var(--font-display); font-size: 18px; font-weight: 500;
+      color: var(--text-primary);
+    }
+    .school-card__desc { font-size: 14px; line-height: 22px; color: var(--text-secondary); flex: 1; }
+    .school-card__footer {
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid var(--border); padding-top: 16px;
+    }
+    .school-card__count { font-size: 13px; color: var(--text-tertiary); }
+    .school-card__count strong { color: var(--brand-primary); font-weight: 600; }
+    .school-card__arrow { color: var(--brand-primary); font-size: 18px; }
+
+    /* ── D. CURSOS — listado horizontal tipo "tabla ligera" ─────── */
+    .courses-list {
+      padding: 96px 0;
+      background: var(--bg-surface);
+    }
+    .courses-list__header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 40px;
+    }
+    .courses-list__eyebrow {
+      font-family: var(--font-display); font-size: 11px;
+      letter-spacing: 0.26em; text-transform: uppercase;
+      color: var(--brand-secondary); margin-bottom: 12px;
+    }
+    /* Tabs de filtro */
+    .courses-list__tabs {
+      display: flex; gap: 4px;
+      background: var(--bg-page);
+      padding: 4px; border-radius: var(--radius-full);
+    }
+    .courses-list__tab {
+      font-family: var(--font); font-size: 13px; font-weight: 500;
+      padding: 6px 16px; border-radius: var(--radius-full);
+      color: var(--text-secondary); cursor: pointer;
+      transition: all 0.15s; text-decoration: none;
+    }
+    .courses-list__tab--active {
+      background: var(--bg-surface); color: var(--brand-primary);
+      box-shadow: var(--shadow-sm);
+    }
+    /* Lista de cursos — cada fila es un item */
+    .courses-table { display: flex; flex-direction: column; gap: 12px; }
+    .course-row {
+      display: grid; grid-template-columns: 72px 1fr auto auto auto;
+      align-items: center; gap: 20px;
+      background: var(--bg-page);
+      border-radius: var(--radius-lg);
+      padding: 16px 20px;
+      border: 1px solid transparent;
+      transition: border-color 0.15s, background 0.15s;
+      text-decoration: none;
+    }
+    .course-row:hover { background: var(--bg-surface); border-color: var(--border-md); box-shadow: var(--shadow-sm); }
+    .course-row__thumb {
+      width: 72px; height: 52px; border-radius: var(--radius-md);
+      background: #B8C8DC; flex-shrink: 0;
+    }
+    .course-row__thumb--b { background: #C5D5E8; }
+    .course-row__thumb--c { background: #A8BCCF; }
+    .course-row__thumb--d { background: #BCC5D5; }
+    .course-row__thumb--e { background: #D2DCE8; }
+    .course-row__title { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+    .course-row__meta { font-size: 12px; color: var(--text-tertiary); display: flex; gap: 10px; }
+    .course-row__level {
+      font-size: 12px; font-weight: 500;
+      padding: 3px 10px; border-radius: var(--radius-full);
+      white-space: nowrap;
+    }
+    .course-row__level--basic { background: #EAF3DE; color: #3B6D11; }
+    .course-row__level--inter { background: #FFF3CD; color: #856404; }
+    .course-row__level--adv   { background: var(--brand-secondary-subtle); color: var(--brand-secondary); }
+    .course-row__rating { display: flex; align-items: center; gap: 4px; font-size: 13px; color: var(--text-secondary); white-space: nowrap; }
+    .course-row__price {
+      font-family: var(--font-display); font-size: 18px; font-weight: 500;
+      color: var(--brand-primary); white-space: nowrap;
+    }
+
+    /* ── E. PROPUESTA DE VALOR — 3 pilares con borde izquierdo ──── */
+    .pillars {
+      padding: 96px 0;
+      background: var(--bg-page);
+    }
+    .pillars__inner {
+      display: grid; grid-template-columns: 1fr 2fr;
+      gap: 64px; align-items: start;
+    }
+    .pillars__left { position: sticky; top: 140px; }
+    .pillars__eyebrow {
+      font-family: var(--font-display); font-size: 11px;
+      letter-spacing: 0.26em; text-transform: uppercase;
+      color: var(--brand-secondary); margin-bottom: 16px;
+    }
+    .pillars__right { display: flex; flex-direction: column; gap: 0; }
+    .pillar {
+      padding: 32px 0;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    .pillar:last-child { border-bottom: none; }
+    .pillar__num {
+      font-family: var(--font-display); font-size: 13px; font-weight: 400;
+      color: var(--text-tertiary); letter-spacing: 0.1em;
+      padding-top: 4px;
+    }
+    .pillar__title { font-size: 20px; font-weight: 600; color: var(--text-primary); margin-bottom: 10px; }
+    .pillar__body { font-size: 15px; line-height: 24px; color: var(--text-secondary); }
+    .pillar__tag {
+      display: inline-flex; margin-top: 14px;
+      align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 600;
+      color: var(--brand-primary);
+      padding: 4px 10px;
+      background: var(--brand-primary-subtle);
+      border-radius: var(--radius-full);
+    }
+
+    /* ── F. INSTRUCTORES — lista simple con foto y acción ───────── */
+    .instructors-min {
+      padding: 96px 0;
+      background: var(--bg-surface);
+    }
+    .instructors-min__header { text-align: center; margin-bottom: 56px; }
+    .instructors-min__eyebrow {
+      font-family: var(--font-display); font-size: 11px;
+      letter-spacing: 0.26em; text-transform: uppercase;
+      color: var(--brand-secondary); margin-bottom: 16px;
+    }
+    .instructors-min__grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .instructor-min {
+      text-align: center; padding: 28px 20px;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      transition: box-shadow 0.2s;
+    }
+    .instructor-min:hover { box-shadow: var(--shadow-md); }
+    .instructor-min__avatar {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: var(--brand-primary-subtle);
+      margin: 0 auto 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 20px; font-weight: 500;
+      color: var(--brand-primary);
+    }
+    .instructor-min__name { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+    .instructor-min__role { font-size: 13px; color: var(--text-tertiary); line-height: 20px; margin-bottom: 16px; }
+    .instructor-min__courses {
+      font-size: 12px; color: var(--text-secondary);
+      padding-top: 14px; border-top: 1px solid var(--border);
+    }
+    .instructor-min__courses strong { color: var(--brand-primary); }
+
+    /* ── G. TESTIMONIOS — cartas con avatar y rating ────────────── */
+    .testimonials-min {
+      padding: 96px 0;
+      background: var(--bg-page);
+    }
+    .testimonials-min__header { text-align: center; margin-bottom: 48px; }
+    .testimonials-min__eyebrow {
+      font-family: var(--font-display); font-size: 11px;
+      letter-spacing: 0.26em; text-transform: uppercase;
+      color: var(--brand-secondary); margin-bottom: 16px;
+    }
+    .testi-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .testi-card {
+      background: var(--bg-surface);
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      border: 1px solid var(--border);
+    }
+    .testi-card__stars { margin-bottom: 16px; }
+    .testi-card__quote {
+      font-size: 15px; line-height: 24px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+    .testi-card__author { display: flex; align-items: center; gap: 12px; }
+    .testi-card__avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--brand-primary-subtle);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 600; color: var(--brand-primary);
+      flex-shrink: 0;
+    }
+    .testi-card__name { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+    .testi-card__role { font-size: 12px; color: var(--text-tertiary); }
+
+    /* ── H. PLANES — estilo pricing SaaS ───────────────────────── */
+    .plans-min {
+      padding: 96px 0;
+      background: var(--bg-surface);
+    }
+    .plans-min__header { text-align: center; margin-bottom: 56px; }
+    .plans-min__eyebrow {
+      font-family: var(--font-display); font-size: 11px;
+      letter-spacing: 0.26em; text-transform: uppercase;
+      color: var(--brand-secondary); margin-bottom: 16px;
+    }
+    /* Toggle mensual / anual */
+    .plans-min__toggle {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: var(--bg-page); padding: 4px; border-radius: var(--radius-full);
+      margin-top: 24px;
+    }
+    .plans-min__toggle-opt {
+      font-size: 13px; font-weight: 500;
+      padding: 6px 18px; border-radius: var(--radius-full);
+      color: var(--text-secondary); cursor: pointer;
+    }
+    .plans-min__toggle-opt--active {
+      background: var(--bg-surface); color: var(--brand-primary);
+      box-shadow: var(--shadow-sm);
+    }
+    .plans-min__toggle-badge {
+      font-size: 10px; font-weight: 700;
+      color: var(--brand-secondary);
+      padding: 1px 6px; border-radius: var(--radius-full);
+      background: var(--brand-secondary-subtle);
+    }
+    .plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .plan-min {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      position: relative;
+      background: var(--bg-surface);
+      transition: box-shadow 0.2s;
+    }
+    .plan-min:hover { box-shadow: var(--shadow-md); }
+    .plan-min--featured {
+      border-color: var(--brand-primary);
+      border-width: 2px;
+    }
+    .plan-min__popular {
+      position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+      background: var(--brand-primary); color: #fff;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 4px 14px; border-radius: var(--radius-full);
+      white-space: nowrap;
+    }
+    .plan-min__name {
+      font-size: 13px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-tertiary); margin-bottom: 20px;
+    }
+    .plan-min--featured .plan-min__name { color: var(--brand-primary); }
+    .plan-min__price {
+      font-family: var(--font-display);
+      font-size: 44px; font-weight: 400;
+      color: var(--text-primary); line-height: 1; margin-bottom: 4px;
+    }
+    .plan-min__period { font-size: 13px; color: var(--text-tertiary); margin-bottom: 28px; }
+    .plan-min__divider { border: none; border-top: 1px solid var(--border); margin-bottom: 24px; }
+    .plan-min__features { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+    .plan-min__feat {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 14px; color: var(--text-secondary);
+    }
+    .plan-min__feat--off { color: var(--text-tertiary); }
+    .plan-min__check { flex-shrink: 0; font-weight: 700; }
+    .plan-min__check--on { color: var(--brand-primary); }
+    .plan-min__check--off { color: var(--border-md); }
+
+    /* ── I. FAQ — acordeón minimalista ──────────────────────────── */
+    .faq-min {
+      padding: 96px 0;
+      background: var(--bg-page);
+    }
+    .faq-min__inner {
+      display: grid; grid-template-columns: 1fr 2fr;
+      gap: 64px; align-items: start;
+    }
+    .faq-min__left { position: sticky; top: 140px; }
+    .faq-min__eyebrow {
+      font-family: var(--font-display); font-size: 11px;
+      letter-spacing: 0.26em; text-transform: uppercase;
+      color: var(--brand-secondary); margin-bottom: 16px;
+    }
+    .faq-min__support { margin-top: 32px; padding: 20px; background: var(--bg-surface); border-radius: var(--radius-lg); border: 1px solid var(--border); }
+    .faq-min__support-title { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+    .faq-min__support-body { font-size: 13px; color: var(--text-secondary); line-height: 20px; margin-bottom: 14px; }
+    .faq-list { display: flex; flex-direction: column; gap: 0; }
+    .faq-item {
+      border-bottom: 1px solid var(--border); padding: 20px 0;
+    }
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+    .faq-item__q {
+      font-size: 16px; font-weight: 600; color: var(--text-primary);
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 16px; cursor: pointer;
+    }
+    .faq-item__q:hover { color: var(--brand-primary); }
+    .faq-item__icon { color: var(--text-tertiary); flex-shrink: 0; font-size: 20px; }
+    .faq-item__a { font-size: 15px; line-height: 24px; color: var(--text-secondary); margin-top: 12px; }
+
+    /* ── J. CTA FINAL — mínimo y confiante ─────────────────────── */
+    .cta-min {
+      padding: 96px 0;
+      background: var(--brand-primary);
+      text-align: center;
+    }
+    .cta-min__eyebrow {
+      font-family: var(--font-display); font-size: 11px;
+      letter-spacing: 0.26em; text-transform: uppercase;
+      color: rgba(255,255,255,0.4); margin-bottom: 20px;
+    }
+    .cta-min__h2 {
+      font-family: var(--font-display);
+      font-size: 48px; font-weight: 400;
+      line-height: 58px; color: #fff;
+      max-width: 600px; margin: 0 auto 16px;
+    }
+    .cta-min__sub {
+      font-size: 16px; line-height: 26px;
+      color: rgba(255,255,255,0.55);
+      max-width: 480px; margin: 0 auto 40px;
+    }
+    .cta-min__actions { display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .cta-min__note { margin-top: 20px; font-size: 13px; color: rgba(255,255,255,0.35); }
+
+    /* ── K. FOOTER ──────────────────────────────────────────────── */
+    .footer {
+      background: #0F1924; color: rgba(255,255,255,0.6);
+      padding: 56px 0 32px;
+    }
+    .footer__grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px; margin-bottom: 48px;
+    }
+    .footer__brand { font-size: 13px; line-height: 1.8; margin-bottom: 20px; }
+    .footer__social { display: flex; gap: 8px; }
+    .footer__social-btn {
+      width: 36px; height: 36px; border-radius: var(--radius-md);
+      background: rgba(255,255,255,0.07);
+      display: flex; align-items: center; justify-content: center; font-size: 14px;
+    }
+    .footer__col-title { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.9); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
+    .footer__links { display: flex; flex-direction: column; gap: 10px; }
+    .footer__link { font-size: 13px; color: rgba(255,255,255,0.5); text-decoration: none; }
+    .footer__link:hover { color: #fff; }
+    .footer__bottom {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding-top: 24px; display: flex;
+      align-items: center; justify-content: space-between;
+      font-size: 12px; color: rgba(255,255,255,0.3);
+    }
+
+    /* ─── WIREFRAME SIDEBAR ──────────────────────────────────── */
+    .wf-sidebar {
+      position: fixed; right: 0; top: 50%; transform: translateY(-50%);
+      background: #1a1a1a; color: #fff;
+      border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+      padding: 16px 12px; display: flex; flex-direction: column;
+      gap: 6px; z-index: 300; width: 180px;
+    }
+    .wf-sidebar__title { font-size: 10px; font-weight: 700; color: #B3F0D4; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .wf-sidebar__link { font-size: 11px; color: rgba(255,255,255,0.65); text-decoration: none; padding: 4px 8px; border-radius: 4px; }
+    .wf-sidebar__link:hover { color: #fff; background: rgba(255,255,255,0.1); }
+    .wf-sidebar__num { color: rgba(255,255,255,0.3); margin-right: 4px; }
+
+    .text-center { text-align: center; }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV PANEL ─────────────────────────────────────────────── -->
+<nav class="wf-sidebar">
+  <div class="wf-sidebar__title">v3 · Minimal</div>
+  <a href="#s01" class="wf-sidebar__link"><span class="wf-sidebar__num">A</span>Header</a>
+  <a href="#s02" class="wf-sidebar__link"><span class="wf-sidebar__num">B</span>Hero</a>
+  <a href="#s03" class="wf-sidebar__link"><span class="wf-sidebar__num">C</span>Stats</a>
+  <a href="#s04" class="wf-sidebar__link"><span class="wf-sidebar__num">D</span>Escuelas</a>
+  <a href="#s05" class="wf-sidebar__link"><span class="wf-sidebar__num">E</span>Catálogo</a>
+  <a href="#s06" class="wf-sidebar__link"><span class="wf-sidebar__num">F</span>Diferencial</a>
+  <a href="#s07" class="wf-sidebar__link"><span class="wf-sidebar__num">G</span>Instructores</a>
+  <a href="#s08" class="wf-sidebar__link"><span class="wf-sidebar__num">H</span>Testimonios</a>
+  <a href="#s09" class="wf-sidebar__link"><span class="wf-sidebar__num">I</span>Planes</a>
+  <a href="#s10" class="wf-sidebar__link"><span class="wf-sidebar__num">J</span>FAQ</a>
+  <a href="#s11" class="wf-sidebar__link"><span class="wf-sidebar__num">K</span>CTA</a>
+  <a href="#s12" class="wf-sidebar__link"><span class="wf-sidebar__num">L</span>Footer</a>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════════
+     A — HEADER (idéntico Opción C)
+     ════════════════════════════════════════════════════════════ -->
+<div id="s01">
+  <div class="wf-label">A · Header institucional (Opción C) — idéntico a v1</div>
+  <div class="header-sticky">
+    <div class="topbar">
+      <div class="max-w topbar__inner">
+        <div class="topbar__left">
+          <a href="#" class="topbar__item">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.86a16 16 0 0 0 6.13 6.13l.86-.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            +57 1 330 5555
+          </a>
+          <div class="topbar__sep"></div>
+          <a href="#" class="topbar__item">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            cardio-u@lacardio.org
+          </a>
+          <div class="topbar__sep"></div>
+          <a href="#" class="topbar__item">Fundación CardioInfantil</a>
+        </div>
+        <div class="topbar__right">
+          <a href="#" class="topbar__btn">Iniciar sesión</a>
+          <div class="topbar__sep" style="margin:0 4px;"></div>
+          <a href="#s11" class="topbar__btn topbar__btn--cta">Inscribirme</a>
+        </div>
+      </div>
+    </div>
+    <nav class="navbar">
+      <div class="max-w navbar__inner">
+        <a href="#" class="navbar__logo">
+          <img src="assets/Cardio_u_Logo.svg" alt="CardioU" />
+        </a>
+        <div class="navbar__right">
+          <nav class="navbar__links">
+            <div class="navbar__dropdown">
+              <a href="#" class="navbar__link navbar__link--active">
+                Escuelas
+                <svg class="navbar__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </a>
+              <div class="navbar__dropdown-menu">
+                <div class="navbar__dropdown-label">Áreas de especialidad</div>
+                <a href="#" class="navbar__dropdown-item">Cardiología Intervencionista</a>
+                <a href="#" class="navbar__dropdown-item">Electrofisiología</a>
+                <a href="#" class="navbar__dropdown-item">Ecocardiografía</a>
+                <a href="#" class="navbar__dropdown-item">Imagen Cardíaca</a>
+                <a href="#" class="navbar__dropdown-item">Insuficiencia Cardíaca</a>
+                <a href="#" class="navbar__dropdown-item">Prevención Cardiovascular</a>
+              </div>
+            </div>
+            <a href="#" class="navbar__link">Acerca de nosotros</a>
+          </nav>
+          <div class="navbar__search">
+            <span class="navbar__search-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </span>
+            <input class="navbar__search-input" type="text" placeholder="Buscar cursos o especialistas…" />
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     B — HERO MÍNIMO CENTRADO
+     Concepto: el texto habla solo. Sin imagen. Jerarquía clara.
+     La pill de confianza ancla la credibilidad antes del H1.
+     ════════════════════════════════════════════════════════════ -->
+<div id="s02">
+  <div class="wf-label">B · Hero centrado — sin imagen · pill de confianza · H1 60px · logos institucionales</div>
+  <section class="hero-min">
+    <div class="max-w--narrow">
+      <!-- Pill de confianza -->
+      <div class="hero-min__trust">
+        <div class="hero-min__trust-dot">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <span class="hero-min__trust-text">Avalado por la Fundación CardioInfantil · Acreditación CME</span>
+      </div>
+      <!-- H1 -->
+      <h1 class="hero-min__h1">
+        Educación cardiológica de alto nivel,<br>diseñada por <em>especialistas activos</em>
+      </h1>
+      <p class="hero-min__sub">
+        Programa tus próximas certificaciones desde cualquier lugar. Aprende con los mismos médicos que lideran la cardiología en Colombia.
+      </p>
+      <!-- CTAs -->
+      <div class="hero-min__actions">
+        <a href="#s04" class="btn btn--primary btn--xl">Explorar escuelas</a>
+        <a href="#s09" class="btn btn--secondary btn--xl">Ver planes y precios</a>
+      </div>
+      <!-- Logos de confianza -->
+      <div class="hero-min__logos">
+        <div class="hero-min__logos-label">Avalado y reconocido por</div>
+        <div class="hero-min__logos-row">
+          <div class="hero-min__logo-ph" style="width:110px;"></div>
+          <div class="hero-min__logo-ph" style="width:80px;"></div>
+          <div class="hero-min__logo-ph" style="width:95px;"></div>
+          <div class="hero-min__logo-ph" style="width:70px;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     C — STATS BAR — números en fila sobre azul
+     ════════════════════════════════════════════════════════════ -->
+<div id="s03">
+  <div class="wf-label">C · Stats — 4 números · fondo azul · separadores verticales</div>
+  <section class="stats-min">
+    <div class="max-w">
+      <div class="stats-min__row">
+        <div class="stat-min">
+          <div class="stat-min__val">4.200<em>+</em></div>
+          <div class="stat-min__lbl">Médicos certificados</div>
+        </div>
+        <div class="stat-min">
+          <div class="stat-min__val">6</div>
+          <div class="stat-min__lbl">Escuelas de especialidad</div>
+        </div>
+        <div class="stat-min">
+          <div class="stat-min__val">38</div>
+          <div class="stat-min__lbl">Especialistas docentes</div>
+        </div>
+        <div class="stat-min">
+          <div class="stat-min__val">96<em>%</em></div>
+          <div class="stat-min__lbl">Satisfacción global</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     D — ESCUELAS — grid 3×2 de tarjetas con icono
+     Concepto: cada escuela como producto navegable, no un item de lista.
+     El usuario entiende el catálogo de un vistazo.
+     ════════════════════════════════════════════════════════════ -->
+<div id="s04">
+  <div class="wf-label">D · Escuelas — grid 3×2 · tarjetas con icono · contador de cursos · hover con flecha</div>
+  <section class="schools">
+    <div class="max-w">
+      <div class="schools__header">
+        <div class="schools__eyebrow">Áreas de especialidad</div>
+        <h2>Elige tu escuela</h2>
+        <p style="color:var(--text-secondary); font-size:16px; margin-top:8px;">Seis líneas de formación desarrolladas con los líderes de cada subespecialidad.</p>
+      </div>
+      <div class="schools__grid">
+        <a href="#" class="school-card">
+          <div class="school-card__icon">🫀</div>
+          <div class="school-card__name">Cardiología Intervencionista</div>
+          <div class="school-card__desc">TAVI, ICP complejo, coronariografía diagnóstica y manejo de complicaciones vasculares.</div>
+          <div class="school-card__footer">
+            <div class="school-card__count"><strong>12</strong> cursos disponibles</div>
+            <div class="school-card__arrow">→</div>
+          </div>
+        </a>
+        <a href="#" class="school-card">
+          <div class="school-card__icon">⚡</div>
+          <div class="school-card__name">Electrofisiología</div>
+          <div class="school-card__desc">Ablación, dispositivos implantables, manejo de arritmias complejas y mapeo electroanatómico.</div>
+          <div class="school-card__footer">
+            <div class="school-card__count"><strong>8</strong> cursos disponibles</div>
+            <div class="school-card__arrow">→</div>
+          </div>
+        </a>
+        <a href="#" class="school-card">
+          <div class="school-card__icon">📡</div>
+          <div class="school-card__name">Ecocardiografía</div>
+          <div class="school-card__desc">Ecocardio transtorácico, transesofágico, 3D y guía de procedimientos estructurales.</div>
+          <div class="school-card__footer">
+            <div class="school-card__count"><strong>11</strong> cursos disponibles</div>
+            <div class="school-card__arrow">→</div>
+          </div>
+        </a>
+        <a href="#" class="school-card">
+          <div class="school-card__icon">🧲</div>
+          <div class="school-card__name">Imagen Cardíaca</div>
+          <div class="school-card__desc">Resonancia magnética cardíaca, TAC coronario y medicina nuclear cardiovascular.</div>
+          <div class="school-card__footer">
+            <div class="school-card__count"><strong>6</strong> cursos disponibles</div>
+            <div class="school-card__arrow">→</div>
+          </div>
+        </a>
+        <a href="#" class="school-card">
+          <div class="school-card__icon">💊</div>
+          <div class="school-card__name">Insuficiencia Cardíaca</div>
+          <div class="school-card__desc">Diagnóstico, optimización de tratamiento, soporte mecánico circulatorio y trasplante.</div>
+          <div class="school-card__footer">
+            <div class="school-card__count"><strong>9</strong> cursos disponibles</div>
+            <div class="school-card__arrow">→</div>
+          </div>
+        </a>
+        <a href="#" class="school-card">
+          <div class="school-card__icon">🛡️</div>
+          <div class="school-card__name">Prevención Cardiovascular</div>
+          <div class="school-card__desc">Riesgo cardiovascular, rehabilitación cardíaca, cardiometabolismo y estilo de vida.</div>
+          <div class="school-card__footer">
+            <div class="school-card__count"><strong>7</strong> cursos disponibles</div>
+            <div class="school-card__arrow">→</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     E — CATÁLOGO LISTADO — tabla ligera con tabs
+     Diferencial v3: los cursos se presentan como una lista limpia
+     tipo "inbox" — scannable, rápido de leer, fácil de filtrar.
+     ════════════════════════════════════════════════════════════ -->
+<div id="s05">
+  <div class="wf-label">E · Catálogo en lista — tabs de filtro · rows con thumb pequeño · nivel + rating + precio</div>
+  <section class="courses-list">
+    <div class="max-w">
+      <div class="courses-list__header">
+        <div>
+          <div class="courses-list__eyebrow">Catálogo completo</div>
+          <h2>Cursos disponibles</h2>
+        </div>
+        <div class="courses-list__tabs">
+          <a href="#" class="courses-list__tab courses-list__tab--active">Todos</a>
+          <a href="#" class="courses-list__tab">Nuevos</a>
+          <a href="#" class="courses-list__tab">Populares</a>
+          <a href="#" class="courses-list__tab">Acreditables CME</a>
+        </div>
+      </div>
+      <div class="courses-table">
+        <a href="#" class="course-row">
+          <div class="course-row__thumb"></div>
+          <div>
+            <div class="course-row__title">TAVI: Selección del Paciente y Técnica de Implante</div>
+            <div class="course-row__meta"><span>32h · 8 módulos</span><span>·</span><span>Dr. M. Palomino</span></div>
+          </div>
+          <span class="course-row__level course-row__level--adv">Avanzado</span>
+          <div class="course-row__rating"><div class="stars">★★★★★</div> 4.9</div>
+          <div class="course-row__price">$980.000</div>
+        </a>
+        <a href="#" class="course-row">
+          <div class="course-row__thumb course-row__thumb--b"></div>
+          <div>
+            <div class="course-row__title">Ecocardiografía Transesofágica en Procedimientos Estructurales</div>
+            <div class="course-row__meta"><span>60h · 12 módulos</span><span>·</span><span>Dr. J. M. López</span></div>
+          </div>
+          <span class="course-row__level course-row__level--adv">Avanzado</span>
+          <div class="course-row__rating"><div class="stars">★★★★★</div> 5.0</div>
+          <div class="course-row__price">$1.200.000</div>
+        </a>
+        <a href="#" class="course-row">
+          <div class="course-row__thumb course-row__thumb--c"></div>
+          <div>
+            <div class="course-row__title">Ablación de Fibrilación Auricular: Abordaje Paso a Paso</div>
+            <div class="course-row__meta"><span>48h · 10 módulos</span><span>·</span><span>Dra. C. Rondón</span></div>
+          </div>
+          <span class="course-row__level course-row__level--inter">Intermedio</span>
+          <div class="course-row__rating"><div class="stars">★★★★★</div> 4.8</div>
+          <div class="course-row__price">$890.000</div>
+        </a>
+        <a href="#" class="course-row">
+          <div class="course-row__thumb course-row__thumb--d"></div>
+          <div>
+            <div class="course-row__title">Riesgo Cardiovascular: Del Cálculo a la Intervención</div>
+            <div class="course-row__meta"><span>24h · 6 módulos</span><span>·</span><span>Dr. Á. Mercado</span></div>
+          </div>
+          <span class="course-row__level course-row__level--basic">Básico</span>
+          <div class="course-row__rating"><div class="stars">★★★★☆</div> 4.7</div>
+          <div class="course-row__price">$650.000</div>
+        </a>
+        <a href="#" class="course-row">
+          <div class="course-row__thumb course-row__thumb--e"></div>
+          <div>
+            <div class="course-row__title">Resonancia Magnética Cardíaca: Protocolo e Interpretación</div>
+            <div class="course-row__meta"><span>36h · 9 módulos</span><span>·</span><span>Dr. F. Torres</span></div>
+          </div>
+          <span class="course-row__level course-row__level--inter">Intermedio</span>
+          <div class="course-row__rating"><div class="stars">★★★★★</div> 4.9</div>
+          <div class="course-row__price">$780.000</div>
+        </a>
+      </div>
+      <div style="text-align:center; margin-top:32px;">
+        <a href="#" class="btn btn--secondary btn--lg">Ver todos los cursos →</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     F — DIFERENCIAL — lista de pilares con sticky left
+     Diferencial v3: layout "magazine scroll" — el título queda
+     fijo mientras los pilares van apareciendo al scrollear.
+     ════════════════════════════════════════════════════════════ -->
+<div id="s06">
+  <div class="wf-label">F · Propuesta diferencial — 3 pilares · número + título + tag · sticky left col</div>
+  <section class="pillars">
+    <div class="max-w">
+      <div class="pillars__inner">
+        <!-- Sticky left -->
+        <div class="pillars__left">
+          <div class="pillars__eyebrow">Por qué CardioU</div>
+          <h2>No solo otro curso en línea</h2>
+          <p style="color:var(--text-secondary); font-size:16px; line-height:26px; margin-top:16px;">Somos la única plataforma de educación cardiovascular construida desde adentro del sistema de salud.</p>
+        </div>
+        <!-- Pilares -->
+        <div class="pillars__right">
+          <div class="pillar">
+            <div class="pillar__num">01</div>
+            <div>
+              <div class="pillar__title">Docentes que siguen operando</div>
+              <p class="pillar__body">Nuestros especialistas no dejaron la práctica clínica para enseñar. Siguen atendiendo pacientes complejos en la FCI y traen casos reales a cada clase. Aprenderás lo que funciona hoy en quirófano y en sala.</p>
+              <span class="pillar__tag">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                38 especialistas activos
+              </span>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar__num">02</div>
+            <div>
+              <div class="pillar__title">Certificación con valor curricular real</div>
+              <p class="pillar__body">Los programas de CardioU son acreditables como Educación Médica Continua (CME) con reconocimiento de la Fundación CardioInfantil. Puedes presentar estos créditos ante colegios médicos y empleadores en toda Colombia.</p>
+              <span class="pillar__tag">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Hasta 30 créditos CME por programa
+              </span>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar__num">03</div>
+            <div>
+              <div class="pillar__title">Aprende a tu ritmo, acompañado</div>
+              <p class="pillar__body">El contenido grabado te da libertad de horario. Las sesiones semanales en vivo con el especialista te dan el acompañamiento que los cursos de autoservicio no pueden ofrecer. Lo mejor de ambos mundos.</p>
+              <span class="pillar__tag">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Sesiones en vivo incluidas
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     G — INSTRUCTORES — 4 tarjetas minimalistas
+     ════════════════════════════════════════════════════════════ -->
+<div id="s07">
+  <div class="wf-label">G · Instructores — 4 cards centradas · avatar + nombre + rol + conteo cursos</div>
+  <section class="instructors-min">
+    <div class="max-w">
+      <div class="instructors-min__header">
+        <div class="instructors-min__eyebrow">El equipo docente</div>
+        <h2>Aprende de quienes lideran</h2>
+        <p style="color:var(--text-secondary); font-size:16px; margin-top:8px;">Cardiólogos de referencia nacional que combinan práctica clínica con docencia.</p>
+      </div>
+      <div class="instructors-min__grid">
+        <div class="instructor-min">
+          <div class="instructor-min__avatar">JML</div>
+          <div class="instructor-min__name">Dr. Juan M. López</div>
+          <div class="instructor-min__role">Jefe de Ecocardiografía<br>Fundación CardioInfantil</div>
+          <div class="instructor-min__courses"><strong>5 cursos</strong> · 1.200 estudiantes</div>
+        </div>
+        <div class="instructor-min">
+          <div class="instructor-min__avatar">MP</div>
+          <div class="instructor-min__name">Dr. Mauricio Palomino</div>
+          <div class="instructor-min__role">Hemodinámico Intervencionista<br>FCI · Fellow SCAI</div>
+          <div class="instructor-min__courses"><strong>3 cursos</strong> · 890 estudiantes</div>
+        </div>
+        <div class="instructor-min">
+          <div class="instructor-min__avatar">CR</div>
+          <div class="instructor-min__name">Dra. Camila Rondón</div>
+          <div class="instructor-min__role">Electrofisióloga<br>FCI · Fellow FHRS</div>
+          <div class="instructor-min__courses"><strong>4 cursos</strong> · 1.050 estudiantes</div>
+        </div>
+        <div class="instructor-min">
+          <div class="instructor-min__avatar">AM</div>
+          <div class="instructor-min__name">Dr. Álvaro Mercado</div>
+          <div class="instructor-min__role">Cardiólogo Preventivo<br>MSc Salud Pública</div>
+          <div class="instructor-min__courses"><strong>6 cursos</strong> · 2.100 estudiantes</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     H — TESTIMONIOS — 3 tarjetas limpias
+     ════════════════════════════════════════════════════════════ -->
+<div id="s08">
+  <div class="wf-label">H · Testimonios — 3 cards · stars + quote + autor · fondo neutro</div>
+  <section class="testimonials-min">
+    <div class="max-w">
+      <div class="testimonials-min__header">
+        <div class="testimonials-min__eyebrow">Lo que dicen los estudiantes</div>
+        <h2>Resultados reales</h2>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card">
+          <div class="testi-card__stars"><div class="stars">★★★★★</div></div>
+          <p class="testi-card__quote">"CardioU me permitió prepararme para mi fellowship en el exterior sin dejar de trabajar. La calidad de los casos clínicos es excepcional."</p>
+          <div class="testi-card__author">
+            <div class="testi-card__avatar">SR</div>
+            <div>
+              <div class="testi-card__name">Dr. Sebastián Rojas</div>
+              <div class="testi-card__role">Cardiólogo · Clínica Medellín</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-card__stars"><div class="stars">★★★★★</div></div>
+          <p class="testi-card__quote">"Lo que más valoro es que los docentes responden. Tuve una pregunta sobre un caso y el Dr. López me respondió con video explicativo el mismo día."</p>
+          <div class="testi-card__author">
+            <div class="testi-card__avatar">LV</div>
+            <div>
+              <div class="testi-card__name">Dra. Laura Vargas</div>
+              <div class="testi-card__role">Residente Cardiología · U. Nacional</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-card__stars"><div class="stars">★★★★★</div></div>
+          <p class="testi-card__quote">"El certificado de CardioU fue explícitamente mencionado en mi proceso de contratación. Vale mucho más que los cursos genéricos del mercado."</p>
+          <div class="testi-card__author">
+            <div class="testi-card__avatar">DO</div>
+            <div>
+              <div class="testi-card__name">Dr. Daniel Ospina</div>
+              <div class="testi-card__role">Hemodinámico · Hospital Universitario</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     I — PLANES — pricing SaaS con toggle y borde destacado
+     ════════════════════════════════════════════════════════════ -->
+<div id="s09">
+  <div class="wf-label">I · Planes — toggle cohorte/pago único · 3 cols · borde azul en featured · features con check</div>
+  <section class="plans-min">
+    <div class="max-w">
+      <div class="plans-min__header">
+        <div class="plans-min__eyebrow">Acceso a contenido</div>
+        <h2>Elige cómo aprender</h2>
+        <div class="plans-min__toggle">
+          <div class="plans-min__toggle-opt plans-min__toggle-opt--active">Pago único</div>
+          <div class="plans-min__toggle-opt">
+            Suscripción anual <span class="plans-min__toggle-badge">-30%</span>
+          </div>
+        </div>
+      </div>
+      <div class="plans-grid">
+        <!-- Curso individual -->
+        <div class="plan-min">
+          <div class="plan-min__name">Curso individual</div>
+          <div class="plan-min__price">$980K</div>
+          <div class="plan-min__period">pago único · acceso 12 meses</div>
+          <hr class="plan-min__divider">
+          <div class="plan-min__features">
+            <div class="plan-min__feat"><span class="plan-min__check plan-min__check--on">✓</span> 1 curso completo a elección</div>
+            <div class="plan-min__feat"><span class="plan-min__check plan-min__check--on">✓</span> Videos HD + material descargable</div>
+            <div class="plan-min__feat"><span class="plan-min__check plan-min__check--on">✓</span> Certificado avalado FCI</div>
+            <div class="plan-min__feat plan-min__feat--off"><span class="plan-min__check plan-min__check--off">✗</span> Sesiones en vivo con tutor</div>
+            <div class="plan-min__feat plan-min__feat--off"><span class="plan-min__check plan-min__check--off">✗</span> Comunidad de cohorte</div>
+            <div class="plan-min__feat plan-min__feat--off"><span class="plan-min__check plan-min__check--off">✗</span> Créditos CME acreditables</div>
+          </div>
+          <a href="#" class="btn btn--secondary btn--lg" style="width:100%; justify-content:center;">Comenzar</a>
+        </div>
+        <!-- Escuela completa — featured -->
+        <div class="plan-min plan-min--featured">
+          <div class="plan-min__popular">Más elegido</div>
+          <div class="plan-min__name">Escuela completa</div>
+          <div class="plan-min__price">$2.400K</div>
+          <div class="plan-min__period">pago único · acceso 18 meses</div>
+          <hr class="plan-min__divider">
+          <div class="plan-min__features">
+            <div class="plan-min__feat"><span class="plan-min__check plan-min__check--on">✓</span> Todos los cursos de una escuela</div>
+            <div class="plan-min__feat"><span class="plan-min__check plan-min__check--on">✓</span> Sesiones en vivo mensuales</div>
+            <div class="plan-min__feat"><span class="plan-min__check plan-min__check--on">✓</span> Comunidad de cohorte privada</div>
+            <div class="plan-min__feat"><span class="plan-min__check plan-min__check--on">✓</span> Créditos CME acreditables (30 cr.)</div>
+            <div class="plan-min__feat"><span class="plan-min__check plan-min__check--on">✓</span> Mentoría grupal mensual</div>
+            <div class="plan-min__feat"><span class="plan-min__check plan-min__check--on">✓</span> Certificado FCI + CME</div>
+          </div>
+          <a href="#" class="btn btn--primary btn--lg" style="width:100%; justify-content:center;">Inscribirme</a>
+        </div>
+        <!-- Institucional -->
+        <div class="plan-min">
+          <div class="plan-min__name">Institucional</div>
+          <div class="plan-min__price" style="font-size:32px; padding-top:6px;">A medida</div>
+          <div class="plan-min__period">para hospitales y clínicas</div>
+          <hr class="plan-min__divider">
+          <div class="plan-min__features">
+            <div class="plan-min__feat"><span class="plan-min__check plan-min__check--on">✓</span> Acceso ilimitado a todo el catálogo</div>
+            <div class="plan-min__feat"><span class="plan-min__check plan-min__check--on">✓</span> Gestión de equipos y reportes</div>
+            <div class="plan-min__feat"><span class="plan-min__check plan-min__check--on">✓</span> Contenido a medida por institución</div>
+            <div class="plan-min__feat"><span class="plan-min__check plan-min__check--on">✓</span> Soporte prioritario dedicado</div>
+            <div class="plan-min__feat"><span class="plan-min__check plan-min__check--on">✓</span> Facturación corporativa</div>
+            <div class="plan-min__feat"><span class="plan-min__check plan-min__check--on">✓</span> SLA de tiempo de respuesta</div>
+          </div>
+          <a href="#" class="btn btn--ghost btn--lg" style="width:100%; justify-content:center; border:1px solid var(--border-md);">Hablar con ventas</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     J — FAQ — acordeón con sticky col izquierda
+     ════════════════════════════════════════════════════════════ -->
+<div id="s10">
+  <div class="wf-label">J · FAQ — acordeón minimalista · col sticky izquierda con bloque de soporte</div>
+  <section class="faq-min">
+    <div class="max-w">
+      <div class="faq-min__inner">
+        <!-- Left sticky -->
+        <div class="faq-min__left">
+          <div class="faq-min__eyebrow">Preguntas frecuentes</div>
+          <h2>Todo lo que necesitas saber</h2>
+          <div class="faq-min__support">
+            <div class="faq-min__support-title">¿No encuentras tu respuesta?</div>
+            <p class="faq-min__support-body">Nuestro equipo responde en menos de 24 horas hábiles.</p>
+            <a href="#" class="btn btn--primary btn--md">Contactar asesor</a>
+          </div>
+        </div>
+        <!-- FAQ list -->
+        <div class="faq-list">
+          <div class="faq-item">
+            <div class="faq-item__q">
+              ¿Necesito tener título de médico para inscribirme?
+              <span class="faq-item__icon">+</span>
+            </div>
+            <p class="faq-item__a">La mayoría de los programas están dirigidos a médicos generales, residentes y especialistas. Algunos cursos de nivel básico están abiertos a estudiantes de medicina en años clínicos. Revisa los requisitos en la página de cada curso.</p>
+          </div>
+          <div class="faq-item">
+            <div class="faq-item__q">
+              ¿Cómo funcionan las sesiones en vivo?
+              <span class="faq-item__icon">+</span>
+            </div>
+            <p class="faq-item__a">Las sesiones en vivo son encuentros semanales de 60–90 minutos con el especialista y tu grupo de cohorte. Puedes presentar casos clínicos, hacer preguntas y discutir los temas del módulo en curso. Se graban y quedan disponibles si no puedes asistir.</p>
+          </div>
+          <div class="faq-item">
+            <div class="faq-item__q">
+              ¿El certificado tiene validez internacional?
+              <span class="faq-item__icon">+</span>
+            </div>
+            <p class="faq-item__a">El certificado está avalado por la Fundación CardioInfantil, reconocida internacionalmente. Los créditos CME aplican en Colombia y en la mayoría de países latinoamericanos. Para validación en EEUU o Europa consulta con tu colegio médico local.</p>
+          </div>
+          <div class="faq-item">
+            <div class="faq-item__q">
+              ¿Puedo acceder desde cualquier dispositivo?
+              <span class="faq-item__icon">+</span>
+            </div>
+            <p class="faq-item__a">Sí. La plataforma es responsive y funciona en computador, tablet y móvil. Los videos pueden descargarse para ver offline en nuestra app. El material complementario (PDFs, casos) también está disponible para descarga.</p>
+          </div>
+          <div class="faq-item">
+            <div class="faq-item__q">
+              ¿Qué pasa si no puedo terminar en el plazo?
+              <span class="faq-item__icon">+</span>
+            </div>
+            <p class="faq-item__a">Puedes solicitar una extensión de 3 meses sin costo adicional por una vez. Si necesitas más tiempo, ofrecemos extensiones adicionales a un precio reducido. Nunca perderás el acceso a los materiales descargables.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     K — CTA FINAL — azul sólido centrado
+     ════════════════════════════════════════════════════════════ -->
+<div id="s11">
+  <div class="wf-label">K · CTA final — fondo azul sólido · centrado · nota de garantía debajo del CTA</div>
+  <section class="cta-min">
+    <div class="max-w">
+      <div class="cta-min__eyebrow">Próxima cohorte · 15 de mayo · Solo 12 cupos</div>
+      <h2 class="cta-min__h2">Empieza tu especialización hoy</h2>
+      <p class="cta-min__sub">Únete a más de 4.200 médicos que ya confían en CardioU para crecer profesionalmente.</p>
+      <div class="cta-min__actions">
+        <a href="#s09" class="btn btn--danger btn--xl">Ver planes y precios</a>
+        <a href="#" class="btn btn--outline-white btn--lg">Hablar con un asesor</a>
+      </div>
+      <div class="cta-min__note">Sin compromiso · Garantía de satisfacción de 7 días · Facturación a tu institución disponible</div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     L — FOOTER
+     ════════════════════════════════════════════════════════════ -->
+<div id="s12">
+  <div class="wf-label">L · Footer — 4 cols · dark</div>
+  <footer class="footer">
+    <div class="max-w">
+      <div class="footer__grid">
+        <div>
+          <div style="margin-bottom:16px;">
+            <img src="assets/Cardio_u_Logo.svg" alt="CardioU" style="height:36px; filter:brightness(0) invert(1); opacity:0.9;" />
+          </div>
+          <p class="footer__brand">Plataforma de educación médica continua de la Fundación CardioInfantil — la institución cardiovascular de referencia en Colombia.</p>
+          <div class="footer__social">
+            <div class="footer__social-btn">in</div>
+            <div class="footer__social-btn">tw</div>
+            <div class="footer__social-btn">yt</div>
+          </div>
+        </div>
+        <div>
+          <div class="footer__col-title">Escuelas</div>
+          <div class="footer__links">
+            <a href="#" class="footer__link">Intervencionismo</a>
+            <a href="#" class="footer__link">Electrofisiología</a>
+            <a href="#" class="footer__link">Ecocardiografía</a>
+            <a href="#" class="footer__link">Imagen Cardíaca</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer__col-title">Plataforma</div>
+          <div class="footer__links">
+            <a href="#" class="footer__link">Cómo funciona</a>
+            <a href="#" class="footer__link">Planes y precios</a>
+            <a href="#" class="footer__link">Para instituciones</a>
+            <a href="#" class="footer__link">Instructores</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer__col-title">Fundación</div>
+          <div class="footer__links">
+            <a href="#" class="footer__link">lacardio.org</a>
+            <a href="#" class="footer__link">Investigación</a>
+            <a href="#" class="footer__link">Contacto</a>
+            <a href="#" class="footer__link">Política de privacidad</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2025 Fundación CardioInfantil. Todos los derechos reservados.</span>
+        <span>cardio-u@lacardio.org · +57 1 330 5555</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>

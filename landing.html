@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CardioU — Plataforma N.º 1 en Educación Cardiológica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="landing.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     HEADER — Figma node 2005:3571 · pixel-fiel
+     ═══════════════════════════════════════════════════════════════ -->
+<header class="site-header" role="banner">
+
+  <!-- Topbar — navy bg, links + "Inscribirme" pill -->
+  <div class="topbar" role="complementary" aria-label="Información de contacto">
+    <div class="container">
+      <div class="topbar__items">
+
+        <a href="tel:+5713305555" class="topbar__item topbar__item--sep">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M13.166 10.073a1 1 0 00-1.375-.04l-1.32 1.205a14.6 14.6 0 01-5.709-5.71l1.206-1.32a1 1 0 00-.04-1.374L4.067.962A1 1 0 002.68.978L1.148 2.51A1.5 1.5 0 001 3.25C1 9.739 6.261 15 12.75 15a1.5 1.5 0 00.74-.148l1.532-1.532a1 1 0 00.016-1.387l-1.872-1.86z" fill="#E5EBF6"/>
+          </svg>
+          +571 330 5555
+        </a>
+
+        <a href="mailto:cardio-u@lacardio.org" class="topbar__item topbar__item--sep">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M13.5 2h-11A1.5 1.5 0 001 3.5v9A1.5 1.5 0 002.5 14h11a1.5 1.5 0 001.5-1.5v-9A1.5 1.5 0 0013.5 2zm-1.06 1L8 6.72 3.56 3h8.88zM2.5 13a.5.5 0 01-.5-.5V3.94l5.72 4.17a.5.5 0 00.56 0L14 3.94V12.5a.5.5 0 01-.5.5h-11z" fill="#E5EBF6"/>
+          </svg>
+          cardio-u@lacardio.org
+        </a>
+
+        <a href="#" class="topbar__item topbar__item--sep">LaCardio</a>
+
+        <a href="#" class="topbar__item">Fundación Cardioinfantil</a>
+
+      </div>
+
+      <a href="#" class="topbar__cta" aria-label="Inscribirme en CardioU">Inscribirme</a>
+    </div>
+  </div>
+
+  <!-- Navbar — white bg, real logo, simplified nav, search bar -->
+  <nav class="navbar" aria-label="Navegación principal">
+    <div class="container">
+
+      <a href="/" class="navbar__logo" aria-label="CardioU — Inicio">
+        <img src="Assets/Cardio_u_Logo.svg" alt="CardioU" class="navbar__logo-svg" width="154" height="48">
+      </a>
+
+      <div class="navbar__right">
+
+        <div class="navbar__nav" role="list">
+          <a href="#escuelas" class="navbar__link" role="listitem">
+            Escuelas
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" stroke="#002D72" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a href="#" class="navbar__link" role="listitem">Acerca de nosotros</a>
+        </div>
+
+        <div class="navbar__search-bar" role="search">
+          <label for="site-search" class="sr-only">Buscar cursos</label>
+          <input id="site-search" type="search" class="navbar__search-input" placeholder="¿Qué deseas aprender?" aria-label="Buscar cursos">
+          <svg class="navbar__search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="11" cy="11" r="7.25" stroke="#83827F" stroke-width="1.5"/>
+            <path d="M16.5 16.5l4 4" stroke="#83827F" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+      </div>
+    </div>
+  </nav>
+
+</header>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     HERO — Figma node 2005:3650 · pixel-fiel
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="hero" aria-label="Presentación de CardioU">
+  <div class="container">
+
+    <!-- Left: Content Container -->
+    <div class="hero__content">
+
+      <!-- Eyebrow -->
+      <p class="hero__eyebrow type-eyebrow">
+        Plataforma N.º 1 en educación cardiológica en Colombia
+      </p>
+
+      <!-- Heading + Body -->
+      <div class="hero__heading-wrap">
+        <h1 class="hero__h1 type-h1">
+          Domina la cardiología con los mejores especialistas
+        </h1>
+        <p class="hero__body type-paragraph">
+          Hacemos fluir el aprendizaje a través de
+          <strong>diversas metodologías como la modalidad presencial, virtual y blended,</strong>
+          asegurando que cada pulso de saber llegue a donde más se necesita, fortaleciendo nuestro compromiso con la excelencia académica.
+        </p>
+      </div>
+
+      <!-- CTA Buttons -->
+      <div class="hero__buttons">
+        <a href="#" class="btn btn-primary btn-lg">Ver todos los cursos</a>
+      </div>
+
+      <!-- Trust strip -->
+      <div class="hero__trust" role="list" aria-label="Garantías">
+        <div class="hero__trust-item" role="listitem">
+          <span class="trust-icon" aria-hidden="true">
+            <img src="Assets/Icons/Shield.svg" width="16" height="16" alt="">
+          </span>
+          <span class="trust-text type-paragraph-sm">
+            <strong class="type-paragraph-sm-bold">Avalado</strong> por la SCC
+          </span>
+        </div>
+        <div class="hero__trust-item" role="listitem">
+          <span class="trust-icon" aria-hidden="true">
+            <img src="Assets/Icons/Check-circle.svg" width="16" height="16" alt="">
+          </span>
+          <span class="trust-text type-paragraph-sm">
+            <strong class="type-paragraph-sm-bold">Certificado</strong> incluído
+          </span>
+        </div>
+        <div class="hero__trust-item" role="listitem">
+          <span class="trust-icon" aria-hidden="true">
+            <img src="Assets/Icons/Screen.svg" width="16" height="16" alt="">
+          </span>
+          <span class="trust-text type-paragraph-sm">
+            <strong class="type-paragraph-sm-bold">Acceso</strong> Online
+          </span>
+        </div>
+      </div>
+
+    </div><!-- /hero__content -->
+
+    <!-- Right: Featured course card -->
+    <aside class="hero__card" aria-label="Curso destacado">
+
+      <!-- Course image -->
+      <div class="hero__card-img">
+        <img src="Assets/img-card-destacada-hero.jpg" alt="Imagen del curso destacado">
+      </div>
+
+      <!-- Course info -->
+      <div class="hero__card-body">
+        <!-- Category + label -->
+        <div class="hero__card-header">
+          <span class="pill pill-blue">Cardiología intervencionista</span>
+          <span class="pill pill-red">Nuevo</span>
+        </div>
+
+        <!-- Course title -->
+        <h2 class="hero__card-title type-h6">
+          Intervencionismo Coronario Percutáneo: de básico a avanzado
+        </h2>
+
+        <!-- Author -->
+        <div class="hero__card-author" aria-label="Instructor">
+          <span>Dr. Juan Pérez</span>
+          <span class="dot" aria-hidden="true">·</span>
+          <span>Cardiólogo intervencionista</span>
+        </div>
+
+        <!-- Rating -->
+        <div class="hero__card-rating" aria-label="Calificación: 4.9 de 5 basado en 342 calificaciones">
+          <div class="stars" role="img" aria-label="5 estrellas">
+            <span class="star" aria-hidden="true">★</span>
+            <span class="star" aria-hidden="true">★</span>
+            <span class="star" aria-hidden="true">★</span>
+            <span class="star" aria-hidden="true">★</span>
+            <span class="star" aria-hidden="true">★</span>
+          </div>
+          <span class="rating-text type-paragraph-sm">4.9 (342 calificaciones)</span>
+        </div>
+
+        <!-- Features -->
+        <div class="hero__card-features" role="list" aria-label="Características del curso">
+          <div class="hero__card-feature" role="listitem">
+            <span class="feat-icon" aria-hidden="true">
+              <img src="Assets/Icons/Tiempo.svg" width="16" height="16" alt="">
+            </span>
+            18 horas
+          </div>
+          <div class="hero__card-feature" role="listitem">
+            <span class="feat-icon" aria-hidden="true">
+              <img src="Assets/Icons/Modulos.svg" width="16" height="16" alt="">
+            </span>
+            6 módulos
+          </div>
+          <div class="hero__card-feature" role="listitem">
+            <span class="feat-icon" aria-hidden="true">
+              <img src="Assets/Icons/Feature Icon.svg" width="16" height="16" alt="">
+            </span>
+            Certificado
+          </div>
+        </div>
+      </div>
+
+      <!-- Price + CTA -->
+      <div class="hero__card-price">
+        <div class="hero__card-price-details">
+          <span class="price-current">$299.000</span>
+          <span class="price-original">$420.000</span>
+        </div>
+        <a href="#" class="btn btn-primary btn-md">Inscribirme</a>
+      </div>
+
+    </aside><!-- /hero__card -->
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     STATS BAR — Figma node 2012:3906 · pixel-fiel
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="stats-bar" aria-label="Cifras de CardioU">
+
+  <div class="stats-bar__item stats-bar__item--sep">
+    <span class="stats-bar__number" data-count="8500" data-prefix="+" data-thousands="." aria-label="Más de 8.500">+8.500</span>
+    <span class="stats-bar__label">Profesionales certificados</span>
+  </div>
+
+  <div class="stats-bar__item stats-bar__item--sep">
+    <span class="stats-bar__number" data-count="32" aria-label="32">32</span>
+    <span class="stats-bar__label">Cursos activos</span>
+  </div>
+
+  <div class="stats-bar__item stats-bar__item--sep">
+    <span class="stats-bar__number" data-count="48" aria-label="48">48</span>
+    <span class="stats-bar__label">Especialistas docentes</span>
+  </div>
+
+  <div class="stats-bar__item stats-bar__item--sep">
+    <span class="stats-bar__number" data-count="12" aria-label="12">12</span>
+    <span class="stats-bar__label">Años de trayectoria</span>
+  </div>
+
+  <div class="stats-bar__item">
+    <div class="stats-bar__number-row">
+      <span class="stats-bar__number" data-count="4.9" data-decimals="1" aria-label="4.9">4.9</span>
+      <svg width="25" height="24" viewBox="0 0 25 24" fill="none" aria-hidden="true">
+        <path d="M12.5 2l3.09 6.26L22.5 9.27l-5 4.87 1.18 6.88L12.5 18l-6.18 3.02L7.5 14.14 2.5 9.27l6.91-1.01L12.5 2z" fill="#EF9F27" stroke="#EF9F27" stroke-width="1" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <span class="stats-bar__label">Calificación promedio</span>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SCHOOLS GRID — 8 escuelas en cuadrícula 3×2+2
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="schools" id="escuelas" aria-labelledby="schools-title">
+  <div class="container">
+
+    <header class="section-header">
+      <p class="section-header__eyebrow">Nuestras escuelas</p>
+      <h2 class="section-header__title" id="schools-title">Formación especializada por área</h2>
+      <p class="section-header__sub">Cada escuela concentra el conocimiento más avanzado de su especialidad, impartido por los referentes del sector.</p>
+    </header>
+
+    <div class="schools__grid">
+
+      <article class="school-card">
+        <div class="school-card__icon" aria-hidden="true">⚡</div>
+        <h3 class="school-card__name">Escuela de Electrofisiología</h3>
+        <p class="school-card__desc">ECG clínico, Holter, dispositivos de estimulación, ablación y diagnóstico de arritmias complejas.</p>
+        <footer class="school-card__footer">
+          <span class="school-card__count">32 cursos disponibles</span>
+          <a href="#" class="school-card__link">Ver escuela →</a>
+        </footer>
+      </article>
+
+      <article class="school-card">
+        <div class="school-card__icon" aria-hidden="true">🔬</div>
+        <h3 class="school-card__name">Imágenes Cardíacas</h3>
+        <p class="school-card__desc">Ecocardiografía transtorácica, transesofágica, RM cardíaca y TC de alta resolución.</p>
+        <footer class="school-card__footer">
+          <span class="school-card__count">28 cursos disponibles</span>
+          <a href="#" class="school-card__link">Ver escuela →</a>
+        </footer>
+      </article>
+
+      <article class="school-card">
+        <div class="school-card__icon" aria-hidden="true">🩺</div>
+        <h3 class="school-card__name">Cardiología Intervencionista</h3>
+        <p class="school-card__desc">Cateterismo, angioplastia coronaria, TAVI, cierre de defectos septales y procedimientos estructurales.</p>
+        <footer class="school-card__footer">
+          <span class="school-card__count">19 cursos disponibles</span>
+          <a href="#" class="school-card__link">Ver escuela →</a>
+        </footer>
+      </article>
+
+      <article class="school-card">
+        <div class="school-card__icon" aria-hidden="true">💊</div>
+        <h3 class="school-card__name">Falla Cardíaca</h3>
+        <p class="school-card__desc">Diagnóstico, farmacoterapia avanzada, dispositivos de asistencia ventricular y manejo integral.</p>
+        <footer class="school-card__footer">
+          <span class="school-card__count">18 cursos disponibles</span>
+          <a href="#" class="school-card__link">Ver escuela →</a>
+        </footer>
+      </article>
+
+      <article class="school-card">
+        <div class="school-card__icon" aria-hidden="true">🏃</div>
+        <h3 class="school-card__name">Prevención Cardiovascular</h3>
+        <p class="school-card__desc">Rehabilitación cardíaca, control de factores de riesgo, cardiología deportiva y estilos de vida saludable.</p>
+        <footer class="school-card__footer">
+          <span class="school-card__count">21 cursos disponibles</span>
+          <a href="#" class="school-card__link">Ver escuela →</a>
+        </footer>
+      </article>
+
+      <article class="school-card">
+        <div class="school-card__icon" aria-hidden="true">👶</div>
+        <h3 class="school-card__name">Cardiología Pediátrica</h3>
+        <p class="school-card__desc">Cardiopatías congénitas, evaluación ecocardiográfica fetal, diagnóstico neonatal y manejo quirúrgico.</p>
+        <footer class="school-card__footer">
+          <span class="school-card__count">12 cursos disponibles</span>
+          <a href="#" class="school-card__link">Ver escuela →</a>
+        </footer>
+      </article>
+
+    </div>
+
+    <div class="text-center mt-8">
+      <a href="#" class="btn btn-secondary btn-lg">Ver todas las escuelas</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     COURSE LIST — Catálogo en lista (inbox-style)
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="course-list-section" id="cursos" aria-labelledby="courses-title">
+  <div class="container">
+
+    <header class="section-header">
+      <p class="section-header__eyebrow">Catálogo de cursos</p>
+      <h2 class="section-header__title" id="courses-title">Los cursos más valorados</h2>
+    </header>
+
+    <div class="section-actions">
+      <p style="font-family:var(--font-ui);font-size:14px;color:var(--text-tertiary);">Mostrando <strong>8</strong> de <strong>120+</strong> cursos disponibles</p>
+      <a href="#" class="btn btn-secondary btn-sm">Ver catálogo completo</a>
+    </div>
+
+    <div class="course-list" role="list">
+
+      <article class="course-row" role="listitem">
+        <div class="course-row__thumb" aria-label="Electrocardiografía Clínica Avanzada">
+          <img src="https://images.unsplash.com/photo-1682706841281-f723c5bfcd83?w=358&h=200&fit=crop&auto=format&q=80" alt="Electrocardiografía en pantalla" loading="lazy">
+        </div>
+        <div class="course-row__info">
+          <span class="course-row__school-pill">Escuela de Electrofisiología</span>
+          <h3 class="course-row__title">Electrocardiografía Clínica Avanzada: Interpretación y Diagnóstico</h3>
+          <div class="course-row__features">
+            <span class="course-row__feat"><img src="Assets/Icons/Tiempo.svg" width="16" height="16" alt="" aria-hidden="true">48 horas</span>
+            <span class="course-row__feat"><img src="Assets/Icons/Modulos.svg" width="16" height="16" alt="" aria-hidden="true">12 módulos</span>
+            <span class="course-row__feat"><img src="Assets/Icons/Feature Icon.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
+            <span class="course-row__feat course-row__feat--rating">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>
+              4.9 (312)
+            </span>
+          </div>
+        </div>
+        <div class="course-row__price">
+          <span class="course-row__price-current">$490.000</span>
+          <span class="course-row__price-original">$890.000</span>
+        </div>
+        <div class="course-row__actions">
+          <a href="#" class="course-row__link-cta">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="#" class="btn btn-primary btn-lg">Inscribirme</a>
+        </div>
+      </article>
+
+      <article class="course-row" role="listitem">
+        <div class="course-row__thumb" aria-label="Holter de Ritmo e Interpretación Ambulatoria">
+          <img src="https://images.unsplash.com/photo-1682706841297-5524ba1faa9c?w=358&h=200&fit=crop&auto=format&q=80" alt="Monitor cardíaco" loading="lazy">
+        </div>
+        <div class="course-row__info">
+          <span class="course-row__school-pill">Escuela de Electrofisiología</span>
+          <h3 class="course-row__title">Holter de Ritmo e Interpretación Ambulatoria</h3>
+          <div class="course-row__features">
+            <span class="course-row__feat"><img src="Assets/Icons/Tiempo.svg" width="16" height="16" alt="" aria-hidden="true">32 horas</span>
+            <span class="course-row__feat"><img src="Assets/Icons/Modulos.svg" width="16" height="16" alt="" aria-hidden="true">8 módulos</span>
+            <span class="course-row__feat"><img src="Assets/Icons/Feature Icon.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
+            <span class="course-row__feat course-row__feat--rating">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>
+              4.8 (189)
+            </span>
+          </div>
+        </div>
+        <div class="course-row__price">
+          <span class="course-row__price-current">$390.000</span>
+          <span class="course-row__price-original">$690.000</span>
+        </div>
+        <div class="course-row__actions">
+          <a href="#" class="course-row__link-cta">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="#" class="btn btn-primary btn-lg">Inscribirme</a>
+        </div>
+      </article>
+
+      <article class="course-row" role="listitem">
+        <div class="course-row__thumb" aria-label="Ecocardiografía Transesofágica">
+          <img src="https://images.unsplash.com/photo-1746842419525-9db17f434859?w=358&h=200&fit=crop&auto=format&q=80" alt="Equipo de ecocardiografía" loading="lazy">
+        </div>
+        <div class="course-row__info">
+          <span class="course-row__school-pill">Imágenes Cardíacas</span>
+          <h3 class="course-row__title">Ecocardiografía Transesofágica: Protocolo Básico y Aplicaciones</h3>
+          <div class="course-row__features">
+            <span class="course-row__feat"><img src="Assets/Icons/Tiempo.svg" width="16" height="16" alt="" aria-hidden="true">60 horas</span>
+            <span class="course-row__feat"><img src="Assets/Icons/Modulos.svg" width="16" height="16" alt="" aria-hidden="true">15 módulos</span>
+            <span class="course-row__feat"><img src="Assets/Icons/Feature Icon.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
+            <span class="course-row__feat course-row__feat--rating">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>
+              4.9 (97)
+            </span>
+          </div>
+        </div>
+        <div class="course-row__price">
+          <span class="course-row__price-current">$890.000</span>
+          <span class="course-row__price-original">$1.490.000</span>
+        </div>
+        <div class="course-row__actions">
+          <a href="#" class="course-row__link-cta">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="#" class="btn btn-primary btn-lg">Inscribirme</a>
+        </div>
+      </article>
+
+      <article class="course-row" role="listitem">
+        <div class="course-row__thumb" aria-label="Manejo Integral de la Falla Cardíaca">
+          <img src="https://images.unsplash.com/photo-1708433061324-06cfe6d48762?w=358&h=200&fit=crop&auto=format&q=80" alt="Estetoscopio cardiología" loading="lazy">
+        </div>
+        <div class="course-row__info">
+          <span class="course-row__school-pill">Falla Cardíaca</span>
+          <h3 class="course-row__title">Manejo Integral de la Falla Cardíaca Crónica y Aguda</h3>
+          <div class="course-row__features">
+            <span class="course-row__feat"><img src="Assets/Icons/Tiempo.svg" width="16" height="16" alt="" aria-hidden="true">40 horas</span>
+            <span class="course-row__feat"><img src="Assets/Icons/Modulos.svg" width="16" height="16" alt="" aria-hidden="true">10 módulos</span>
+            <span class="course-row__feat"><img src="Assets/Icons/Feature Icon.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
+            <span class="course-row__feat course-row__feat--rating">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>
+              4.7 (243)
+            </span>
+          </div>
+        </div>
+        <div class="course-row__price">
+          <span class="course-row__price-current">$490.000</span>
+          <span class="course-row__price-original">$790.000</span>
+        </div>
+        <div class="course-row__actions">
+          <a href="#" class="course-row__link-cta">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="#" class="btn btn-primary btn-lg">Inscribirme</a>
+        </div>
+      </article>
+
+    </div><!-- /course-list -->
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     DIFFERENTIATOR — Propuesta diferencial sticky left
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="differentiator" aria-labelledby="diff-title">
+  <div class="container">
+
+    <!-- Sticky left column -->
+    <div class="differentiator__sticky">
+      <p class="section-header__eyebrow">Por qué CardioU</p>
+      <h2 class="section-header__title" id="diff-title" style="margin-top:12px;">Lo que nos hace diferentes</h2>
+      <p class="section-header__sub" style="margin-top:12px;">No somos una plataforma genérica. Somos la comunidad de aprendizaje de la Liga Colombiana del Corazón.</p>
+    </div>
+
+    <!-- Pillars -->
+    <div class="differentiator__pillars">
+
+      <div class="pillar">
+        <span class="pillar__number">01</span>
+        <h3 class="pillar__title">Instructores con trayectoria clínica real</h3>
+        <p class="pillar__text">Cada curso es diseñado y dictado por especialistas activos en los mejores centros cardiológicos de Colombia y Latinoamérica. No académicos de cátedra — clínicos en ejercicio.</p>
+        <div class="pillar__tags">
+          <span class="pillar__tag">Cardiólogos certificados</span>
+          <span class="pillar__tag">Práctica activa</span>
+          <span class="pillar__tag">Centros de referencia</span>
+        </div>
+      </div>
+
+      <div class="pillar">
+        <span class="pillar__number">02</span>
+        <h3 class="pillar__title">Avalados por las principales sociedades científicas</h3>
+        <p class="pillar__text">Nuestros programas cuentan con el respaldo de la SCC, SIAC y LAHRS, garantizando que cada hora certificada sea reconocida para su educación médica continua.</p>
+        <div class="pillar__tags">
+          <span class="pillar__tag">Aval SCC</span>
+          <span class="pillar__tag">Aval SIAC</span>
+          <span class="pillar__tag">Aval LAHRS</span>
+          <span class="pillar__tag">Certificado descargable</span>
+        </div>
+      </div>
+
+      <div class="pillar">
+        <span class="pillar__number">03</span>
+        <h3 class="pillar__title">Metodología que se adapta a tu vida profesional</h3>
+        <p class="pillar__text">Presencial, virtual asincrónico o blended. Acceso desde cualquier dispositivo, a cualquier hora. Aprendizaje que respeta tu tiempo sin sacrificar la calidad clínica.</p>
+        <div class="pillar__tags">
+          <span class="pillar__tag">Virtual 24/7</span>
+          <span class="pillar__tag">Blended</span>
+          <span class="pillar__tag">Presencial</span>
+          <span class="pillar__tag">Acceso de por vida</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     INSTRUCTORS — Blue panel · 4 horizontal blocks
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="instructors" aria-labelledby="instructors-title">
+  <div class="container">
+
+    <header class="section-header">
+      <p class="section-header__eyebrow">Nuestros instructores</p>
+      <h2 class="section-header__title" id="instructors-title">Aprende de quienes transforman la cardiología</h2>
+      <p class="section-header__sub">Especialistas activos en los mejores centros del país, con trayectoria investigativa y pasión por la enseñanza.</p>
+    </header>
+
+    <div class="instructors__grid" role="list">
+
+      <article class="instructor-card" role="listitem">
+        <div class="instructor-card__avatar" aria-hidden="true">RP</div>
+        <div>
+          <h3 class="instructor-card__name">Dr. Rafael Peña</h3>
+          <p class="instructor-card__role">Electrofisiólogo · CES Medellín · Fellow LAHRS</p>
+        </div>
+        <div class="instructor-card__rating" aria-label="4.9 de 5 — 1.240 estudiantes">
+          <span class="star">★</span>
+          <span class="instructor-card__rating-n">4.9</span>
+          <span class="instructor-card__rating-c">· 1.240 estudiantes</span>
+        </div>
+      </article>
+
+      <article class="instructor-card" role="listitem">
+        <div class="instructor-card__avatar" aria-hidden="true">ML</div>
+        <div>
+          <h3 class="instructor-card__name">Dra. María Lozano</h3>
+          <p class="instructor-card__role">Ecocardiografista · FCI Bogotá · Fellow SIAC</p>
+        </div>
+        <div class="instructor-card__rating" aria-label="4.8 de 5 — 980 estudiantes">
+          <span class="star">★</span>
+          <span class="instructor-card__rating-n">4.8</span>
+          <span class="instructor-card__rating-c">· 980 estudiantes</span>
+        </div>
+      </article>
+
+      <article class="instructor-card" role="listitem">
+        <div class="instructor-card__avatar" aria-hidden="true">CA</div>
+        <div>
+          <h3 class="instructor-card__name">Dr. Carlos Arango</h3>
+          <p class="instructor-card__role">Intervencionista · HUS Bogotá · Fellow ACC</p>
+        </div>
+        <div class="instructor-card__rating" aria-label="4.9 de 5 — 1.560 estudiantes">
+          <span class="star">★</span>
+          <span class="instructor-card__rating-n">4.9</span>
+          <span class="instructor-card__rating-c">· 1.560 estudiantes</span>
+        </div>
+      </article>
+
+      <article class="instructor-card" role="listitem">
+        <div class="instructor-card__avatar" aria-hidden="true">VR</div>
+        <div>
+          <h3 class="instructor-card__name">Dra. Viviana Ríos</h3>
+          <p class="instructor-card__role">Falla Cardíaca · SHAIO Bogotá · Investigadora SCC</p>
+        </div>
+        <div class="instructor-card__rating" aria-label="4.8 de 5 — 734 estudiantes">
+          <span class="star">★</span>
+          <span class="instructor-card__rating-n">4.8</span>
+          <span class="instructor-card__rating-c">· 734 estudiantes</span>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="text-center mt-10">
+      <a href="#" class="btn btn-outline-white btn-lg">Conocer todos los instructores</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TESTIMONIALS — 3-col grid
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="testimonials" aria-labelledby="testimonials-title">
+  <div class="container">
+
+    <header class="section-header text-center" style="max-width:640px;margin:0 auto var(--sp-10);">
+      <p class="section-header__eyebrow">Testimonios</p>
+      <h2 class="section-header__title" id="testimonials-title">Lo que dicen nuestros graduados</h2>
+    </header>
+
+    <div class="testimonials__grid" role="list">
+
+      <article class="testimonial-card" role="listitem">
+        <div class="testimonial-card__stars" aria-label="5 estrellas">
+          <span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span>
+        </div>
+        <blockquote class="testimonial-card__quote">
+          El curso de ECG avanzado cambió completamente mi capacidad de diagnóstico en urgencias. Ahora identifico arritmias complejas que antes me pasaban desapercibidas.
+        </blockquote>
+        <footer class="testimonial-card__footer">
+          <div class="testimonial-card__avatar" aria-hidden="true">JM</div>
+          <div>
+            <p class="testimonial-card__name">Dr. Juan Martínez</p>
+            <p class="testimonial-card__role">Médico internista · Hospital San Ignacio, Bogotá</p>
+          </div>
+        </footer>
+      </article>
+
+      <article class="testimonial-card" role="listitem">
+        <div class="testimonial-card__stars" aria-label="5 estrellas">
+          <span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span>
+        </div>
+        <blockquote class="testimonial-card__quote">
+          Tomé el programa de ecocardiografía desde Perú. La calidad del contenido y la disposición del instructor fueron excepcionales. El certificado es reconocido en todo el continente.
+        </blockquote>
+        <footer class="testimonial-card__footer">
+          <div class="testimonial-card__avatar" aria-hidden="true">CR</div>
+          <div>
+            <p class="testimonial-card__name">Dra. Carmen Rivas</p>
+            <p class="testimonial-card__role">Cardióloga · Clínica Anglo Americana, Lima</p>
+          </div>
+        </footer>
+      </article>
+
+      <article class="testimonial-card" role="listitem">
+        <div class="testimonial-card__stars" aria-label="5 estrellas">
+          <span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span>
+          <span class="star" aria-hidden="true">★</span>
+        </div>
+        <blockquote class="testimonial-card__quote">
+          El aval de la SCC fue determinante para incluir el curso en mi hoja de vida. La formación en falla cardíaca es la más completa y actualizada que he encontrado en la región.
+        </blockquote>
+        <footer class="testimonial-card__footer">
+          <div class="testimonial-card__avatar" aria-hidden="true">AF</div>
+          <div>
+            <p class="testimonial-card__name">Dr. Andrés Fuentes</p>
+            <p class="testimonial-card__role">Residente de cardiología · UNC, Manizales</p>
+          </div>
+        </footer>
+      </article>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FAQ v4 — Wireframe-v4 style (border separators, simple toggle)
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="faq-simple" aria-labelledby="faq-simple-title">
+  <div class="container">
+    <div class="faq-simple__inner">
+
+      <div class="faq-simple__left">
+        <p class="section-header__eyebrow">Preguntas frecuentes</p>
+        <h2 class="section-header__title" id="faq-simple-title" style="margin-top:12px;">Todo lo que necesitas saber</h2>
+        <div class="faq-simple__support">
+          <p class="faq-simple__support-title">¿No encuentras tu respuesta?</p>
+          <p class="faq-simple__support-body">Nuestro equipo responde en menos de 24 horas hábiles.</p>
+          <a href="mailto:cardiou_admin@lacardio.org" class="btn btn-secondary btn-lg" style="margin-top:16px;">Contactar asesor</a>
+        </div>
+      </div>
+
+      <div class="faq-simple__list">
+
+        <div class="faq-simple__item faq-simple__item--open">
+          <button class="faq-simple__q" aria-expanded="true" onclick="toggleFaqSimple(this)">
+            ¿Necesito ser médico para inscribirme?
+            <svg class="faq-simple__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="faq-simple__a">La mayoría de los programas están dirigidos a médicos generales, residentes y especialistas. Algunos cursos de nivel básico están abiertos a estudiantes de medicina en años clínicos. Revisa el perfil recomendado en la página de cada curso.</div>
+        </div>
+
+        <div class="faq-simple__item">
+          <button class="faq-simple__q" aria-expanded="false" onclick="toggleFaqSimple(this)">
+            ¿Los certificados tienen reconocimiento oficial?
+            <svg class="faq-simple__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="faq-simple__a">Sí. Nuestros certificados están avalados por la Sociedad Colombiana de Cardiología y Cirugía Cardiovascular (SCC) y por la Fundación CardioInfantil. Son aceptados como créditos de educación médica continua (EMC) en la mayoría de hospitales e instituciones del país.</div>
+        </div>
+
+        <div class="faq-simple__item">
+          <button class="faq-simple__q" aria-expanded="false" onclick="toggleFaqSimple(this)">
+            ¿Cómo funcionan las sesiones en vivo?
+            <svg class="faq-simple__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="faq-simple__a">Son encuentros semanales de 60–90 minutos con el especialista y tu grupo de cohorte. Puedes presentar casos clínicos, hacer preguntas y discutir los temas del módulo. Se graban y quedan disponibles si no puedes asistir en tiempo real.</div>
+        </div>
+
+        <div class="faq-simple__item">
+          <button class="faq-simple__q" aria-expanded="false" onclick="toggleFaqSimple(this)">
+            ¿Puedo acceder desde cualquier dispositivo?
+            <svg class="faq-simple__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="faq-simple__a">Sí. La plataforma es responsive y funciona en computador, tablet y móvil. Los videos pueden descargarse para ver offline en nuestra app. El material complementario (PDFs, casos clínicos) también está disponible para descarga.</div>
+        </div>
+
+        <div class="faq-simple__item">
+          <button class="faq-simple__q" aria-expanded="false" onclick="toggleFaqSimple(this)">
+            ¿Cómo funciona la facturación para instituciones?
+            <svg class="faq-simple__chevron" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="faq-simple__a">Emitimos factura a nombre de la institución con todos los requisitos tributarios colombianos. Puedes pagar por transferencia bancaria, PSE o tarjeta corporativa. Contáctanos en instituciones@lacardio.org para armar el plan según tus necesidades.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FAQ — Sticky left + accordion right
+     ═══════════════════════════════════════════════════════════════ -->
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CTA FINAL
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="cta-final" aria-labelledby="cta-title">
+  <div class="container">
+
+    <div class="cta-final__left">
+      <div class="cta-final__text">
+        <p class="cta-final__eyebrow">¿Listo para comenzar?</p>
+        <h2 class="cta-final__title" id="cta-title">Tu próximo paso en cardiología empieza aquí</h2>
+        <p class="cta-final__sub">Únete a <strong>más de 18.000</strong> profesionales que ya transformaron su práctica clínica con CardioU.</p>
+        <div class="cta-final__badges">
+          <div class="cta-final__badge">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <circle cx="8" cy="8" r="7" stroke="white" stroke-width="1.5"/>
+              <path d="M5 8l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Garantía de satisfacción</span>
+          </div>
+          <span class="cta-final__badge-sep" aria-hidden="true"></span>
+          <div class="cta-final__badge">
+            <span>Financiación con</span>
+            <img src="Assets/Wompi_LogoPrincipal 1.svg" height="20" alt="Wompi" class="cta-final__wompi">
+          </div>
+        </div>
+      </div>
+      <a href="#cursos" class="btn btn-white btn-lg">Ver todos los cursos</a>
+    </div>
+
+    <div class="cta-final__illustration" aria-hidden="true">
+      <img src="Assets/cardiology-svg.svg" width="208" height="208" alt="">
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════════════════════ -->
+<footer class="footer" role="contentinfo">
+
+  <div class="footer__top">
+    <a href="/" class="footer__logo" aria-label="CardioU inicio">
+      <img src="Assets/Cardio_u_Logo.svg" alt="CardioU" width="170">
+    </a>
+    <nav class="footer__nav" aria-label="Navegación del pie de página">
+      <a href="#escuelas" class="footer__nav-link">Escuelas</a>
+      <a href="#cursos"   class="footer__nav-link">Cursos</a>
+      <a href="#"         class="footer__nav-link">Acerca de nosotros</a>
+      <a href="#"         class="footer__nav-link">Políticas de tratamiento</a>
+      <a href="#"         class="footer__nav-link">Términos y condiciones</a>
+    </nav>
+    <div class="footer__rrss" aria-label="Redes sociales">
+      <a href="#" class="footer__rrss-icon" aria-label="Twitter / X">
+        <img src="Assets/Twitter.svg" width="36" height="36" alt="" aria-hidden="true">
+      </a>
+      <a href="#" class="footer__rrss-icon" aria-label="Facebook">
+        <img src="Assets/Facebook.svg" width="36" height="36" alt="" aria-hidden="true">
+      </a>
+      <a href="#" class="footer__rrss-icon" aria-label="YouTube">
+        <img src="Assets/Youtube.svg" width="36" height="36" alt="" aria-hidden="true">
+      </a>
+      <a href="#" class="footer__rrss-icon" aria-label="Instagram">
+        <img src="Assets/Instagram.svg" width="36" height="36" alt="" aria-hidden="true">
+      </a>
+      <a href="#" class="footer__rrss-icon" aria-label="LinkedIn">
+        <img src="Assets/linkedin.svg" width="36" height="36" alt="" aria-hidden="true">
+      </a>
+      <a href="#" class="footer__rrss-icon" aria-label="TikTok">
+        <img src="Assets/tiktok.svg" width="36" height="36" alt="" aria-hidden="true">
+      </a>
+    </div>
+  </div>
+
+  <div class="footer__copyright">
+    <p>Copyright © 2026 - Todos los derechos, Fundación Cardioinfantil Instituto de Cardiología, Calle 163A # 13B - 60 Bogotá, Colombia</p>
+  </div>
+
+</footer>
+
+<script>
+  /* ── FAQ simple (v4 style) accordion ── */
+  function toggleFaqSimple(btn) {
+    const item = btn.closest('.faq-simple__item');
+    const isOpen = item.classList.contains('faq-simple__item--open');
+    document.querySelectorAll('.faq-simple__item--open').forEach(el => {
+      el.classList.remove('faq-simple__item--open');
+      el.querySelector('.faq-simple__q').setAttribute('aria-expanded', 'false');
+    });
+    if (!isOpen) {
+      item.classList.add('faq-simple__item--open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  /* ── FAQ accordion ── */
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq__item');
+    const isOpen = item.classList.contains('faq__item--open');
+    document.querySelectorAll('.faq__item--open').forEach(el => {
+      el.classList.remove('faq__item--open');
+      el.querySelector('.faq__q').setAttribute('aria-expanded', 'false');
+    });
+    if (!isOpen) {
+      item.classList.add('faq__item--open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  /* ── Stats counter animation ── */
+  (function () {
+    const DURATION = 1600;
+
+    function formatValue(val, decimals, prefix, thousands) {
+      if (decimals > 0) {
+        return prefix + val.toFixed(decimals);
+      }
+      let s = String(Math.round(val));
+      if (thousands) {
+        s = s.replace(/\B(?=(\d{3})+(?!\d))/g, thousands);
+      }
+      return prefix + s;
+    }
+
+    function animateEl(el) {
+      const target   = parseFloat(el.dataset.count);
+      const decimals = parseInt(el.dataset.decimals  || '0');
+      const prefix   = el.dataset.prefix    || '';
+      const thousands = el.dataset.thousands || '';
+      const original  = el.textContent; // keep for accessibility
+      const start     = performance.now();
+
+      function tick(now) {
+        const t = Math.min((now - start) / DURATION, 1);
+        const eased = 1 - Math.pow(1 - t, 3); // ease-out cubic
+        el.textContent = formatValue(target * eased, decimals, prefix, thousands);
+        if (t < 1) requestAnimationFrame(tick);
+        else el.textContent = formatValue(target, decimals, prefix, thousands);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    const counters = document.querySelectorAll('[data-count]');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.dataset.done) {
+          entry.target.dataset.done = '1';
+          animateEl(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    counters.forEach(el => observer.observe(el));
+  })();
+</script>
+
+<!-- WhatsApp floating button -->
+<a href="https://wa.me/573XXXXXXXXX" class="wa-float" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+  <img src="Assets/Whatsapp-SVG.svg" class="wa-float__icon" width="32" height="32" alt="" aria-hidden="true">
+  <span class="wa-float__text">solicita asesoría ahora</span>
+</a>
+
+<script>
+  (function () {
+    const btn = document.querySelector('.wa-float');
+    const anchor = document.querySelector('.cta-final');
+    const gap = 16;
+    function positionWa() {
+      if (!btn || !anchor) return;
+      const anchorTop = anchor.getBoundingClientRect().top;
+      btn.style.bottom = anchorTop < window.innerHeight
+        ? (window.innerHeight - anchorTop + gap) + 'px'
+        : '32px';
+    }
+    window.addEventListener('scroll', positionWa, { passive: true });
+    positionWa();
+  })();
+</script>
+
+</body>
+</html>

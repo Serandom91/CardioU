@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CardioU — Catálogo v2 · Agrupado por Escuela</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-primary: #002D72; --brand-primary-hover: #00245C;
+      --brand-primary-subtle: #E5EBEF; --brand-secondary: #E40046;
+      --brand-secondary-subtle: #FEE5EB;
+      --text-primary: #1a1a1a; --text-secondary: #5F5E5A; --text-tertiary: #888780;
+      --bg-page: #F4F3F0; --bg-surface: #ffffff;
+      --border: rgba(0,0,0,0.10); --border-md: rgba(0,0,0,0.16);
+      --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px;
+      --radius-xl: 16px; --radius-2xl: 24px; --radius-full: 9999px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.07); --shadow-md: 0 4px 12px rgba(0,0,0,.08);
+      --font: 'Inter', system-ui, sans-serif;
+      --font-display: 'Fira Sans', 'Inter', sans-serif;
+      --font-body: 'Open Sans', 'Inter', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--bg-page); color: var(--text-primary); }
+    h1, h2, h3, h4, h5 { font-family: var(--font-display); }
+    .max-w { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    .wf-label {
+      background: #C8F5E0; color: #00402A; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px;
+      display: flex; align-items: center; gap: 6px; border-bottom: 1px solid rgba(0,0,0,0.08);
+      position: sticky; top: 0; z-index: 10;
+    }
+    .wf-label::before { content: '◈'; opacity: 0.5; font-size: 9px; }
+
+    /* HEADER */
+    .header-sticky { position: sticky; top: 0; z-index: 100; }
+    .topbar { background: var(--brand-primary); height: 36px; display: flex; align-items: center; }
+    .topbar__inner { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+    .topbar__left { display: flex; align-items: center; gap: 20px; }
+    .topbar__item { font-family: var(--font); font-size: 12px; color: rgba(255,255,255,0.65); display: flex; align-items: center; gap: 5px; text-decoration: none; white-space: nowrap; }
+    .topbar__sep { width: 1px; height: 12px; background: rgba(255,255,255,0.2); flex-shrink: 0; }
+    .topbar__right { display: flex; align-items: center; gap: 4px; }
+    .topbar__btn { font-family: var(--font); font-size: 12px; color: rgba(255,255,255,0.65); text-decoration: none; padding: 3px 10px; border-radius: var(--radius-sm); }
+    .topbar__btn--cta { color: #fff; background: var(--brand-secondary); padding: 3px 14px; border-radius: var(--radius-full); font-weight: 700; }
+    .navbar { background: var(--bg-surface); height: 80px; display: flex; align-items: center; border-bottom: 3px solid var(--brand-secondary); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .navbar__inner { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+    .navbar__logo { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; }
+    .navbar__logo img { height: 42px; width: auto; display: block; }
+    .navbar__right { display: flex; align-items: center; gap: 28px; }
+    .navbar__links { display: flex; align-items: center; }
+    .navbar__link { font-family: var(--font); font-size: 15px; font-weight: 500; color: var(--text-secondary); text-decoration: none; padding: 8px 16px; position: relative; display: inline-flex; align-items: center; gap: 4px; transition: color 0.15s; white-space: nowrap; }
+    .navbar__link::after { content: ''; position: absolute; bottom: -3px; left: 16px; right: 16px; height: 3px; background: var(--brand-primary); transform: scaleX(0); transition: transform 0.2s; border-radius: 2px; }
+    .navbar__link:hover { color: var(--brand-primary); }
+    .navbar__link:hover::after { transform: scaleX(1); }
+    .navbar__link--active { color: var(--brand-primary); font-weight: 600; }
+    .navbar__link--active::after { transform: scaleX(1); }
+    .navbar__dropdown { position: relative; }
+    .navbar__dropdown-menu { display: none; position: absolute; top: calc(100% + 9px); left: 0; background: var(--bg-surface); border: 1px solid var(--border-md); border-top: 3px solid var(--brand-primary); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); min-width: 260px; padding: 8px; z-index: 200; }
+    .navbar__dropdown:hover .navbar__dropdown-menu { display: flex; flex-direction: column; }
+    .navbar__dropdown-label { font-family: var(--font-display); font-size: 10px; font-weight: 400; color: var(--text-tertiary); letter-spacing: 0.2em; text-transform: uppercase; padding: 6px 10px 4px; }
+    .navbar__dropdown-item { font-family: var(--font); font-size: 14px; color: var(--text-secondary); text-decoration: none; padding: 9px 12px; border-radius: var(--radius-md); transition: all 0.15s; }
+    .navbar__dropdown-item:hover { color: var(--brand-primary); background: var(--brand-primary-subtle); }
+    .navbar__chevron { width: 13px; height: 13px; transition: transform 0.2s; }
+    .navbar__dropdown:hover .navbar__chevron { transform: rotate(180deg); }
+    .navbar__search { position: relative; flex-shrink: 0; }
+    .navbar__search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--text-tertiary); pointer-events: none; display: flex; }
+    .navbar__search-input { height: 36px; width: 200px; padding: 0 12px 0 34px; font-family: var(--font-body); font-size: 13px; background: var(--bg-page); border: 1px solid var(--border-md); border-radius: var(--radius-full); outline: none; }
+
+    /* BUTTONS */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-family: var(--font-body); font-weight: 700; cursor: pointer; border: 1px solid transparent; text-decoration: none; white-space: nowrap; border-radius: var(--radius-full); }
+    .btn--sm  { font-size: 12px; padding: 5px 12px; }
+    .btn--md  { font-size: 13px; padding: 7px 16px; }
+    .btn--lg  { font-size: 15px; padding: 10px 22px; }
+    .btn--primary   { background: var(--brand-primary); color: #fff; }
+    .btn--secondary { background: transparent; color: var(--brand-primary); border-color: var(--brand-primary); }
+    .btn--danger    { background: var(--brand-secondary); color: #fff; }
+    .btn--ghost     { background: transparent; color: var(--brand-primary); }
+
+    /* BADGE */
+    .badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: var(--radius-full); text-transform: uppercase; letter-spacing: 0.05em; }
+    .badge--primary  { background: var(--brand-primary-subtle); color: var(--brand-primary); }
+    .badge--danger   { background: var(--brand-secondary-subtle); color: var(--brand-secondary); }
+    .badge--success  { background: #EAF3DE; color: #3B6D11; }
+    .badge--neutral  { background: #E6E5E2; color: #5F5E5A; }
+    .badge--warning  { background: #FFF3CD; color: #856404; }
+    .stars { display: flex; gap: 2px; color: #EF9F27; font-size: 12px; }
+
+    /* ══ A. HERO — búsqueda central prominente ══════════════════ */
+    .hero-search {
+      background: var(--brand-primary-subtle);
+      padding: 56px 0 52px;
+      border-bottom: 1px solid rgba(0,45,114,0.1);
+    }
+    .hero-search__inner { text-align: center; }
+    .hero-search__eyebrow {
+      font-family: var(--font-display); font-size: 11px; font-weight: 400;
+      letter-spacing: 0.26em; text-transform: uppercase;
+      color: var(--brand-secondary); margin-bottom: 16px;
+    }
+    .hero-search__title {
+      font-family: var(--font-display); font-size: 40px; font-weight: 500;
+      line-height: 52px; letter-spacing: -0.01em;
+      color: var(--brand-primary); margin-bottom: 10px;
+    }
+    .hero-search__sub { font-size: 16px; color: var(--text-secondary); margin-bottom: 32px; }
+    /* Buscador grande centrado */
+    .search-bar {
+      display: flex; max-width: 680px; margin: 0 auto 24px;
+      background: #fff; border-radius: var(--radius-full);
+      border: 2px solid rgba(0,45,114,0.2);
+      box-shadow: 0 4px 20px rgba(0,45,114,0.1);
+      overflow: hidden;
+    }
+    .search-bar__icon { padding: 0 0 0 20px; display: flex; align-items: center; color: var(--text-tertiary); flex-shrink: 0; }
+    .search-bar__input { flex: 1; height: 52px; padding: 0 16px; font-family: var(--font-body); font-size: 15px; border: none; outline: none; color: var(--text-primary); background: transparent; }
+    .search-bar__input::placeholder { color: var(--text-tertiary); }
+    .search-bar__btn { flex-shrink: 0; margin: 6px; border-radius: var(--radius-full); background: var(--brand-primary); color: #fff; font-family: var(--font-body); font-weight: 700; font-size: 14px; padding: 0 22px; border: none; cursor: pointer; }
+    /* Chips de acceso rápido */
+    .quick-filters {
+      display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;
+    }
+    .quick-filters__label { font-size: 13px; color: var(--text-tertiary); }
+    .quick-chip {
+      font-family: var(--font); font-size: 12px; font-weight: 500;
+      padding: 5px 14px; border-radius: var(--radius-full);
+      background: var(--bg-surface); color: var(--text-secondary);
+      border: 1px solid var(--border-md); cursor: pointer; text-decoration: none;
+      transition: all 0.15s;
+    }
+    .quick-chip:hover { background: var(--brand-primary); color: #fff; border-color: var(--brand-primary); }
+
+    /* ══ B. RAIL DE ESCUELAS — anclas de navegación ═════════════ */
+    .school-nav {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 116px; z-index: 80;
+    }
+    .school-nav__inner {
+      display: flex; align-items: center; gap: 0;
+      overflow-x: auto;
+    }
+    .school-nav__item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 14px 20px;
+      font-family: var(--font); font-size: 13px; font-weight: 500;
+      color: var(--text-secondary); text-decoration: none;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap; transition: all 0.15s; flex-shrink: 0;
+    }
+    .school-nav__item:hover { color: var(--brand-primary); }
+    .school-nav__item--active {
+      color: var(--brand-primary); border-bottom-color: var(--brand-primary);
+    }
+    .school-nav__icon { font-size: 16px; }
+    .school-nav__count {
+      font-size: 10px; font-weight: 700;
+      background: var(--brand-primary-subtle);
+      color: var(--brand-primary);
+      padding: 1px 6px; border-radius: var(--radius-full);
+    }
+    .school-nav__item--active .school-nav__count {
+      background: var(--brand-primary); color: #fff;
+    }
+
+    /* ══ C. SECCIÓN DE ESCUELA ══════════════════════════════════ */
+    .school-section { padding: 64px 0 0; }
+    /* Header de la sección — escuela */
+    .school-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 24px;
+      padding: 28px 32px;
+      background: var(--bg-surface);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      margin-bottom: 28px;
+      border-left: 4px solid var(--brand-primary);
+    }
+    .school-header__icon {
+      font-size: 32px; margin-bottom: 8px; display: block;
+    }
+    .school-header__name {
+      font-family: var(--font-display); font-size: 26px; font-weight: 500;
+      color: var(--brand-primary); margin-bottom: 6px;
+    }
+    .school-header__desc { font-size: 14px; line-height: 22px; color: var(--text-secondary); max-width: 600px; }
+    .school-header__stats {
+      display: flex; gap: 24px; flex-shrink: 0;
+    }
+    .school-header__stat { text-align: center; }
+    .school-header__stat-val {
+      font-family: var(--font-display); font-size: 24px; font-weight: 500;
+      color: var(--brand-primary); line-height: 1; display: block;
+    }
+    .school-header__stat-lbl { font-size: 11px; color: var(--text-tertiary); margin-top: 4px; display: block; }
+
+    /* Fila horizontal de cursos */
+    .school-courses {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .course-card-h {
+      background: var(--bg-surface);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: box-shadow 0.2s, transform 0.15s;
+      text-decoration: none;
+    }
+    .course-card-h:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: rgba(0,45,114,0.2); }
+    .course-card-h__thumb { height: 140px; background: #B8C8DC; position: relative; flex-shrink: 0; }
+    .course-card-h__thumb--b { background: #C5D5E8; }
+    .course-card-h__thumb--c { background: #A8BCCF; }
+    .course-card-h__thumb--d { background: #C8D8C8; }
+    .course-card-h__thumb--e { background: #D5C8D8; }
+    .course-card-h__badge { position: absolute; top: 8px; left: 8px; }
+    .course-card-h__body { padding: 14px; flex: 1; display: flex; flex-direction: column; }
+    .course-card-h__title { font-size: 14px; font-weight: 700; color: var(--text-primary); line-height: 1.4; margin-bottom: 8px; flex: 1; }
+    .course-card-h__meta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+    .course-card-h__meta-item { font-size: 11px; color: var(--text-tertiary); display: flex; align-items: center; gap: 3px; }
+    .course-card-h__footer { display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid var(--border); }
+    .course-card-h__price { font-family: var(--font-display); font-size: 18px; font-weight: 500; color: var(--brand-primary); }
+    .course-card-h__rating { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-secondary); }
+
+    /* Footer de la sección */
+    .school-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 0 0;
+      border-top: 1px solid var(--border);
+      margin-bottom: 0;
+    }
+    .school-footer__count { font-size: 13px; color: var(--text-tertiary); }
+    .school-footer__count strong { color: var(--brand-primary); }
+    .school-divider { border: none; border-top: 1px solid var(--border); margin: 56px 0 0; }
+
+    /* ══ D. CTA INSTITUCIONAL ══════════════════════════════════ */
+    .cta-institutions {
+      margin: 64px 0 0;
+      padding: 48px;
+      background: var(--brand-primary);
+      border-radius: var(--radius-2xl);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 32px;
+    }
+    .cta-institutions__eyebrow {
+      font-family: var(--font-display); font-size: 11px;
+      letter-spacing: 0.26em; text-transform: uppercase;
+      color: rgba(255,255,255,0.45); margin-bottom: 10px;
+    }
+    .cta-institutions__title {
+      font-family: var(--font-display); font-size: 28px; font-weight: 500;
+      color: #fff; line-height: 36px; margin-bottom: 10px;
+    }
+    .cta-institutions__sub { font-size: 14px; line-height: 22px; color: rgba(255,255,255,0.6); }
+    .cta-institutions__actions { display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
+
+    /* SECTION WRAPPER */
+    .page-content { padding-bottom: 80px; }
+
+    /* SIDEBAR */
+    .wf-sidebar { position: fixed; right: 0; top: 50%; transform: translateY(-50%); background: #1a1a1a; color: #fff; border-radius: var(--radius-lg) 0 0 var(--radius-lg); padding: 16px 12px; display: flex; flex-direction: column; gap: 6px; z-index: 300; width: 184px; }
+    .wf-sidebar__title { font-size: 10px; font-weight: 700; color: #C8F5E0; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .wf-sidebar__link { font-size: 11px; color: rgba(255,255,255,0.65); text-decoration: none; padding: 4px 8px; border-radius: 4px; }
+    .wf-sidebar__link:hover { color: #fff; background: rgba(255,255,255,0.1); }
+    .wf-sidebar__num { color: rgba(255,255,255,0.3); margin-right: 4px; }
+  </style>
+</head>
+<body>
+
+<nav class="wf-sidebar">
+  <div class="wf-sidebar__title">Cat. v2 · Por Escuela</div>
+  <a href="#s01" class="wf-sidebar__link"><span class="wf-sidebar__num">A</span>Header</a>
+  <a href="#s02" class="wf-sidebar__link"><span class="wf-sidebar__num">B</span>Búsqueda central</a>
+  <a href="#s03" class="wf-sidebar__link"><span class="wf-sidebar__num">C</span>Nav de escuelas</a>
+  <a href="#s04" class="wf-sidebar__link"><span class="wf-sidebar__num">D</span>Escuela 1</a>
+  <a href="#s05" class="wf-sidebar__link"><span class="wf-sidebar__num">E</span>Escuela 2</a>
+  <a href="#s06" class="wf-sidebar__link"><span class="wf-sidebar__num">F</span>CTA Institucional</a>
+</nav>
+
+<!-- ══ A. HEADER ════════════════════════════════════ -->
+<div id="s01">
+  <div class="wf-label">A · Header institucional (Opción C establecida)</div>
+  <div class="header-sticky">
+    <div class="topbar">
+      <div class="max-w topbar__inner">
+        <div class="topbar__left">
+          <a href="#" class="topbar__item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.86a16 16 0 0 0 6.13 6.13l.86-.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> +57 1 330 5555</a>
+          <div class="topbar__sep"></div>
+          <a href="#" class="topbar__item">cardio-u@lacardio.org</a>
+          <div class="topbar__sep"></div>
+          <a href="#" class="topbar__item">Fundación CardioInfantil</a>
+        </div>
+        <div class="topbar__right">
+          <a href="#" class="topbar__btn">Iniciar sesión</a>
+          <div class="topbar__sep" style="margin:0 4px;"></div>
+          <a href="#" class="topbar__btn topbar__btn--cta">Inscribirme</a>
+        </div>
+      </div>
+    </div>
+    <nav class="navbar">
+      <div class="max-w navbar__inner">
+        <a href="#" class="navbar__logo"><img src="assets/Cardio_u_Logo.svg" alt="CardioU" /></a>
+        <div class="navbar__right">
+          <nav class="navbar__links">
+            <div class="navbar__dropdown">
+              <a href="#" class="navbar__link navbar__link--active">Escuelas <svg class="navbar__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></a>
+              <div class="navbar__dropdown-menu">
+                <div class="navbar__dropdown-label">Áreas de especialidad</div>
+                <a href="#" class="navbar__dropdown-item">Cardiología Intervencionista</a>
+                <a href="#" class="navbar__dropdown-item">Electrofisiología</a>
+                <a href="#" class="navbar__dropdown-item">Ecocardiografía</a>
+                <a href="#" class="navbar__dropdown-item">Imagen Cardíaca</a>
+                <a href="#" class="navbar__dropdown-item">Insuficiencia Cardíaca</a>
+                <a href="#" class="navbar__dropdown-item">Prevención Cardiovascular</a>
+              </div>
+            </div>
+            <a href="#" class="navbar__link">Acerca de nosotros</a>
+          </nav>
+          <div class="navbar__search">
+            <span class="navbar__search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+            <input class="navbar__search-input" type="text" placeholder="Buscar cursos…" />
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- ══ B. BÚSQUEDA CENTRAL ════════════════════════ -->
+<div id="s02">
+  <div class="wf-label">B · Hero búsqueda central — buscador prominente + chips de acceso rápido por escuela</div>
+  <section class="hero-search">
+    <div class="max-w hero-search__inner">
+      <div class="hero-search__eyebrow">Catálogo CardioU</div>
+      <h1 class="hero-search__title">Encuentra tu próximo programa</h1>
+      <p class="hero-search__sub">32 cursos · 6 escuelas de especialidad · Avalados por la Fundación CardioInfantil</p>
+      <div class="search-bar">
+        <div class="search-bar__icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <input class="search-bar__input" type="text" placeholder="Ej. "TAVI", "ablación", "ecocardiografía"…" />
+        <button class="search-bar__btn">Buscar</button>
+      </div>
+      <div class="quick-filters">
+        <span class="quick-filters__label">Acceso rápido:</span>
+        <a href="#s04" class="quick-chip">🫀 Intervencionismo</a>
+        <a href="#" class="quick-chip">⚡ Electrofisiología</a>
+        <a href="#" class="quick-chip">📡 Ecocardiografía</a>
+        <a href="#" class="quick-chip">🧲 Imagen Cardíaca</a>
+        <a href="#" class="quick-chip">💊 Insuf. Cardíaca</a>
+        <a href="#" class="quick-chip">🛡️ Prevención</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══ C. RAIL DE ESCUELAS — sticky ════════════════ -->
+<div id="s03">
+  <div class="wf-label">C · Rail de escuelas — barra de anclas sticky · permite saltar directo a la escuela · activa al scrollear</div>
+  <div class="school-nav">
+    <div class="max-w school-nav__inner">
+      <a href="#s04" class="school-nav__item school-nav__item--active">
+        <span class="school-nav__icon">🫀</span> Intervencionismo
+        <span class="school-nav__count">12</span>
+      </a>
+      <a href="#" class="school-nav__item">
+        <span class="school-nav__icon">⚡</span> Electrofisiología
+        <span class="school-nav__count">8</span>
+      </a>
+      <a href="#" class="school-nav__item">
+        <span class="school-nav__icon">📡</span> Ecocardiografía
+        <span class="school-nav__count">11</span>
+      </a>
+      <a href="#" class="school-nav__item">
+        <span class="school-nav__icon">🧲</span> Imagen Cardíaca
+        <span class="school-nav__count">6</span>
+      </a>
+      <a href="#" class="school-nav__item">
+        <span class="school-nav__icon">💊</span> Insuf. Cardíaca
+        <span class="school-nav__count">9</span>
+      </a>
+      <a href="#" class="school-nav__item">
+        <span class="school-nav__icon">🛡️</span> Prevención
+        <span class="school-nav__count">7</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="page-content">
+  <div class="max-w">
+
+    <!-- ══ D. ESCUELA 1 — INTERVENCIONISMO ══════════════════ -->
+    <div id="s04">
+      <div class="wf-label">D · Sección escuela — header con stats de la escuela + 3 cursos destacados + "ver los 12"</div>
+      <div class="school-section">
+        <div class="school-header">
+          <div>
+            <span class="school-header__icon">🫀</span>
+            <div class="school-header__name">Cardiología Intervencionista</div>
+            <p class="school-header__desc">Formación en TAVI, ICP complejo, accesos vasculares y manejo hemodinámico. Programas con práctica en simuladores y casos clínicos reales de la FCI.</p>
+          </div>
+          <div class="school-header__stats">
+            <div class="school-header__stat">
+              <span class="school-header__stat-val">12</span>
+              <span class="school-header__stat-lbl">Cursos</span>
+            </div>
+            <div class="school-header__stat">
+              <span class="school-header__stat-val">890+</span>
+              <span class="school-header__stat-lbl">Egresados</span>
+            </div>
+            <div class="school-header__stat">
+              <span class="school-header__stat-val">4.9</span>
+              <span class="school-header__stat-lbl">Calificación</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="school-courses">
+          <a href="#" class="course-card-h">
+            <div class="course-card-h__thumb">
+              <div class="course-card-h__badge"><span class="badge badge--danger">Nuevo</span></div>
+            </div>
+            <div class="course-card-h__body">
+              <div class="course-card-h__title">TAVI: Selección del Paciente y Técnica de Implante</div>
+              <div class="course-card-h__meta">
+                <div class="course-card-h__meta-item">⏱ 32h</div>
+                <div class="course-card-h__meta-item">🔁 Híbrido</div>
+                <div class="course-card-h__meta-item"><span class="badge badge--warning" style="font-size:10px;">Avanzado</span></div>
+              </div>
+              <div class="course-card-h__footer">
+                <div class="course-card-h__price">$980.000</div>
+                <div class="course-card-h__rating"><div class="stars">★★★★★</div>&nbsp;4.9</div>
+              </div>
+            </div>
+          </a>
+          <a href="#" class="course-card-h">
+            <div class="course-card-h__thumb course-card-h__thumb--b">
+              <div class="course-card-h__badge"><span class="badge badge--success">Popular</span></div>
+            </div>
+            <div class="course-card-h__body">
+              <div class="course-card-h__title">Accesos Vasculares y Manejo de Complicaciones</div>
+              <div class="course-card-h__meta">
+                <div class="course-card-h__meta-item">⏱ 18h</div>
+                <div class="course-card-h__meta-item">💻 Virtual</div>
+                <div class="course-card-h__meta-item"><span class="badge badge--neutral" style="font-size:10px;">Intermedio</span></div>
+              </div>
+              <div class="course-card-h__footer">
+                <div class="course-card-h__price">$720.000</div>
+                <div class="course-card-h__rating"><div class="stars">★★★★★</div>&nbsp;4.8</div>
+              </div>
+            </div>
+          </a>
+          <a href="#" class="course-card-h">
+            <div class="course-card-h__thumb course-card-h__thumb--c"></div>
+            <div class="course-card-h__body">
+              <div class="course-card-h__title">ICP Complejo: Bifurcaciones y Calcificación Severa</div>
+              <div class="course-card-h__meta">
+                <div class="course-card-h__meta-item">⏱ 24h</div>
+                <div class="course-card-h__meta-item">🔁 Híbrido</div>
+                <div class="course-card-h__meta-item"><span class="badge badge--warning" style="font-size:10px;">Avanzado</span></div>
+              </div>
+              <div class="course-card-h__footer">
+                <div class="course-card-h__price">$850.000</div>
+                <div class="course-card-h__rating"><div class="stars">★★★★☆</div>&nbsp;4.7</div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="school-footer">
+          <span class="school-footer__count">Mostrando 3 de <strong>12 cursos</strong> en Intervencionismo</span>
+          <a href="#" class="btn btn--secondary btn--md">Ver los 12 cursos de Intervencionismo →</a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="school-divider">
+
+    <!-- ══ E. ESCUELA 2 — ELECTROFISIOLOGÍA ════════════════ -->
+    <div id="s05">
+      <div class="wf-label">E · Segunda escuela — mismo patrón de sección · permite escanear verticalmente todo el catálogo</div>
+      <div class="school-section">
+        <div class="school-header" style="border-left-color: var(--brand-secondary);">
+          <div>
+            <span class="school-header__icon">⚡</span>
+            <div class="school-header__name" style="color: var(--brand-secondary);">Electrofisiología</div>
+            <p class="school-header__desc">Ablación de arritmias complejas, implante de dispositivos cardíacos, mapeo electroanatómico 3D y manejo de FA. Docentes activos en el laboratorio de electrofisiología de la FCI.</p>
+          </div>
+          <div class="school-header__stats">
+            <div class="school-header__stat">
+              <span class="school-header__stat-val" style="color:var(--brand-secondary);">8</span>
+              <span class="school-header__stat-lbl">Cursos</span>
+            </div>
+            <div class="school-header__stat">
+              <span class="school-header__stat-val" style="color:var(--brand-secondary);">620+</span>
+              <span class="school-header__stat-lbl">Egresados</span>
+            </div>
+            <div class="school-header__stat">
+              <span class="school-header__stat-val" style="color:var(--brand-secondary);">4.8</span>
+              <span class="school-header__stat-lbl">Calificación</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="school-courses">
+          <a href="#" class="course-card-h">
+            <div class="course-card-h__thumb course-card-h__thumb--d">
+              <div class="course-card-h__badge"><span class="badge badge--primary">CME</span></div>
+            </div>
+            <div class="course-card-h__body">
+              <div class="course-card-h__title">Ablación de Fibrilación Auricular: Abordaje Paso a Paso</div>
+              <div class="course-card-h__meta">
+                <div class="course-card-h__meta-item">⏱ 48h</div>
+                <div class="course-card-h__meta-item">🔁 Híbrido</div>
+                <div class="course-card-h__meta-item"><span class="badge badge--neutral" style="font-size:10px;">Intermedio</span></div>
+              </div>
+              <div class="course-card-h__footer">
+                <div class="course-card-h__price">$890.000</div>
+                <div class="course-card-h__rating"><div class="stars">★★★★★</div>&nbsp;4.8</div>
+              </div>
+            </div>
+          </a>
+          <a href="#" class="course-card-h">
+            <div class="course-card-h__thumb course-card-h__thumb--e"></div>
+            <div class="course-card-h__body">
+              <div class="course-card-h__title">Implante de Marcapasos y DAI: Técnica Quirúrgica</div>
+              <div class="course-card-h__meta">
+                <div class="course-card-h__meta-item">⏱ 36h</div>
+                <div class="course-card-h__meta-item">🏥 Presencial</div>
+                <div class="course-card-h__meta-item"><span class="badge badge--warning" style="font-size:10px;">Avanzado</span></div>
+              </div>
+              <div class="course-card-h__footer">
+                <div class="course-card-h__price">$1.100.000</div>
+                <div class="course-card-h__rating"><div class="stars">★★★★★</div>&nbsp;4.9</div>
+              </div>
+            </div>
+          </a>
+          <a href="#" class="course-card-h">
+            <div class="course-card-h__thumb" style="background:#D0DDE8;"></div>
+            <div class="course-card-h__body">
+              <div class="course-card-h__title">Mapeo Electroanatómico 3D: Sistemas y Aplicación Clínica</div>
+              <div class="course-card-h__meta">
+                <div class="course-card-h__meta-item">⏱ 24h</div>
+                <div class="course-card-h__meta-item">💻 Virtual</div>
+                <div class="course-card-h__meta-item"><span class="badge badge--neutral" style="font-size:10px;">Intermedio</span></div>
+              </div>
+              <div class="course-card-h__footer">
+                <div class="course-card-h__price">$760.000</div>
+                <div class="course-card-h__rating"><div class="stars">★★★★☆</div>&nbsp;4.7</div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="school-footer">
+          <span class="school-footer__count">Mostrando 3 de <strong>8 cursos</strong> en Electrofisiología</span>
+          <a href="#" class="btn btn--secondary btn--md">Ver los 8 cursos de Electrofisiología →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Indicador de más escuelas -->
+    <div style="text-align:center; padding:48px 0 0; color:var(--text-tertiary); font-size:14px; font-style:italic;">
+      ↓ &nbsp; Continúa con Ecocardiografía · Imagen Cardíaca · Insuficiencia Cardíaca · Prevención CV
+    </div>
+
+    <!-- ══ F. CTA INSTITUCIONAL ════════════════════════════ -->
+    <div id="s06">
+      <div class="wf-label" style="margin-top:64px;">F · CTA institucional — al final del catálogo · propuesta para hospitales y clínicas</div>
+      <div class="cta-institutions">
+        <div>
+          <div class="cta-institutions__eyebrow">Para instituciones</div>
+          <div class="cta-institutions__title">¿Quieres capacitar a todo tu equipo?</div>
+          <p class="cta-institutions__sub">Acceso ilimitado al catálogo, gestión de equipos, reportes de progreso y contenido a medida para hospitales y clínicas. Facturación corporativa disponible.</p>
+        </div>
+        <div class="cta-institutions__actions">
+          <a href="#" class="btn btn--danger btn--lg">Contactar ventas</a>
+          <a href="#" class="btn btn--outline-white btn--lg" style="color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.3);">Ver planes institucionales</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

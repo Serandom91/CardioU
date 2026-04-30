@@ -1,0 +1,202 @@
+/*
+ * ============================================================
+ *  LACARDIO — TOKENS DE CLIENTE
+ *  Clínica CardioInfantil · Fundación CardioInfantil
+ *
+ *  Este archivo extiende tokens.css con la identidad
+ *  específica de la marca LaCardio.
+ *
+ *  Uso:
+ *    <link rel="stylesheet" href="tokens.css">
+ *    <link rel="stylesheet" href="lacardio-tokens.css">
+ *
+ *  Para la variante Fundación, añadir también:
+ *    <link rel="stylesheet" href="lacardio-fundacion.css">
+ * ============================================================
+ */
+
+/* ── Importa el sistema base ──────────────────────────────── */
+@import url('tokens.css');
+
+
+:root {
+
+  /* ══════════════════════════════════════════════════════════
+     BRAND — CLÍNICA (por defecto)
+     Azul institucional. Confirma y documenta que el
+     sistema genérico ya refleja estos valores.
+  ══════════════════════════════════════════════════════════ */
+
+  --color-brand-primary:        #002d72;  /* Blue/500 */
+  --color-brand-primary-hover:  #00245c;  /* Blue/600 */
+  --color-brand-primary-active: #001b45;  /* Blue/700 */
+  --color-brand-primary-subtle: #e5ebf6;  /* Blue/50  */
+  --color-brand-primary-on:     #ffffff;
+
+  /* ══════════════════════════════════════════════════════════
+     BRAND — SECUNDARIO (Fundación)
+     Rojo institucional. Se activa en lacardio-fundacion.css.
+     Documentado aquí para centralizar la paleta de marca.
+  ══════════════════════════════════════════════════════════ */
+
+  --color-brand-secondary:        #e40046;  /* Red/500 */
+  --color-brand-secondary-hover:  #b70038;  /* Red/600 */
+  --color-brand-secondary-active: #8a002a;  /* Red/700 */
+  --color-brand-secondary-subtle: #fee5eb;  /* Red/50  */
+  --color-brand-secondary-on:     #ffffff;
+
+  /* ══════════════════════════════════════════════════════════
+     TIPOGRAFÍA — LaCardio / CardioU
+     Verificado en Figma: Tokens--LaCardio (node 21:37)
+
+       · Fira Sans  → TODOS los headings (H1–H6) + Eyebrow
+       · Open Sans  → párrafos, captions y botones
+       · Inter      → UI cromática (nav, labels, badges)
+       · IBM Plex Mono → datos clínicos / código
+  ══════════════════════════════════════════════════════════ */
+
+  --font-sans:    'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Fira Sans', 'Inter', sans-serif;
+  --font-body:    'Open Sans', 'Inter', sans-serif;
+  --font-mono:    'IBM Plex Mono', 'SF Mono', 'Fira Code', monospace;
+
+  /* ── HEADINGS — Fira Sans · Desktop ───────────────────────
+     letter-spacing en PERCENT de Figma → em en CSS
+     (Figma -1% @ Xpx = -0.01em en CSS)
+  ─────────────────────────────────────────────────────────── */
+  --text-h1-family:  var(--font-display);
+  --text-h1-size:    46px;
+  --text-h1-weight:  400;       /* Regular */
+  --text-h1-lh:      56px;
+  --text-h1-ls:      0em;
+
+  --text-h2-family:  var(--font-display);
+  --text-h2-size:    40px;
+  --text-h2-weight:  500;       /* Medium */
+  --text-h2-lh:      52px;
+  --text-h2-ls:      -0.01em;
+
+  --text-h3-family:  var(--font-display);
+  --text-h3-size:    36px;
+  --text-h3-weight:  500;
+  --text-h3-lh:      44px;
+  --text-h3-ls:      -0.01em;
+
+  --text-h4-family:  var(--font-display);
+  --text-h4-size:    32px;
+  --text-h4-weight:  500;
+  --text-h4-lh:      41px;
+  --text-h4-ls:      -0.01em;
+
+  --text-h5-family:  var(--font-display);
+  --text-h5-size:    24px;
+  --text-h5-weight:  500;
+  --text-h5-lh:      32px;
+  --text-h5-ls:      -0.01em;
+
+  --text-h6-family:  var(--font-display);
+  --text-h6-size:    20px;
+  --text-h6-weight:  500;
+  --text-h6-lh:      28px;
+  --text-h6-ls:      0em;
+
+  /* ── HEADINGS — Fira Sans · Mobile ────────────────────── */
+  --text-h1-mobile-size:   37px;
+  --text-h1-mobile-weight: 400;
+  --text-h1-mobile-lh:     45px;
+  --text-h1-mobile-ls:     0em;
+
+  --text-h2-mobile-size:   32px;
+  --text-h2-mobile-weight: 500;
+  --text-h2-mobile-lh:     40px;
+  --text-h2-mobile-ls:     -0.01em;
+
+  --text-h3-mobile-size:   26px;
+  --text-h3-mobile-weight: 500;
+  --text-h3-mobile-lh:     31px;
+  --text-h3-mobile-ls:     -0.01em;
+
+  --text-h4-mobile-size:   24px;
+  --text-h4-mobile-weight: 500;
+  --text-h4-mobile-lh:     30px;
+  --text-h4-mobile-ls:     -0.01em;
+
+  --text-h5-mobile-size:   21px;
+  --text-h5-mobile-weight: 500;
+  --text-h5-mobile-lh:     27px;
+  --text-h5-mobile-ls:     -0.01em;
+
+  /* ── BODY — Open Sans ──────────────────────────────────── */
+  --text-body-size:        18px;
+  --text-body-weight:      400;       /* Regular */
+  --text-body-lh:          24px;
+  --text-body-ls:          0.015em;   /* Figma +1.5% */
+
+  --text-body-bold-size:   18px;
+  --text-body-bold-weight: 700;       /* Bold */
+  --text-body-bold-lh:     24px;
+  --text-body-bold-ls:     -0.02em;   /* Figma -2% */
+
+  --text-body-sm-size:     14px;
+  --text-body-sm-weight:   400;
+  --text-body-sm-lh:       20px;
+  --text-body-sm-ls:       0.015em;
+
+  --text-body-sm-bold-size:   14px;
+  --text-body-sm-bold-weight: 700;
+  --text-body-sm-bold-lh:     20px;
+  --text-body-sm-bold-ls:     -0.01em;
+
+  --text-caption-size:     12px;
+  --text-caption-weight:   400;
+  --text-caption-lh:       18px;
+  --text-caption-ls:       0.005em;   /* Figma +0.5% */
+
+  /* ── EYEBROW — Fira Sans Regular · UPPERCASE ──────────── */
+  --text-eyebrow-family:    var(--font-display);
+  --text-eyebrow-size:      14px;
+  --text-eyebrow-weight:    400;
+  --text-eyebrow-lh:        14px;
+  --text-eyebrow-ls:        0.26em;   /* Figma +26% */
+  --text-eyebrow-transform: uppercase;
+
+  /* ── BUTTONS — Open Sans Bold ──────────────────────────── */
+  --text-btn-family:  var(--font-body);
+  --text-btn-size:    18px;
+  --text-btn-weight:  700;
+  --text-btn-lh:      24px;
+  --text-btn-ls:      -0.02em;        /* Figma -2% */
+
+  /* ══════════════════════════════════════════════════════════
+     COMPONENTES — LaCardio específicos
+     Extensiones sobre los tokens base del sistema genérico.
+  ══════════════════════════════════════════════════════════ */
+
+  /* Navbar LaCardio */
+  --navbar-height: 64px;  /* Spacing/3XL — altura estándar del header */
+
+  /* Header Clínica — bottom bar mobile */
+  --header-clinica-bar-bg:   var(--color-brand-primary);        /* azul */
+  --header-clinica-bar-text: var(--color-brand-primary-on);
+
+  /* Header Fundación — bottom bar mobile */
+  --header-fundacion-bar-bg:   var(--color-brand-secondary);    /* rojo */
+  --header-fundacion-bar-text: var(--color-brand-secondary-on);
+
+}
+
+
+/*
+ * ══════════════════════════════════════════════════════════
+ *  TEMA OSCURO (scaffold — completar cuando aplique)
+ * ══════════════════════════════════════════════════════════
+ *
+ * @media (prefers-color-scheme: dark) {
+ *   :root {
+ *     --color-bg-page:    #0f0f0f;
+ *     --color-bg-surface: #1a1a1a;
+ *     --color-text-primary:   #f4f3f0;
+ *     --color-text-secondary: #a4a3a0;
+ *   }
+ * }
+ */

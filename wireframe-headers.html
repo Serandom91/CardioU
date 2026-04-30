@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CardioU — Header Exploration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --brand-primary:        #002D72;
+      --brand-primary-hover:  #00245C;
+      --brand-primary-subtle: #E5EBEF;
+      --brand-secondary:      #E40046;
+      --brand-secondary-hover:#B70038;
+      --brand-secondary-subtle:#FEE5EB;
+
+      --text-primary:   #1A1A1A;
+      --text-secondary: #5F5E5A;
+      --text-tertiary:  #888780;
+
+      --bg-page:    #F4F3F0;
+      --bg-surface: #FFFFFF;
+      --border:     rgba(0,0,0,0.10);
+      --border-md:  rgba(0,0,0,0.16);
+
+      --radius-sm:  4px;
+      --radius-md:  8px;
+      --radius-lg:  12px;
+      --radius-full:9999px;
+
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.07);
+      --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+
+      --font:         'Inter', system-ui, sans-serif;
+      --font-display: 'Fira Sans', 'Inter', sans-serif;
+      --font-body:    'Open Sans', 'Inter', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-body); background: #E8E7E4; color: var(--text-primary); }
+    .max-w { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+    /* ─── ANNOTATION ─────────────────────────────────────────── */
+    .wf-section {
+      padding: 48px 0 0;
+    }
+    .wf-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #1A1A1A; color: #FFEC3E;
+      font-family: var(--font); font-size: 10px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 5px 12px; border-radius: var(--radius-sm);
+      margin-bottom: 12px;
+    }
+    .wf-title {
+      font-family: var(--font-display); font-size: 22px; font-weight: 500;
+      color: #1A1A1A; margin-bottom: 4px;
+    }
+    .wf-desc {
+      font-family: var(--font-body); font-size: 14px; color: #5F5E5A;
+      margin-bottom: 20px; line-height: 1.6;
+    }
+    .wf-canvas {
+      border-radius: 12px 12px 0 0;
+      overflow: hidden;
+      box-shadow: 0 -2px 0 0 #FFEC3E, 0 8px 32px rgba(0,0,0,0.14);
+    }
+
+    /* ─── SHARED ATOMS ───────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      font-family: var(--font-body); font-weight: 700; cursor: pointer;
+      border: 1px solid transparent; text-decoration: none; white-space: nowrap;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .btn--sm  { font-size: 12px; padding: 5px 14px;  border-radius: var(--radius-full); }
+    .btn--md  { font-size: 13px; padding: 7px 18px;  border-radius: var(--radius-full); }
+    .btn--lg  { font-size: 15px; padding: 10px 24px; border-radius: var(--radius-full); }
+
+    .btn--primary       { background: var(--brand-primary);   color: #fff; }
+    .btn--primary:hover { background: var(--brand-primary-hover); }
+    .btn--danger        { background: var(--brand-secondary); color: #fff; }
+    .btn--danger:hover  { background: var(--brand-secondary-hover); }
+    .btn--secondary     { background: transparent; color: var(--brand-primary); border-color: var(--brand-primary); }
+    .btn--secondary:hover { background: var(--brand-primary-subtle); }
+    .btn--ghost-dark    { background: transparent; color: rgba(255,255,255,0.75); border: 1px solid rgba(255,255,255,0.25); }
+    .btn--ghost-dark:hover { color: #fff; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); }
+    .btn--solid-white   { background: #fff; color: var(--brand-primary); }
+    .btn--solid-white:hover { background: var(--brand-primary-subtle); }
+
+    /* Icon button */
+    .icon-btn {
+      width: 36px; height: 36px; border-radius: var(--radius-md);
+      border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+    }
+
+    /* Badge */
+    .badge-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--brand-secondary);
+      position: absolute; top: 6px; right: 6px;
+      border: 1.5px solid currentColor;
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       OPCIÓN A — Marketing Clean
+       Logo izquierda · todo lo demás derecha
+       Referencia: Platzi, Coderhouse
+    ═══════════════════════════════════════════════════════════ */
+
+    .nav-a {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .nav-a__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .nav-a__logo img { height: 34px; width: auto; display: block; }
+    .nav-a__right { display: flex; align-items: center; gap: 24px; }
+    .nav-a__links { display: flex; align-items: center; gap: 2px; }
+
+    .nav-a__link {
+      font-family: var(--font); font-size: 14px; color: var(--text-secondary);
+      text-decoration: none; padding: 6px 12px; border-radius: var(--radius-md);
+      transition: color 0.15s, background 0.15s;
+      display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;
+    }
+    .nav-a__link:hover { color: var(--text-primary); background: var(--bg-page); }
+
+    .nav-a__dropdown { position: relative; }
+    .nav-a__dropdown-menu {
+      display: none; position: absolute; top: calc(100% + 10px); left: 0;
+      background: #fff; border: 1px solid var(--border-md);
+      border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
+      min-width: 230px; padding: 8px; z-index: 50;
+    }
+    .nav-a__dropdown:hover .nav-a__dropdown-menu { display: flex; flex-direction: column; }
+    .nav-a__dropdown-label {
+      font-family: var(--font); font-size: 10px; font-weight: 700;
+      color: var(--text-tertiary); letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 6px 10px 4px;
+    }
+    .nav-a__dropdown-item {
+      font-family: var(--font); font-size: 13px; color: var(--text-secondary);
+      text-decoration: none; padding: 8px 10px; border-radius: var(--radius-md);
+      transition: all 0.15s; display: flex; align-items: center; gap: 8px;
+    }
+    .nav-a__dropdown-item:hover { color: var(--brand-primary); background: var(--brand-primary-subtle); }
+    .nav-a__dropdown-icon {
+      width: 28px; height: 28px; border-radius: var(--radius-sm);
+      background: var(--brand-primary-subtle);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; color: var(--brand-primary); font-size: 13px;
+    }
+    .nav-a__sep { width: 1px; height: 28px; background: var(--border-md); }
+    .nav-a__chevron { width: 13px; height: 13px; transition: transform 0.2s; }
+    .nav-a__dropdown:hover .nav-a__chevron { transform: rotate(180deg); }
+
+    .nav-a__search { position: relative; }
+    .nav-a__search-icon {
+      position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+      color: var(--text-tertiary); pointer-events: none; display: flex;
+    }
+    .nav-a__search-input {
+      height: 36px; width: 200px; padding: 0 12px 0 32px;
+      font-family: var(--font-body); font-size: 13px; color: var(--text-primary);
+      background: var(--bg-page); border: 1px solid var(--border-md);
+      border-radius: var(--radius-full); outline: none;
+      transition: width 0.2s, border-color 0.15s, box-shadow 0.15s;
+    }
+    .nav-a__search-input::placeholder { color: var(--text-tertiary); }
+    .nav-a__search-input:focus {
+      width: 260px; border-color: var(--brand-primary);
+      box-shadow: 0 0 0 3px rgba(0,45,114,0.08);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       OPCIÓN B — Dashboard / Producto
+       Barra oscura · búsqueda central · acciones de usuario
+       Referencia: Notion, Linear, Figma app
+    ═══════════════════════════════════════════════════════════ */
+
+    .nav-b {
+      background: #0E1521;
+      height: 56px;
+      display: flex; align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      position: relative;
+    }
+    .nav-b::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px; background: var(--brand-secondary);
+    }
+    .nav-b__inner {
+      display: flex; align-items: center;
+      justify-content: space-between; width: 100%;
+    }
+
+    /* Left */
+    .nav-b__left { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+    .nav-b__logo { display: flex; align-items: center; text-decoration: none; }
+    .nav-b__logo img { height: 28px; width: auto; filter: brightness(0) invert(1); }
+    .nav-b__divider { width: 1px; height: 20px; background: rgba(255,255,255,0.15); }
+    .nav-b__context {
+      display: flex; align-items: center; gap: 6px;
+      font-family: var(--font); font-size: 13px; color: rgba(255,255,255,0.5);
+    }
+    .nav-b__context-page {
+      color: rgba(255,255,255,0.9); font-weight: 500;
+    }
+    .nav-b__nav { display: flex; align-items: center; gap: 2px; }
+    .nav-b__link {
+      font-family: var(--font); font-size: 13px; color: rgba(255,255,255,0.55);
+      text-decoration: none; padding: 5px 10px; border-radius: var(--radius-md);
+      transition: color 0.15s, background 0.15s; white-space: nowrap;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .nav-b__link:hover { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.08); }
+    .nav-b__link--active {
+      color: #fff; background: rgba(255,255,255,0.12);
+    }
+    .nav-b__chevron { width: 12px; height: 12px; transition: transform 0.2s; }
+
+    /* Center search */
+    .nav-b__search { position: relative; flex: 0 1 380px; }
+    .nav-b__search-icon {
+      position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+      color: rgba(255,255,255,0.35); pointer-events: none; display: flex;
+    }
+    .nav-b__search-kbd {
+      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.4);
+      font-family: var(--font); font-size: 10px; font-weight: 600;
+      padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15);
+    }
+    .nav-b__search-input {
+      width: 100%; height: 34px; padding: 0 44px 0 32px;
+      font-family: var(--font-body); font-size: 13px;
+      color: rgba(255,255,255,0.85);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-md); outline: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .nav-b__search-input::placeholder { color: rgba(255,255,255,0.35); }
+    .nav-b__search-input:focus {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.3);
+    }
+
+    /* Right */
+    .nav-b__right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .nav-b__icon-btn {
+      width: 34px; height: 34px; border-radius: var(--radius-md); border: none;
+      background: transparent; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.5); transition: color 0.15s, background 0.15s;
+      position: relative;
+    }
+    .nav-b__icon-btn:hover { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.08); }
+    .nav-b__notif-dot {
+      position: absolute; top: 7px; right: 7px;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--brand-secondary); border: 1.5px solid #0E1521;
+    }
+    .nav-b__progress {
+      display: flex; align-items: center; gap: 8px;
+      padding: 5px 10px; border-radius: var(--radius-md);
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      cursor: pointer; transition: background 0.15s;
+    }
+    .nav-b__progress:hover { background: rgba(255,255,255,0.1); }
+    .nav-b__progress-label {
+      font-family: var(--font); font-size: 12px; color: rgba(255,255,255,0.6);
+    }
+    .nav-b__progress-bar-wrap {
+      width: 60px; height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px;
+    }
+    .nav-b__progress-bar {
+      height: 100%; width: 40%; background: #22C55E; border-radius: 2px;
+    }
+    .nav-b__progress-pct {
+      font-family: var(--font); font-size: 11px; font-weight: 700; color: #22C55E;
+    }
+    .nav-b__sep { width: 1px; height: 20px; background: rgba(255,255,255,0.1); }
+    .nav-b__avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--brand-secondary);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font); font-size: 12px; font-weight: 700; color: #fff;
+      cursor: pointer; border: 2px solid rgba(255,255,255,0.15);
+      transition: border-color 0.15s;
+      flex-shrink: 0;
+    }
+    .nav-b__avatar:hover { border-color: rgba(255,255,255,0.4); }
+
+    /* ═══════════════════════════════════════════════════════════
+       OPCIÓN C — Institucional dos niveles
+       Top utility bar + Main nav
+       Referencia: hospitales, portales médicos premium
+    ═══════════════════════════════════════════════════════════ */
+
+    .nav-c { display: flex; flex-direction: column; }
+
+    /* Top utility bar */
+    .nav-c__topbar {
+      background: var(--brand-primary);
+      height: 36px; display: flex; align-items: center;
+    }
+    .nav-c__topbar-inner {
+      display: flex; align-items: center; justify-content: space-between; width: 100%;
+    }
+    .nav-c__topbar-left { display: flex; align-items: center; gap: 20px; }
+    .nav-c__topbar-item {
+      font-family: var(--font); font-size: 12px; color: rgba(255,255,255,0.65);
+      display: flex; align-items: center; gap: 5px; text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-c__topbar-item:hover { color: #fff; }
+    .nav-c__topbar-sep { width: 1px; height: 12px; background: rgba(255,255,255,0.2); }
+    .nav-c__topbar-right { display: flex; align-items: center; gap: 4px; }
+    .nav-c__topbar-btn {
+      font-family: var(--font); font-size: 12px; color: rgba(255,255,255,0.65);
+      text-decoration: none; padding: 3px 10px; border-radius: var(--radius-sm);
+      transition: color 0.15s, background 0.15s;
+    }
+    .nav-c__topbar-btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
+    .nav-c__topbar-btn--cta {
+      color: #fff; background: var(--brand-secondary); padding: 3px 12px;
+      border-radius: var(--radius-full); font-weight: 700;
+    }
+    .nav-c__topbar-btn--cta:hover { background: var(--brand-secondary-hover); }
+
+    /* Main nav */
+    .nav-c__main {
+      background: #fff;
+      height: 80px; display: flex; align-items: center;
+      border-bottom: 3px solid var(--brand-secondary);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .nav-c__main-inner {
+      display: flex; align-items: center; justify-content: space-between; width: 100%;
+    }
+    .nav-c__logo { display: flex; align-items: center; text-decoration: none; }
+    .nav-c__logo img { height: 42px; width: auto; }
+    .nav-c__right { display: flex; align-items: center; gap: 32px; }
+    .nav-c__links { display: flex; align-items: center; gap: 0; }
+    .nav-c__link {
+      font-family: var(--font); font-size: 15px; font-weight: 500;
+      color: var(--text-secondary); text-decoration: none;
+      padding: 8px 16px; position: relative;
+      display: inline-flex; align-items: center; gap: 4px;
+      transition: color 0.15s;
+    }
+    .nav-c__link::after {
+      content: ''; position: absolute; bottom: -3px; left: 16px; right: 16px;
+      height: 3px; background: var(--brand-primary);
+      transform: scaleX(0); transition: transform 0.2s;
+    }
+    .nav-c__link:hover { color: var(--brand-primary); }
+    .nav-c__link:hover::after { transform: scaleX(1); }
+    .nav-c__link--active { color: var(--brand-primary); font-weight: 600; }
+    .nav-c__link--active::after { transform: scaleX(1); }
+
+    .nav-c__dropdown { position: relative; }
+    .nav-c__dropdown-menu {
+      display: none; position: absolute; top: calc(100% + 6px); left: 0;
+      background: #fff; border: 1px solid var(--border-md);
+      border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
+      min-width: 260px; padding: 8px; z-index: 50;
+      border-top: 3px solid var(--brand-primary);
+    }
+    .nav-c__dropdown:hover .nav-c__dropdown-menu { display: flex; flex-direction: column; }
+    .nav-c__dropdown-label {
+      font-family: var(--font-display); font-size: 10px; font-weight: 400;
+      color: var(--text-tertiary); letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 6px 10px 4px;
+    }
+    .nav-c__dropdown-item {
+      font-family: var(--font); font-size: 14px; color: var(--text-secondary);
+      text-decoration: none; padding: 9px 12px; border-radius: var(--radius-md);
+      transition: all 0.15s; display: flex; align-items: center; gap: 10px;
+    }
+    .nav-c__dropdown-item:hover { color: var(--brand-primary); background: var(--brand-primary-subtle); }
+    .nav-c__chevron { width: 13px; height: 13px; transition: transform 0.2s; }
+    .nav-c__dropdown:hover .nav-c__chevron { transform: rotate(180deg); }
+
+    /* Spacer between sections */
+    .spacer { height: 64px; }
+    .spacer--sm { height: 32px; }
+
+    /* Annotation notes */
+    .wf-notes {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 12px; padding: 20px 0 48px;
+    }
+    .wf-note {
+      background: #fff; border-radius: var(--radius-md);
+      padding: 14px 16px; border-left: 3px solid #FFEC3E;
+    }
+    .wf-note__label {
+      font-family: var(--font); font-size: 10px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-tertiary);
+      margin-bottom: 4px;
+    }
+    .wf-note__text {
+      font-family: var(--font-body); font-size: 13px; color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Page header */
+    .page-header {
+      background: #1A1A1A; padding: 32px 0 28px;
+    }
+    .page-header__inner { display: flex; align-items: flex-start; justify-content: space-between; }
+    .page-header__eyebrow {
+      font-family: var(--font-display); font-size: 11px; font-weight: 400;
+      letter-spacing: 0.26em; text-transform: uppercase; color: var(--brand-secondary);
+      margin-bottom: 8px;
+    }
+    .page-header__title {
+      font-family: var(--font-display); font-size: 28px; font-weight: 400;
+      color: #fff; line-height: 1.2;
+    }
+    .page-header__meta {
+      font-family: var(--font-body); font-size: 13px; color: rgba(255,255,255,0.45);
+      margin-top: 4px;
+    }
+    .page-header__pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+    .page-header__pill {
+      font-family: var(--font); font-size: 11px; font-weight: 600;
+      padding: 3px 10px; border-radius: var(--radius-full);
+      background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.6);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     PAGE TITLE
+══════════════════════════════════════════ -->
+<div class="page-header">
+  <div class="max-w page-header__inner">
+    <div>
+      <div class="page-header__eyebrow">Exploración</div>
+      <h1 class="page-header__title">Variantes de Header — CardioU</h1>
+      <p class="page-header__meta">3 propuestas · wireframe interactivo · hover los menús para ver estados</p>
+    </div>
+    <div class="page-header__pills">
+      <span class="page-header__pill">A · Marketing</span>
+      <span class="page-header__pill">B · Dashboard</span>
+      <span class="page-header__pill">C · Institucional</span>
+    </div>
+  </div>
+</div>
+
+<div class="max-w">
+
+  <!-- ══════════════════════════════════════════
+       OPCIÓN A — MARKETING CLEAN
+  ══════════════════════════════════════════ -->
+  <div class="wf-section">
+    <span class="wf-tag">Opción A</span>
+    <h2 class="wf-title">Marketing Clean</h2>
+    <p class="wf-desc">Fondo blanco · logo izquierda · nav + búsqueda + CTA a la derecha · minimalista y directo. Parecido a Platzi y Coderhouse. Ideal para páginas de catálogo y conversión.</p>
+  </div>
+</div>
+
+<div class="wf-canvas" style="margin: 0;">
+  <nav class="nav-a">
+    <div class="max-w nav-a__inner">
+
+      <!-- Logo -->
+      <a href="#" class="nav-a__logo">
+        <img src="assets/Cardio_u_Logo.svg" alt="CardioU" />
+      </a>
+
+      <!-- Right group -->
+      <div class="nav-a__right">
+
+        <!-- Links -->
+        <div class="nav-a__links">
+          <div class="nav-a__dropdown">
+            <a href="#" class="nav-a__link">
+              Escuelas
+              <svg class="nav-a__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </a>
+            <div class="nav-a__dropdown-menu">
+              <div class="nav-a__dropdown-label">Especialidades</div>
+              <a href="#" class="nav-a__dropdown-item">
+                <div class="nav-a__dropdown-icon">🫀</div>
+                Cardiología Intervencionista
+              </a>
+              <a href="#" class="nav-a__dropdown-item">
+                <div class="nav-a__dropdown-icon">⚡</div>
+                Electrofisiología
+              </a>
+              <a href="#" class="nav-a__dropdown-item">
+                <div class="nav-a__dropdown-icon">🔬</div>
+                Ecocardiografía
+              </a>
+              <a href="#" class="nav-a__dropdown-item">
+                <div class="nav-a__dropdown-icon">🧬</div>
+                Imagen Cardíaca
+              </a>
+              <a href="#" class="nav-a__dropdown-item">
+                <div class="nav-a__dropdown-icon">💊</div>
+                Insuficiencia Cardíaca
+              </a>
+              <a href="#" class="nav-a__dropdown-item">
+                <div class="nav-a__dropdown-icon">🛡️</div>
+                Prevención Cardiovascular
+              </a>
+            </div>
+          </div>
+          <a href="#" class="nav-a__link">Acerca de nosotros</a>
+        </div>
+
+        <div class="nav-a__sep"></div>
+
+        <!-- Search -->
+        <div class="nav-a__search">
+          <span class="nav-a__search-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </span>
+          <input class="nav-a__search-input" type="text" placeholder="Buscar cursos…" />
+        </div>
+
+        <!-- CTA -->
+        <a href="#" class="btn btn--danger btn--md">Inscribirme</a>
+
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div class="max-w">
+  <div class="wf-notes">
+    <div class="wf-note">
+      <div class="wf-note__label">Fortaleza</div>
+      <div class="wf-note__text">Máxima claridad. El CTA rojo destaca solo sobre blanco. Familiar para usuarios de plataformas EdTech.</div>
+    </div>
+    <div class="wf-note">
+      <div class="wf-note__label">Debilidad</div>
+      <div class="wf-note__text">Puede sentirse genérico. No diferencia a CardioU del resto del ecosistema digital de LaCardio.</div>
+    </div>
+    <div class="wf-note">
+      <div class="wf-note__label">Mejor para</div>
+      <div class="wf-note__text">Landing page de adquisición donde el objetivo es vender el primer curso rápido.</div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       OPCIÓN B — DASHBOARD / PRODUCTO
+  ══════════════════════════════════════════ -->
+  <div class="wf-section">
+    <span class="wf-tag">Opción B</span>
+    <h2 class="wf-title">Dashboard / Producto</h2>
+    <p class="wf-desc">Barra oscura tipo app · búsqueda al centro · progreso del usuario y avatar a la derecha · franja roja en el bottom. Referencia: Notion, Linear, Figma. Comunica plataforma seria, no solo un catálogo.</p>
+  </div>
+</div>
+
+<div class="wf-canvas">
+  <nav class="nav-b">
+    <div class="max-w nav-b__inner">
+
+      <!-- Left: logo + context + nav -->
+      <div class="nav-b__left">
+        <a href="#" class="nav-b__logo">
+          <img src="assets/Cardio_u_Logo.svg" alt="CardioU" />
+        </a>
+        <div class="nav-b__divider"></div>
+        <nav class="nav-b__nav">
+          <a href="#" class="nav-b__link nav-b__link--active">Inicio</a>
+          <div style="position:relative;">
+            <a href="#" class="nav-b__link">
+              Escuelas
+              <svg class="nav-b__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </a>
+          </div>
+          <a href="#" class="nav-b__link">Mis cursos</a>
+          <a href="#" class="nav-b__link">Comunidad</a>
+        </nav>
+      </div>
+
+      <!-- Center: search -->
+      <div class="nav-b__search">
+        <span class="nav-b__search-icon">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </span>
+        <input class="nav-b__search-input" type="text" placeholder="Buscar cursos, especialistas…" />
+        <span class="nav-b__search-kbd">⌘K</span>
+      </div>
+
+      <!-- Right: actions + avatar -->
+      <div class="nav-b__right">
+
+        <!-- Progress indicator -->
+        <div class="nav-b__progress">
+          <span class="nav-b__progress-label">Mi progreso</span>
+          <div class="nav-b__progress-bar-wrap">
+            <div class="nav-b__progress-bar"></div>
+          </div>
+          <span class="nav-b__progress-pct">40%</span>
+        </div>
+
+        <div class="nav-b__sep"></div>
+
+        <!-- Notifications -->
+        <button class="nav-b__icon-btn">
+          <div class="nav-b__notif-dot"></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </button>
+
+        <!-- Avatar -->
+        <div class="nav-b__avatar">JP</div>
+
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div class="max-w">
+  <div class="wf-notes">
+    <div class="wf-note">
+      <div class="wf-note__label">Fortaleza</div>
+      <div class="wf-note__text">Posiciona CardioU como plataforma de producto, no solo un catálogo. El progreso visible impulsa la retención.</div>
+    </div>
+    <div class="wf-note">
+      <div class="wf-note__label">Debilidad</div>
+      <div class="wf-note__text">Asume que el usuario ya está dentro. El menú oscuro puede sentirse frío para un público médico conservador.</div>
+    </div>
+    <div class="wf-note">
+      <div class="wf-note__label">Mejor para</div>
+      <div class="wf-note__text">Vista logueada / área privada del estudiante. Excelente para retención y engagement post-compra.</div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       OPCIÓN C — INSTITUCIONAL DOS NIVELES
+  ══════════════════════════════════════════ -->
+  <div class="wf-section">
+    <span class="wf-tag">Opción C</span>
+    <h2 class="wf-title">Institucional — Dos niveles</h2>
+    <p class="wf-desc">Utility bar azul arriba con datos de contacto · nav principal blanca con logo grande y acento rojo abajo · underline en hover. Referencia: portales hospitalarios premium, Mayo Clinic, Cleveland Clinic. Comunica autoridad y confianza institucional.</p>
+  </div>
+</div>
+
+<div class="wf-canvas">
+  <div class="nav-c">
+
+    <!-- Top utility bar -->
+    <div class="nav-c__topbar">
+      <div class="max-w nav-c__topbar-inner">
+        <div class="nav-c__topbar-left">
+          <a href="#" class="nav-c__topbar-item">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.86a16 16 0 0 0 6.13 6.13l.86-.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            +57 1 330 5555
+          </a>
+          <div class="nav-c__topbar-sep"></div>
+          <a href="#" class="nav-c__topbar-item">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            cardio-u@lacardio.org
+          </a>
+          <div class="nav-c__topbar-sep"></div>
+          <a href="#" class="nav-c__topbar-item">Fundación CardioInfantil</a>
+        </div>
+        <div class="nav-c__topbar-right">
+          <a href="#" class="nav-c__topbar-btn">Iniciar sesión</a>
+          <div class="nav-c__topbar-sep" style="margin:0 4px;"></div>
+          <a href="#" class="nav-c__topbar-btn nav-c__topbar-btn--cta">Inscribirme</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main nav -->
+    <div class="nav-c__main">
+      <div class="max-w nav-c__main-inner">
+
+        <!-- Logo -->
+        <a href="#" class="nav-c__logo">
+          <img src="assets/Cardio_u_Logo.svg" alt="CardioU" />
+        </a>
+
+        <!-- Right -->
+        <div class="nav-c__right">
+          <nav class="nav-c__links">
+            <div class="nav-c__dropdown">
+              <a href="#" class="nav-c__link nav-c__link--active">
+                Escuelas
+                <svg class="nav-c__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </a>
+              <div class="nav-c__dropdown-menu">
+                <div class="nav-c__dropdown-label">Áreas de especialidad</div>
+                <a href="#" class="nav-c__dropdown-item">🫀 Cardiología Intervencionista</a>
+                <a href="#" class="nav-c__dropdown-item">⚡ Electrofisiología</a>
+                <a href="#" class="nav-c__dropdown-item">🔬 Ecocardiografía</a>
+                <a href="#" class="nav-c__dropdown-item">🧬 Imagen Cardíaca</a>
+                <a href="#" class="nav-c__dropdown-item">💊 Insuficiencia Cardíaca</a>
+                <a href="#" class="nav-c__dropdown-item">🛡️ Prevención Cardiovascular</a>
+              </div>
+            </div>
+            <a href="#" class="nav-c__link">Acerca de nosotros</a>
+          </nav>
+
+          <!-- Search compact -->
+          <div class="nav-a__search">
+            <span class="nav-a__search-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </span>
+            <input class="nav-a__search-input" type="text" placeholder="Buscar cursos…" />
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="max-w">
+  <div class="wf-notes">
+    <div class="wf-note">
+      <div class="wf-note__label">Fortaleza</div>
+      <div class="wf-note__text">Transmite autoridad clínica e institucional. El utility bar da señales de confianza (teléfono, email). Refuerza la alianza LaCardio.</div>
+    </div>
+    <div class="wf-note">
+      <div class="wf-note__label">Debilidad</div>
+      <div class="wf-note__text">Ocupa más espacio vertical. El CTA está en la utility bar, menos prominente. Puede sentirse corporativo para residentes jóvenes.</div>
+    </div>
+    <div class="wf-note">
+      <div class="wf-note__label">Mejor para</div>
+      <div class="wf-note__text">Público de especialistas senior o jefes de servicio que valoran el respaldo institucional sobre la inmediatez del producto.</div>
+    </div>
+  </div>
+  <div class="spacer"></div>
+</div>
+
+</body>
+</html>

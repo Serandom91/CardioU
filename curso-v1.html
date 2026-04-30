@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CardioU — Curso v1 · Learning Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-primary:         #002D72;
+      --brand-primary-hover:   #00245C;
+      --brand-primary-subtle:  #E5EBEF;
+      --brand-secondary:       #E40046;
+      --brand-secondary-subtle:#FEE5EB;
+      --text-primary:   #1a1a1a;
+      --text-secondary: #5F5E5A;
+      --text-tertiary:  #888780;
+      --bg-page:    #F4F3F0;
+      --bg-surface: #ffffff;
+      --border:     rgba(0,0,0,0.10);
+      --border-md:  rgba(0,0,0,0.16);
+      --radius-sm:   4px; --radius-md: 8px; --radius-lg: 12px;
+      --radius-xl: 16px; --radius-full: 9999px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.07);
+      --shadow-md: 0 4px 12px rgba(0,0,0,.08);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,.12);
+      --font:         'Inter', system-ui, sans-serif;
+      --font-display: 'Fira Sans', 'Inter', sans-serif;
+      --font-body:    'Open Sans', 'Inter', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--bg-page); color: var(--text-primary); }
+    h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); }
+    .max-w { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* WIREFRAME LABEL */
+    .wf-label {
+      background: #FFE0B2; color: #3E1F00; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px;
+      display: flex; align-items: center; gap: 6px; border-bottom: 1px solid rgba(0,0,0,0.10);
+      position: sticky; top: 0; z-index: 10;
+    }
+    .wf-label::before { content: '◈'; opacity: 0.5; font-size: 9px; }
+    .wf-sidebar-nav {
+      position: fixed; right: 16px; top: 50%; transform: translateY(-50%);
+      background: #FFE0B2; border: 1px solid rgba(150,80,0,0.2);
+      border-radius: var(--radius-lg); padding: 12px 8px; z-index: 9000;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .wf-sidebar-nav__label { font-size: 8px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #3E1F00; text-align: center; margin-bottom: 4px; }
+    .wf-sidebar-nav a { font-size: 9px; font-weight: 600; color: #3E1F00; text-decoration: none; padding: 4px 8px; border-radius: var(--radius-sm); white-space: nowrap; display: block; }
+    .wf-sidebar-nav a:hover { background: rgba(150,80,0,0.12); }
+
+    /* HEADER */
+    .header-sticky { position: sticky; top: 0; z-index: 100; }
+    .topbar { background: var(--brand-primary); height: 36px; display: flex; align-items: center; }
+    .topbar__inner { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+    .topbar__left { display: flex; align-items: center; gap: 20px; }
+    .topbar__item { font-family: var(--font); font-size: 12px; color: rgba(255,255,255,0.65); display: flex; align-items: center; gap: 5px; text-decoration: none; white-space: nowrap; }
+    .topbar__sep { width: 1px; height: 12px; background: rgba(255,255,255,0.2); flex-shrink: 0; }
+    .topbar__right { display: flex; align-items: center; gap: 4px; }
+    .topbar__btn { font-family: var(--font); font-size: 12px; color: rgba(255,255,255,0.65); text-decoration: none; padding: 3px 10px; border-radius: var(--radius-sm); }
+    .topbar__btn--cta { color: #fff; background: var(--brand-secondary); padding: 3px 14px; border-radius: var(--radius-full); font-weight: 700; }
+    .navbar { background: var(--bg-surface); height: 80px; display: flex; align-items: center; border-bottom: 3px solid var(--brand-secondary); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .navbar__inner { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+    .navbar__logo-box { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .navbar__logo-mark { width: 42px; height: 42px; background: var(--brand-primary); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 18px; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .navbar__logo-text { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--brand-primary); }
+    .navbar__logo-text span { color: var(--brand-secondary); }
+    .navbar__right { display: flex; align-items: center; gap: 28px; }
+    .navbar__links { display: flex; align-items: center; }
+    .navbar__link { font-family: var(--font); font-size: 15px; font-weight: 500; color: var(--text-secondary); text-decoration: none; padding: 8px 16px; white-space: nowrap; }
+    .navbar__link--active { color: var(--brand-primary); font-weight: 600; }
+    .navbar__cta { font-family: var(--font-body); font-size: 14px; font-weight: 700; color: #fff; background: var(--brand-secondary); padding: 9px 22px; border-radius: var(--radius-full); text-decoration: none; white-space: nowrap; }
+
+    /* HERO — full-width blue */
+    .course-hero { background: var(--brand-primary); padding: 40px 0 0; }
+    .course-hero__inner { display: grid; grid-template-columns: 1fr 380px; gap: 48px; align-items: start; }
+    .course-hero__body { padding-bottom: 40px; }
+    .course-hero__breadcrumb { display: flex; align-items: center; gap: 6px; font-family: var(--font); font-size: 12px; color: rgba(255,255,255,0.45); margin-bottom: 14px; }
+    .course-hero__breadcrumb span { color: rgba(255,255,255,0.75); }
+    .course-hero__eyebrow { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-display); font-size: 11px; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); border-radius: var(--radius-full); padding: 4px 12px; margin-bottom: 14px; }
+    .course-hero__eyebrow-dot { width: 6px; height: 6px; background: var(--brand-secondary); border-radius: 50%; }
+    .course-hero__h1 { font-family: var(--font-display); font-size: 36px; font-weight: 600; line-height: 1.25; color: #fff; margin-bottom: 12px; }
+    .course-hero__subtitle { font-size: 15px; color: rgba(255,255,255,0.7); line-height: 1.6; margin-bottom: 20px; max-width: 580px; }
+    .course-hero__rating { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .course-hero__stars { color: #F59E0B; font-size: 15px; letter-spacing: -1px; }
+    .course-hero__rating-n { font-family: var(--font); font-size: 15px; font-weight: 700; color: #F59E0B; }
+    .course-hero__rating-c { font-family: var(--font); font-size: 13px; color: rgba(255,255,255,0.5); }
+    .course-hero__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-bottom: 20px; }
+    .course-hero__meta-item { font-family: var(--font); font-size: 13px; color: rgba(255,255,255,0.65); display: flex; align-items: center; gap: 5px; }
+    .course-hero__tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .hero-tag { font-family: var(--font); font-size: 12px; font-weight: 500; padding: 4px 12px; border-radius: var(--radius-full); border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); }
+    .hero-tag--level { background: rgba(228,0,70,0.2); border-color: rgba(228,0,70,0.3); color: #ff7aa0; }
+
+    /* Purchase sidebar card */
+    .purchase-card { position: sticky; top: 116px; background: var(--bg-surface); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); overflow: hidden; margin-top: -20px; }
+    .purchase-card__preview { width: 100%; height: 200px; background: linear-gradient(135deg, #001f4f 0%, #003d8f 100%); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .purchase-card__preview-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
+    .purchase-card__play { position: absolute; width: 52px; height: 52px; background: rgba(255,255,255,0.95); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.2); cursor: pointer; }
+    .purchase-card__preview-label { position: absolute; bottom: 12px; left: 0; right: 0; text-align: center; font-family: var(--font); font-size: 11px; color: rgba(255,255,255,0.8); }
+    .purchase-card__body { padding: 24px; }
+    .purchase-card__price-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+    .purchase-card__price { font-family: var(--font-display); font-size: 32px; font-weight: 700; color: var(--text-primary); }
+    .purchase-card__price-orig { font-family: var(--font); font-size: 16px; color: var(--text-tertiary); text-decoration: line-through; }
+    .purchase-card__discount { font-family: var(--font); font-size: 13px; font-weight: 700; color: var(--brand-secondary); background: var(--brand-secondary-subtle); padding: 2px 8px; border-radius: var(--radius-sm); }
+    .purchase-card__urgency { font-family: var(--font); font-size: 12px; color: var(--brand-secondary); margin-bottom: 18px; display: flex; align-items: center; gap: 5px; }
+    .purchase-card__cta { display: block; width: 100%; padding: 14px; border-radius: var(--radius-full); font-family: var(--font-body); font-size: 16px; font-weight: 700; text-align: center; text-decoration: none; margin-bottom: 10px; cursor: pointer; border: none; }
+    .purchase-card__cta--primary { background: var(--brand-secondary); color: #fff; }
+    .purchase-card__cta--secondary { background: transparent; color: var(--brand-primary); border: 2px solid var(--brand-primary); }
+    .purchase-card__wompi { text-align: center; font-family: var(--font); font-size: 12px; color: var(--text-tertiary); margin-bottom: 20px; }
+    .purchase-card__wompi strong { color: var(--brand-primary); }
+    .purchase-card__includes { border-top: 1px solid var(--border); padding-top: 18px; }
+    .purchase-card__includes-title { font-family: var(--font); font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; }
+    .include-item { display: flex; align-items: center; gap: 10px; font-family: var(--font); font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; }
+    .include-icon { font-size: 15px; flex-shrink: 0; }
+    .purchase-card__guarantee { margin-top: 16px; padding: 12px; background: var(--bg-page); border-radius: var(--radius-md); display: flex; align-items: flex-start; gap: 10px; }
+    .guarantee-icon { font-size: 20px; flex-shrink: 0; }
+    .guarantee-text { font-family: var(--font); font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+    .purchase-card__share { display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 16px; border-top: 1px solid var(--border); padding-top: 16px; }
+    .share-link { font-family: var(--font); font-size: 12px; color: var(--brand-primary); text-decoration: none; font-weight: 600; }
+
+    /* MAIN CONTENT LAYOUT */
+    .course-body { display: grid; grid-template-columns: 1fr 380px; gap: 48px; padding: 40px 0 80px; align-items: start; }
+    .course-main { }
+
+    /* SECTION TABS */
+    .section-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 40px; position: sticky; top: 116px; background: var(--bg-page); z-index: 50; padding-top: 8px; }
+    .section-tab { font-family: var(--font); font-size: 14px; font-weight: 500; color: var(--text-secondary); padding: 10px 20px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; white-space: nowrap; }
+    .section-tab--active { color: var(--brand-primary); font-weight: 700; border-bottom-color: var(--brand-primary); }
+
+    /* SECTION: Outcomes */
+    .section { margin-bottom: 48px; }
+    .section__title { font-family: var(--font-display); font-size: 24px; font-weight: 600; color: var(--text-primary); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); }
+    .outcomes-box { background: var(--bg-surface); border: 1.5px solid var(--border); border-radius: var(--radius-xl); padding: 28px; }
+    .outcomes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .outcome-item { display: flex; align-items: flex-start; gap: 10px; font-family: var(--font-body); font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+    .outcome-check { width: 20px; height: 20px; background: var(--brand-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; flex-shrink: 0; margin-top: 1px; }
+
+    /* SECTION: Description */
+    .description-text { font-family: var(--font-body); font-size: 15px; color: var(--text-secondary); line-height: 1.75; }
+    .description-text p { margin-bottom: 12px; }
+    .target-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--brand-primary-subtle); border: 1px solid rgba(0,45,114,0.15); border-radius: var(--radius-full); padding: 6px 14px; font-family: var(--font); font-size: 13px; color: var(--brand-primary); font-weight: 500; margin: 4px 4px 4px 0; }
+
+    /* SECTION: Curriculum */
+    .curriculum-summary { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
+    .curriculum-stat { font-family: var(--font); font-size: 13px; color: var(--text-secondary); }
+    .curriculum-stat strong { color: var(--text-primary); font-weight: 600; }
+    .module { background: var(--bg-surface); border: 1.5px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 8px; overflow: hidden; }
+    .module__header { display: flex; align-items: center; gap: 12px; padding: 16px 20px; cursor: pointer; }
+    .module__arrow { font-size: 12px; color: var(--text-tertiary); transition: transform 0.2s; flex-shrink: 0; }
+    .module--open .module__arrow { transform: rotate(90deg); }
+    .module__num { font-family: var(--font); font-size: 11px; font-weight: 700; color: var(--brand-primary); background: var(--brand-primary-subtle); width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .module__info { flex: 1; }
+    .module__name { font-family: var(--font-display); font-size: 15px; font-weight: 600; color: var(--text-primary); }
+    .module__meta { font-family: var(--font); font-size: 12px; color: var(--text-tertiary); margin-top: 2px; }
+    .module__lessons { border-top: 1px solid var(--border); display: none; }
+    .module--open .module__lessons { display: block; }
+    .lesson { display: flex; align-items: center; gap: 12px; padding: 11px 20px 11px 58px; border-bottom: 1px solid var(--border); }
+    .lesson:last-child { border-bottom: none; }
+    .lesson__icon { font-size: 14px; flex-shrink: 0; color: var(--text-tertiary); }
+    .lesson__name { flex: 1; font-family: var(--font); font-size: 13px; color: var(--text-secondary); }
+    .lesson__preview { font-family: var(--font); font-size: 11px; color: var(--brand-primary); font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .lesson__duration { font-family: var(--font); font-size: 12px; color: var(--text-tertiary); white-space: nowrap; }
+
+    /* SECTION: Instructor */
+    .instructor-card { background: var(--bg-surface); border: 1.5px solid var(--border); border-radius: var(--radius-xl); padding: 28px; display: flex; gap: 24px; align-items: flex-start; }
+    .instructor-avatar { width: 96px; height: 96px; border-radius: 50%; background: var(--brand-primary); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 32px; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .instructor-info { flex: 1; }
+    .instructor-name { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--text-primary); margin-bottom: 3px; }
+    .instructor-title { font-size: 13px; color: var(--brand-primary); font-weight: 600; margin-bottom: 12px; }
+    .instructor-stats { display: flex; gap: 20px; margin-bottom: 14px; flex-wrap: wrap; }
+    .instructor-stat { font-family: var(--font); font-size: 13px; color: var(--text-secondary); display: flex; align-items: center; gap: 5px; }
+    .instructor-bio { font-family: var(--font-body); font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
+    .instructor-certs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .cert-badge { font-family: var(--font); font-size: 11px; font-weight: 600; color: var(--brand-primary); background: var(--brand-primary-subtle); border: 1px solid rgba(0,45,114,0.15); border-radius: var(--radius-full); padding: 4px 12px; }
+
+    /* SECTION: Reviews */
+    .reviews-aggregate { display: flex; gap: 32px; align-items: center; background: var(--bg-surface); border: 1.5px solid var(--border); border-radius: var(--radius-xl); padding: 28px; margin-bottom: 24px; }
+    .reviews-big { text-align: center; flex-shrink: 0; }
+    .reviews-big__n { font-family: var(--font-display); font-size: 56px; font-weight: 700; color: var(--brand-primary); line-height: 1; }
+    .reviews-big__stars { color: #F59E0B; font-size: 20px; letter-spacing: -1px; margin-top: 4px; }
+    .reviews-big__label { font-family: var(--font); font-size: 12px; color: var(--text-tertiary); margin-top: 4px; }
+    .reviews-bars { flex: 1; }
+    .review-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+    .review-bar__label { font-family: var(--font); font-size: 12px; color: var(--text-secondary); white-space: nowrap; width: 36px; text-align: right; }
+    .review-bar__track { flex: 1; height: 6px; background: var(--bg-page); border-radius: 3px; overflow: hidden; }
+    .review-bar__fill { height: 100%; background: #F59E0B; border-radius: 3px; }
+    .review-bar__pct { font-family: var(--font); font-size: 11px; color: var(--text-tertiary); width: 28px; }
+    .review-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .review-card { background: var(--bg-surface); border: 1.5px solid var(--border); border-radius: var(--radius-lg); padding: 20px; }
+    .review-card__header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .review-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--brand-primary-subtle); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--brand-primary); flex-shrink: 0; }
+    .review-meta { }
+    .review-name { font-family: var(--font); font-size: 14px; font-weight: 600; color: var(--text-primary); }
+    .review-date { font-family: var(--font); font-size: 11px; color: var(--text-tertiary); }
+    .review-stars { color: #F59E0B; font-size: 13px; margin-bottom: 8px; }
+    .review-text { font-family: var(--font-body); font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+    /* SECTION: FAQ */
+    .faq-item { background: var(--bg-surface); border: 1.5px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 8px; overflow: hidden; }
+    .faq-q { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 20px; cursor: pointer; font-family: var(--font-display); font-size: 15px; font-weight: 600; color: var(--text-primary); }
+    .faq-icon { font-size: 18px; color: var(--brand-primary); flex-shrink: 0; transition: transform 0.2s; }
+    .faq-item--open .faq-icon { transform: rotate(45deg); }
+    .faq-a { display: none; padding: 0 20px 18px; font-family: var(--font-body); font-size: 14px; color: var(--text-secondary); line-height: 1.7; border-top: 1px solid var(--border); padding-top: 14px; }
+    .faq-item--open .faq-a { display: block; }
+
+    /* SECTION: Related courses */
+    .related-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .related-card { background: var(--bg-surface); border: 1.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; display: flex; gap: 0; flex-direction: column; transition: box-shadow 0.2s; }
+    .related-card:hover { box-shadow: var(--shadow-md); }
+    .related-thumb { height: 120px; background: linear-gradient(135deg, var(--brand-primary) 0%, #004aad 100%); display: flex; align-items: center; justify-content: center; font-size: 32px; }
+    .related-body { padding: 14px; flex: 1; }
+    .related-school { font-family: var(--font); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brand-primary); margin-bottom: 4px; }
+    .related-title { font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--text-primary); line-height: 1.35; margin-bottom: 8px; }
+    .related-meta { display: flex; gap: 12px; flex-wrap: wrap; }
+    .related-meta span { font-family: var(--font); font-size: 11px; color: var(--text-tertiary); }
+    .related-footer { padding: 10px 14px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .related-price { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--brand-primary); }
+    .related-cta { font-family: var(--font-body); font-size: 12px; font-weight: 700; color: var(--brand-secondary); text-decoration: none; }
+
+    /* ACREDITATION SECTION */
+    .accred-row { display: flex; flex-wrap: wrap; gap: 12px; }
+    .accred-badge { display: flex; align-items: center; gap: 10px; background: var(--bg-surface); border: 1.5px solid var(--border); border-radius: var(--radius-lg); padding: 14px 18px; }
+    .accred-logo { width: 44px; height: 44px; border-radius: var(--radius-md); background: var(--brand-primary); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0; text-align: center; line-height: 1.2; }
+    .accred-info { }
+    .accred-name { font-family: var(--font); font-size: 13px; font-weight: 700; color: var(--text-primary); }
+    .accred-desc { font-family: var(--font); font-size: 11px; color: var(--text-tertiary); margin-top: 2px; }
+
+    /* FOOTER */
+    .footer { background: var(--brand-primary); padding: 48px 0 32px; margin-top: 0; }
+    .footer__grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+    .footer__brand-name { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .footer__brand-name span { color: var(--brand-secondary); }
+    .footer__desc { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.7; max-width: 260px; }
+    .footer__col-title { font-family: var(--font); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 14px; }
+    .footer__link { display: block; font-size: 13px; color: rgba(255,255,255,0.6); text-decoration: none; margin-bottom: 8px; }
+    .footer__bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; display: flex; align-items: center; justify-content: space-between; }
+    .footer__copy { font-family: var(--font); font-size: 12px; color: rgba(255,255,255,0.3); }
+    .footer__legal { display: flex; gap: 20px; }
+    .footer__legal a { font-family: var(--font); font-size: 12px; color: rgba(255,255,255,0.4); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR NAV -->
+<nav class="wf-sidebar-nav">
+  <div class="wf-sidebar-nav__label">Curso v1</div>
+  <a href="#sec-hero">A · Hero</a>
+  <a href="#sec-outcomes">B · Qué aprenderás</a>
+  <a href="#sec-desc">C · Descripción</a>
+  <a href="#sec-curriculum">D · Contenido</a>
+  <a href="#sec-instructor">E · Instructor</a>
+  <a href="#sec-accred">F · Acreditaciones</a>
+  <a href="#sec-reviews">G · Reseñas</a>
+  <a href="#sec-faq">H · FAQ</a>
+  <a href="#sec-related">I · Relacionados</a>
+</nav>
+
+<!-- ══════════ HEADER ══════════ -->
+<div class="wf-label" id="sec-header">A · Header — Option C Institucional (sticky)</div>
+<header class="header-sticky">
+  <div class="topbar">
+    <div class="max-w topbar__inner">
+      <div class="topbar__left">
+        <a href="#" class="topbar__item">📞 +57 300 000 0000</a>
+        <div class="topbar__sep"></div>
+        <a href="#" class="topbar__item">📧 cardiou_admin@lacardio.org</a>
+        <div class="topbar__sep"></div>
+        <a href="#" class="topbar__item">🕐 Lun–Vie · 8am–6pm</a>
+      </div>
+      <div class="topbar__right">
+        <a href="#" class="topbar__btn">Iniciar sesión</a>
+        <a href="#" class="topbar__btn--cta">Crear cuenta</a>
+      </div>
+    </div>
+  </div>
+  <nav class="navbar">
+    <div class="max-w navbar__inner">
+      <a href="#" class="navbar__logo-box">
+        <div class="navbar__logo-mark">LC</div>
+        <div class="navbar__logo-text">Cardio<span>U</span></div>
+      </a>
+      <div class="navbar__right">
+        <div class="navbar__links">
+          <a href="#" class="navbar__link navbar__link--active">Cursos ▾</a>
+          <a href="#" class="navbar__link">Escuelas ▾</a>
+          <a href="#" class="navbar__link">Instructores</a>
+          <a href="#" class="navbar__link">Nosotros</a>
+        </div>
+        <a href="#" class="navbar__cta">Inscribirme</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- ══════════ HERO ══════════ -->
+<div class="wf-label" id="sec-hero">B · Hero — Encabezado del curso con sidebar de compra</div>
+<section class="course-hero">
+  <div class="max-w course-hero__inner">
+    <!-- Left: course info -->
+    <div class="course-hero__body">
+      <div class="course-hero__breadcrumb">
+        Inicio → Cursos → Cuidado del Adulto Mayor → <span>[Nombre del curso]</span>
+      </div>
+      <div class="course-hero__eyebrow">
+        <div class="course-hero__eyebrow-dot"></div>
+        [Nombre de la Escuela]
+      </div>
+      <h1 class="course-hero__h1">[Título completo del curso]</h1>
+      <p class="course-hero__subtitle">[Subtítulo / tagline del curso — descripción breve de 1–2 líneas que resume el valor del curso]</p>
+      <div class="course-hero__rating">
+        <span class="course-hero__stars">★★★★★</span>
+        <span class="course-hero__rating-n">4.8</span>
+        <span class="course-hero__rating-c">(312 valoraciones · 1.240 estudiantes)</span>
+      </div>
+      <div class="course-hero__meta">
+        <span class="course-hero__meta-item">👤 Instructor: <strong style="color:#fff;">[Nombre Instructor]</strong></span>
+        <span class="course-hero__meta-item">🕐 Última actualización: Enero 2025</span>
+        <span class="course-hero__meta-item">🌐 Español</span>
+      </div>
+      <div class="course-hero__tags">
+        <span class="hero-tag">⏱ [X] Horas certificables</span>
+        <span class="hero-tag">📅 [X] Semanas</span>
+        <span class="hero-tag">💻 [Modalidad]</span>
+        <span class="hero-tag hero-tag--level">🎯 [Nivel]</span>
+        <span class="hero-tag">🏆 Aval [Sociedad]</span>
+      </div>
+    </div>
+    <!-- Right: purchase card (sticky) -->
+    <div>
+      <div class="purchase-card">
+        <div class="purchase-card__preview">
+          <div style="font-size:48px;opacity:0.4;">🫀</div>
+          <div class="purchase-card__play">▶</div>
+          <div class="purchase-card__preview-label">Vista previa del curso</div>
+        </div>
+        <div class="purchase-card__body">
+          <div class="purchase-card__price-row">
+            <div class="purchase-card__price">COP $[Precio]</div>
+            <div class="purchase-card__price-orig">$[Precio original]</div>
+            <div class="purchase-card__discount">-45%</div>
+          </div>
+          <div class="purchase-card__urgency">⏰ Oferta termina en 2 días</div>
+          <a href="#" class="purchase-card__cta purchase-card__cta--primary">Inscribirme ahora</a>
+          <a href="#" class="purchase-card__cta purchase-card__cta--secondary">Financiar con Wompi</a>
+          <p class="purchase-card__wompi">Aprobación inmediata con <strong>Wompi</strong></p>
+          <div class="purchase-card__includes">
+            <div class="purchase-card__includes-title">Este curso incluye:</div>
+            <div class="include-item"><span class="include-icon">🎬</span> [X] horas de video bajo demanda</div>
+            <div class="include-item"><span class="include-icon">📄</span> [X] materiales descargables</div>
+            <div class="include-item"><span class="include-icon">📱</span> Acceso desde cualquier dispositivo</div>
+            <div class="include-item"><span class="include-icon">🏆</span> Certificado con [aval] al completar</div>
+            <div class="include-item"><span class="include-icon">♾️</span> Acceso de por vida</div>
+            <div class="include-item"><span class="include-icon">👥</span> Foros de discusión</div>
+          </div>
+          <div class="purchase-card__guarantee">
+            <div class="guarantee-icon">🛡</div>
+            <div class="guarantee-text">Garantía de satisfacción de 30 días. Si no estás conforme, te devolvemos tu dinero.</div>
+          </div>
+          <div class="purchase-card__share">
+            <a href="#" class="share-link">🔗 Compartir</a>
+            <a href="#" class="share-link">🎁 Regalar</a>
+            <a href="#" class="share-link">💼 Empresas</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ BODY ══════════ -->
+<main>
+  <div class="max-w course-body">
+    <!-- LEFT COLUMN: course content -->
+    <div class="course-main">
+
+      <!-- Sticky section tabs -->
+      <div class="section-tabs">
+        <div class="section-tab section-tab--active">Qué aprenderás</div>
+        <div class="section-tab">Descripción</div>
+        <div class="section-tab">Contenido</div>
+        <div class="section-tab">Instructor</div>
+        <div class="section-tab">Reseñas</div>
+        <div class="section-tab">FAQ</div>
+      </div>
+
+      <!-- B: What you'll learn -->
+      <div class="section" id="sec-outcomes">
+        <div class="wf-label" style="position:relative;top:auto;">B · Qué aprenderás — Grid de objetivos de aprendizaje</div>
+        <h2 class="section__title">Qué aprenderás en este curso</h2>
+        <div class="outcomes-box">
+          <div class="outcomes-grid">
+            <div class="outcome-item">
+              <div class="outcome-check">✓</div>
+              [Objetivo de aprendizaje 1 — qué habilidad o conocimiento específico obtendrá]
+            </div>
+            <div class="outcome-item">
+              <div class="outcome-check">✓</div>
+              [Objetivo de aprendizaje 2 — qué habilidad o conocimiento específico obtendrá]
+            </div>
+            <div class="outcome-item">
+              <div class="outcome-check">✓</div>
+              [Objetivo de aprendizaje 3 — qué habilidad o conocimiento específico obtendrá]
+            </div>
+            <div class="outcome-item">
+              <div class="outcome-check">✓</div>
+              [Objetivo de aprendizaje 4 — qué habilidad o conocimiento específico obtendrá]
+            </div>
+            <div class="outcome-item">
+              <div class="outcome-check">✓</div>
+              [Objetivo de aprendizaje 5 — qué habilidad o conocimiento específico obtendrá]
+            </div>
+            <div class="outcome-item">
+              <div class="outcome-check">✓</div>
+              [Objetivo de aprendizaje 6 — qué habilidad o conocimiento específico obtendrá]
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- C: Description + Target audience -->
+      <div class="section" id="sec-desc">
+        <div class="wf-label" style="position:relative;top:auto;">C · Descripción y audiencia objetivo</div>
+        <h2 class="section__title">Descripción del curso</h2>
+        <div class="description-text">
+          <p>[Párrafo 1 de descripción — contexto y relevancia del curso en la práctica clínica actual. Por qué este conocimiento es importante para el profesional de hoy.]</p>
+          <p>[Párrafo 2 — metodología y estructura de aprendizaje. Cómo está diseñado el curso, qué tipo de recursos incluye, enfoque práctico vs. teórico.]</p>
+          <p>[Párrafo 3 — resultados esperados al finalizar. Qué podrá hacer el estudiante que no podía antes.]</p>
+        </div>
+        <div style="margin-top: 24px;">
+          <h3 style="font-family:var(--font-display);font-size:18px;font-weight:600;margin-bottom:12px;color:var(--text-primary);">¿A quién va dirigido?</h3>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <div class="target-pill">👨‍⚕️ [Profesión / rol 1]</div>
+            <div class="target-pill">👩‍⚕️ [Profesión / rol 2]</div>
+            <div class="target-pill">🎓 [Estudiantes de área]</div>
+            <div class="target-pill">🏥 [Perfil clínico específico]</div>
+          </div>
+        </div>
+        <div style="margin-top:20px;background:var(--bg-surface);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:20px;">
+          <h4 style="font-family:var(--font);font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-tertiary);margin-bottom:12px;">Requisitos previos</h4>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;">
+            <li style="font-family:var(--font-body);font-size:14px;color:var(--text-secondary);display:flex;align-items:flex-start;gap:8px;"><span>•</span> [Conocimiento o requisito previo 1]</li>
+            <li style="font-family:var(--font-body);font-size:14px;color:var(--text-secondary);display:flex;align-items:flex-start;gap:8px;"><span>•</span> [Conocimiento o requisito previo 2]</li>
+            <li style="font-family:var(--font-body);font-size:14px;color:var(--text-secondary);display:flex;align-items:flex-start;gap:8px;"><span>•</span> Sin requisitos especiales — curso diseñado para nivel [básico]</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- D: Curriculum -->
+      <div class="section" id="sec-curriculum">
+        <div class="wf-label" style="position:relative;top:auto;">D · Contenido del curso — Acordeón de módulos y lecciones</div>
+        <h2 class="section__title">Contenido del curso</h2>
+        <div class="curriculum-summary">
+          <div class="curriculum-stat"><strong>[X]</strong> módulos</div>
+          <div class="curriculum-stat"><strong>[X]</strong> lecciones</div>
+          <div class="curriculum-stat"><strong>[X]</strong> horas de contenido</div>
+          <div class="curriculum-stat"><strong>[X]</strong> materiales descargables</div>
+        </div>
+
+        <!-- Module 1 — open -->
+        <div class="module module--open">
+          <div class="module__header" onclick="this.closest('.module').classList.toggle('module--open')">
+            <span class="module__arrow">▶</span>
+            <div class="module__num">1</div>
+            <div class="module__info">
+              <div class="module__name">Módulo 1: [Nombre del primer módulo temático]</div>
+              <div class="module__meta">[X] lecciones · [X] horas</div>
+            </div>
+          </div>
+          <div class="module__lessons">
+            <div class="lesson">
+              <span class="lesson__icon">▶</span>
+              <span class="lesson__name">1.1 [Título de la lección — introducción o presentación general]</span>
+              <span class="lesson__preview">Vista previa</span>
+              <span class="lesson__duration">12 min</span>
+            </div>
+            <div class="lesson">
+              <span class="lesson__icon">▶</span>
+              <span class="lesson__name">1.2 [Título de la lección — concepto clave 1]</span>
+              <span class="lesson__duration">24 min</span>
+            </div>
+            <div class="lesson">
+              <span class="lesson__icon">📄</span>
+              <span class="lesson__name">1.3 [Material de lectura complementaria]</span>
+              <span class="lesson__duration">PDF</span>
+            </div>
+            <div class="lesson">
+              <span class="lesson__icon">✅</span>
+              <span class="lesson__name">1.4 Evaluación del módulo 1</span>
+              <span class="lesson__duration">10 preguntas</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Module 2 — closed -->
+        <div class="module">
+          <div class="module__header" onclick="this.closest('.module').classList.toggle('module--open')">
+            <span class="module__arrow">▶</span>
+            <div class="module__num">2</div>
+            <div class="module__info">
+              <div class="module__name">Módulo 2: [Nombre del segundo módulo temático]</div>
+              <div class="module__meta">[X] lecciones · [X] horas</div>
+            </div>
+          </div>
+          <div class="module__lessons">
+            <div class="lesson">
+              <span class="lesson__icon">▶</span>
+              <span class="lesson__name">2.1 [Título de la lección]</span>
+              <span class="lesson__duration">18 min</span>
+            </div>
+            <div class="lesson">
+              <span class="lesson__icon">▶</span>
+              <span class="lesson__name">2.2 [Título de la lección]</span>
+              <span class="lesson__duration">30 min</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Module 3 -->
+        <div class="module">
+          <div class="module__header" onclick="this.closest('.module').classList.toggle('module--open')">
+            <span class="module__arrow">▶</span>
+            <div class="module__num">3</div>
+            <div class="module__info">
+              <div class="module__name">Módulo 3: [Nombre del tercer módulo — práctica o aplicación clínica]</div>
+              <div class="module__meta">[X] lecciones · [X] horas</div>
+            </div>
+          </div>
+          <div class="module__lessons">
+            <div class="lesson"><span class="lesson__icon">▶</span><span class="lesson__name">3.1 [Caso clínico guiado 1]</span><span class="lesson__duration">45 min</span></div>
+          </div>
+        </div>
+
+        <!-- Module 4 -->
+        <div class="module">
+          <div class="module__header" onclick="this.closest('.module').classList.toggle('module--open')">
+            <span class="module__arrow">▶</span>
+            <div class="module__num">4</div>
+            <div class="module__info">
+              <div class="module__name">Módulo 4: [Evaluación final y certificación]</div>
+              <div class="module__meta">[X] lecciones · [X] horas</div>
+            </div>
+          </div>
+          <div class="module__lessons">
+            <div class="lesson"><span class="lesson__icon">✅</span><span class="lesson__name">4.1 Evaluación final del curso</span><span class="lesson__duration">30 preguntas</span></div>
+            <div class="lesson"><span class="lesson__icon">🏆</span><span class="lesson__name">4.2 Descarga de certificado con aval</span><span class="lesson__duration">—</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- E: Instructor -->
+      <div class="section" id="sec-instructor">
+        <div class="wf-label" style="position:relative;top:auto;">E · Instructor — Perfil con credenciales y estadísticas</div>
+        <h2 class="section__title">Tu instructor</h2>
+        <div class="instructor-card">
+          <div class="instructor-avatar">[IN]</div>
+          <div class="instructor-info">
+            <div class="instructor-name">[Dr./Dra. Nombre completo del Instructor]</div>
+            <div class="instructor-title">[Especialidad médica] · [Institución de adscripción]</div>
+            <div class="instructor-stats">
+              <span class="instructor-stat">⭐ 4.9 Valoración</span>
+              <span class="instructor-stat">👥 [X] Estudiantes</span>
+              <span class="instructor-stat">🎓 [X] Cursos activos</span>
+              <span class="instructor-stat">📅 [X] años de experiencia</span>
+            </div>
+            <div class="instructor-bio">
+              [Párrafo bio del instructor — formación académica, especialidades, experiencia clínica y docente. Mencionar instituciones relevantes, publicaciones, y por qué está calificado para enseñar este curso. Máximo 3–4 líneas.]
+            </div>
+            <div class="instructor-certs">
+              <span class="cert-badge">Miembro SCC</span>
+              <span class="cert-badge">Fellow ACC</span>
+              <span class="cert-badge">[Certificación relevante]</span>
+              <span class="cert-badge">[Sociedad científica]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F: Accreditations -->
+      <div class="section" id="sec-accred">
+        <div class="wf-label" style="position:relative;top:auto;">F · Acreditaciones y avales institucionales</div>
+        <h2 class="section__title">Acreditaciones y avales</h2>
+        <div class="accred-row">
+          <div class="accred-badge">
+            <div class="accred-logo">SCC</div>
+            <div class="accred-info">
+              <div class="accred-name">Sociedad Colombiana de Cardiología</div>
+              <div class="accred-desc">Aval científico · [X] horas</div>
+            </div>
+          </div>
+          <div class="accred-badge">
+            <div class="accred-logo">SIAC</div>
+            <div class="accred-info">
+              <div class="accred-name">Soc. Interamericana de Cardiología</div>
+              <div class="accred-desc">Reconocimiento internacional</div>
+            </div>
+          </div>
+          <div class="accred-badge">
+            <div class="accred-logo" style="background:var(--brand-secondary);">MEN</div>
+            <div class="accred-info">
+              <div class="accred-name">Min. de Educación Nacional</div>
+              <div class="accred-desc">Formación continua registrada</div>
+            </div>
+          </div>
+          <div class="accred-badge">
+            <div class="accred-logo" style="background:#10B981;font-size:10px;">LaCardio</div>
+            <div class="accred-info">
+              <div class="accred-name">Liga Colombiana del Corazón</div>
+              <div class="accred-desc">Institución organizadora</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- G: Reviews -->
+      <div class="section" id="sec-reviews">
+        <div class="wf-label" style="position:relative;top:auto;">G · Reseñas de estudiantes — Agregado + tarjetas individuales</div>
+        <h2 class="section__title">Valoraciones de estudiantes</h2>
+        <div class="reviews-aggregate">
+          <div class="reviews-big">
+            <div class="reviews-big__n">4.8</div>
+            <div class="reviews-big__stars">★★★★★</div>
+            <div class="reviews-big__label">Valoración del curso</div>
+          </div>
+          <div class="reviews-bars">
+            <div class="review-bar">
+              <span class="review-bar__label">5 ★</span>
+              <div class="review-bar__track"><div class="review-bar__fill" style="width:78%"></div></div>
+              <span class="review-bar__pct">78%</span>
+            </div>
+            <div class="review-bar">
+              <span class="review-bar__label">4 ★</span>
+              <div class="review-bar__track"><div class="review-bar__fill" style="width:15%"></div></div>
+              <span class="review-bar__pct">15%</span>
+            </div>
+            <div class="review-bar">
+              <span class="review-bar__label">3 ★</span>
+              <div class="review-bar__track"><div class="review-bar__fill" style="width:5%"></div></div>
+              <span class="review-bar__pct">5%</span>
+            </div>
+            <div class="review-bar">
+              <span class="review-bar__label">2 ★</span>
+              <div class="review-bar__track"><div class="review-bar__fill" style="width:1%"></div></div>
+              <span class="review-bar__pct">1%</span>
+            </div>
+            <div class="review-bar">
+              <span class="review-bar__label">1 ★</span>
+              <div class="review-bar__track"><div class="review-bar__fill" style="width:1%"></div></div>
+              <span class="review-bar__pct">1%</span>
+            </div>
+          </div>
+        </div>
+        <div class="review-cards">
+          <div class="review-card">
+            <div class="review-card__header">
+              <div class="review-avatar">MR</div>
+              <div class="review-meta">
+                <div class="review-name">[Nombre Estudiante 1]</div>
+                <div class="review-date">[Cargo / Institución] · Enero 2025</div>
+              </div>
+            </div>
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">[Reseña del estudiante — qué fue lo más valioso, cómo aplicó lo aprendido en su práctica, qué cambió en su trabajo desde que tomó el curso. Máximo 3–4 líneas.]</div>
+          </div>
+          <div class="review-card">
+            <div class="review-card__header">
+              <div class="review-avatar">CP</div>
+              <div class="review-meta">
+                <div class="review-name">[Nombre Estudiante 2]</div>
+                <div class="review-date">[Cargo / Institución] · Diciembre 2024</div>
+              </div>
+            </div>
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">[Reseña del estudiante 2 — perspectiva diferente, aspecto de la metodología o del instructor que destacó. Mencionar resultado concreto obtenido.]</div>
+          </div>
+          <div class="review-card">
+            <div class="review-card__header">
+              <div class="review-avatar">JS</div>
+              <div class="review-meta">
+                <div class="review-name">[Nombre Estudiante 3]</div>
+                <div class="review-date">[Cargo / Institución] · Noviembre 2024</div>
+              </div>
+            </div>
+            <div class="review-stars">★★★★☆</div>
+            <div class="review-text">[Reseña 3 — perspectiva de alguien que tomó el curso desde otra ciudad o país. Destacar flexibilidad del formato virtual.]</div>
+          </div>
+          <div class="review-card">
+            <div class="review-card__header">
+              <div class="review-avatar">AC</div>
+              <div class="review-meta">
+                <div class="review-name">[Nombre Estudiante 4]</div>
+                <div class="review-date">[Cargo / Institución] · Octubre 2024</div>
+              </div>
+            </div>
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">[Reseña 4 — perspectiva de alguien que venía de otro campo y encontró el curso muy accesible. Destacar claridad de la explicación del instructor.]</div>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:20px;">
+          <a href="#" style="font-family:var(--font-body);font-size:14px;font-weight:700;color:var(--brand-primary);border:2px solid var(--brand-primary);border-radius:var(--radius-full);padding:10px 28px;text-decoration:none;display:inline-block;">Ver todas las valoraciones</a>
+        </div>
+      </div>
+
+      <!-- H: FAQ -->
+      <div class="section" id="sec-faq">
+        <div class="wf-label" style="position:relative;top:auto;">H · Preguntas frecuentes — Acordeón</div>
+        <h2 class="section__title">Preguntas frecuentes</h2>
+        <div class="faq-item faq-item--open">
+          <div class="faq-q" onclick="this.closest('.faq-item').classList.toggle('faq-item--open')">
+            ¿[Pregunta frecuente 1 sobre inscripción o acceso]?
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-a">[Respuesta completa a la pregunta 1. Clara, directa, con información útil para el prospecto.]</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.closest('.faq-item').classList.toggle('faq-item--open')">
+            ¿Es posible que personal extranjero se inscriba al programa?
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-a">Sí, el curso es virtual, por esta razón podrás cursarlo desde cualquier parte del mundo. Si estás fuera del país y necesitas ayuda con logística, escríbenos a cardiou_admin@lacardio.org</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.closest('.faq-item').classList.toggle('faq-item--open')">
+            ¿El certificado es equivalente a un título universitario?
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-a">Es un curso de formación continua para la profundización y ampliación de conocimiento. No es equivalente a un pregrado ni a un curso técnico. El certificado cuenta con aval de [sociedad científica].</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.closest('.faq-item').classList.toggle('faq-item--open')">
+            ¿Cuáles son los métodos de pago disponibles?
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-a">Puedes pagar con tarjeta de crédito/débito o en efectivo a través de Wompi. También ofrecemos financiación en cuotas con aprobación inmediata.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.closest('.faq-item').classList.toggle('faq-item--open')">
+            ¿Cuáles son los términos y condiciones del curso?
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-a">Puedes consultar los términos y condiciones completos en nuestro sitio web. Te recomendamos leerlos antes de inscribirte.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="this.closest('.faq-item').classList.toggle('faq-item--open')">
+            ¿[Pregunta sobre duración o ritmo de estudio]?
+            <span class="faq-icon">+</span>
+          </div>
+          <div class="faq-a">[Respuesta sobre la flexibilidad del programa, si es autodirigido o tiene sesiones sincrónicas, y cuánto tiempo semanal se recomienda dedicar.]</div>
+        </div>
+      </div>
+
+      <!-- I: Related courses -->
+      <div class="section" id="sec-related">
+        <div class="wf-label" style="position:relative;top:auto;">I · Otros cursos que te pueden interesar — Grid 2 columnas</div>
+        <h2 class="section__title">Cursos relacionados</h2>
+        <div class="related-grid">
+          <div class="related-card">
+            <div class="related-thumb">🫀</div>
+            <div class="related-body">
+              <div class="related-school">[Escuela]</div>
+              <div class="related-title">[Nombre del curso relacionado 1]</div>
+              <div class="related-meta">
+                <span>⏱ 48h</span>
+                <span>💻 Virtual</span>
+                <span>★ 4.7</span>
+              </div>
+            </div>
+            <div class="related-footer">
+              <span class="related-price">$[Precio]</span>
+              <a href="#" class="related-cta">Ver curso →</a>
+            </div>
+          </div>
+          <div class="related-card">
+            <div class="related-thumb" style="background:linear-gradient(135deg,#8B0000,#c00030);">📡</div>
+            <div class="related-body">
+              <div class="related-school">[Escuela]</div>
+              <div class="related-title">[Nombre del curso relacionado 2]</div>
+              <div class="related-meta">
+                <span>⏱ 32h</span>
+                <span>🏫 Híbrido</span>
+                <span>★ 4.8</span>
+              </div>
+            </div>
+            <div class="related-footer">
+              <span class="related-price">$[Precio]</span>
+              <a href="#" class="related-cta">Ver curso →</a>
+            </div>
+          </div>
+          <div class="related-card">
+            <div class="related-thumb" style="background:linear-gradient(135deg,#145a32,#1e8449);">🧬</div>
+            <div class="related-body">
+              <div class="related-school">[Escuela]</div>
+              <div class="related-title">[Nombre del curso relacionado 3]</div>
+              <div class="related-meta">
+                <span>⏱ 60h</span>
+                <span>💻 Virtual</span>
+                <span>★ 4.9</span>
+              </div>
+            </div>
+            <div class="related-footer">
+              <span class="related-price">$[Precio]</span>
+              <a href="#" class="related-cta">Ver curso →</a>
+            </div>
+          </div>
+          <div class="related-card">
+            <div class="related-thumb" style="background:linear-gradient(135deg,#4a235a,#7d3c98);">💊</div>
+            <div class="related-body">
+              <div class="related-school">[Escuela]</div>
+              <div class="related-title">[Nombre del curso relacionado 4]</div>
+              <div class="related-meta">
+                <span>⏱ 40h</span>
+                <span>💻 Virtual</span>
+                <span>★ 4.6</span>
+              </div>
+            </div>
+            <div class="related-footer">
+              <span class="related-price">$[Precio]</span>
+              <a href="#" class="related-cta">Ver curso →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /course-main -->
+
+    <!-- RIGHT: empty spacer (purchase card is inside hero, sticky) -->
+    <div style="width:380px;"></div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<div class="wf-label" id="sec-footer">J · Footer institucional</div>
+<footer class="footer">
+  <div class="max-w">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand-name">Cardio<span>U</span></div>
+        <p class="footer__desc">La plataforma de formación cardiovascular de la Liga Colombiana del Corazón. Educación de excelencia para profesionales de la salud.</p>
+      </div>
+      <div>
+        <div class="footer__col-title">Escuelas</div>
+        <a href="#" class="footer__link">Electrofisiología</a>
+        <a href="#" class="footer__link">Imágenes Cardíacas</a>
+        <a href="#" class="footer__link">Falla Cardíaca</a>
+        <a href="#" class="footer__link">Prevención</a>
+      </div>
+      <div>
+        <div class="footer__col-title">Institución</div>
+        <a href="#" class="footer__link">Sobre CardioU</a>
+        <a href="#" class="footer__link">Instructores</a>
+        <a href="#" class="footer__link">Acreditaciones</a>
+        <a href="#" class="footer__link">Blog</a>
+      </div>
+      <div>
+        <div class="footer__col-title">Soporte</div>
+        <a href="#" class="footer__link">Centro de ayuda</a>
+        <a href="#" class="footer__link">Contacto</a>
+        <a href="#" class="footer__link">Empresa / Grupos</a>
+        <a href="#" class="footer__link">Política de reembolso</a>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__copy">© 2025 Liga Colombiana del Corazón · CardioU. Todos los derechos reservados.</p>
+      <div class="footer__legal">
+        <a href="#">Términos</a>
+        <a href="#">Privacidad</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => q.closest('.faq-item').classList.toggle('faq-item--open'));
+  });
+  document.querySelectorAll('.module__header').forEach(h => {
+    h.addEventListener('click', () => h.closest('.module').classList.toggle('module--open'));
+  });
+</script>
+</body>
+</html>

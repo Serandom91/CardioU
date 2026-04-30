@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CardioU — Wireframe v1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ─── TOKENS (LaCardio) ──────────────────────────────────── */
+    :root {
+      --brand-primary:         #002D72;
+      --brand-primary-hover:   #00245C;
+      --brand-primary-subtle:  #E5EBEF;
+      --brand-secondary:       #E40046;
+      --brand-secondary-subtle:#FEE5EB;
+
+      --text-primary:   #1a1a1a;
+      --text-secondary: #5F5E5A;
+      --text-tertiary:  #888780;
+
+      --bg-page:    #F4F3F0;
+      --bg-surface: #ffffff;
+      --border:     rgba(0,0,0,0.10);
+      --border-md:  rgba(0,0,0,0.16);
+
+      --radius-sm:   4px;
+      --radius-md:   8px;
+      --radius-lg:  12px;
+      --radius-xl:  16px;
+      --radius-2xl: 24px;
+      --radius-full:9999px;
+
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.07);
+      --shadow-md: 0 4px 12px rgba(0,0,0,.08);
+      --shadow-lg: 0 10px 30px rgba(0,0,0,.10);
+
+      --font:         'Inter', system-ui, sans-serif;
+      --font-display: 'Fira Sans', 'Inter', sans-serif;
+      --font-body:    'Open Sans', 'Inter', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--bg-page); color: var(--text-primary); font-size: 16px; line-height: 1.5; }
+
+    /* ─── TYPE SCALE — Tokens/LaCardio (node 21:37) ─────────────
+       ALL headings: Fira Sans
+       Body / paragraphs: Open Sans
+       Eyebrow: Fira Sans Regular uppercase + tracking 0.26em
+    ──────────────────────────────────────────────────────────── */
+    h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
+
+    h1 { font-size: 46px; font-weight: 400; line-height: 56px; letter-spacing: 0; }
+    h2 { font-size: 40px; font-weight: 500; line-height: 52px; letter-spacing: -0.01em; }
+    h3 { font-size: 36px; font-weight: 500; line-height: 44px; letter-spacing: -0.01em; }
+    h4 { font-size: 32px; font-weight: 500; line-height: 41px; letter-spacing: -0.01em; }
+    h5 { font-size: 24px; font-weight: 500; line-height: 32px; letter-spacing: -0.01em; }
+    h6 { font-size: 20px; font-weight: 500; line-height: 28px; letter-spacing: 0; }
+
+    p { font-family: var(--font-body); font-size: 18px; font-weight: 400; line-height: 24px; letter-spacing: 0.015em; }
+
+    .max-w { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* ─── WIREFRAME ANNOTATION ───────────────────────────────── */
+    .wf-label {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: #FFEC3E;
+      color: #1a1a00;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 1px solid rgba(0,0,0,0.12);
+    }
+    .wf-label::before { content: '◈'; font-size: 9px; opacity: 0.6; }
+
+    /* ─── PLACEHOLDER IMAGE ──────────────────────────────────── */
+    .ph {
+      background: #D6D5D3;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888780;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .ph--dark { background: #A8A7A3; color: #5F5E5A; }
+
+    /* ─── BUTTONS — aligned to /components/buttons.html ────────── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      font-family: var(--font-body); font-weight: 700; cursor: pointer;
+      border: 1px solid transparent; text-decoration: none; white-space: nowrap;
+      transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.1s;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn svg { flex-shrink: 0; }
+
+    /* Sizes — all pills, matching component exactly */
+    .btn--sm  { font-size: 12px; padding: 5px 12px;  border-radius: var(--radius-full); }
+    .btn--md  { font-size: 13px; padding: 7px 16px;  border-radius: var(--radius-full); }
+    .btn--lg  { font-size: 15px; padding: 10px 22px; border-radius: var(--radius-full); }
+    /* xl: wireframe-only extension, keeps pill */
+    .btn--xl  { font-size: 16px; padding: 14px 28px; border-radius: var(--radius-full); }
+
+    /* Variants — border always 1px to avoid layout shift on hover */
+    .btn--primary        { background: var(--brand-primary);   color: #fff; }
+    .btn--primary:hover  { background: var(--brand-primary-hover); }
+    .btn--primary:active { background: #001B45; }
+
+    .btn--secondary       { background: transparent; color: var(--brand-primary); border-color: var(--brand-primary); }
+    .btn--secondary:hover { background: var(--brand-primary-subtle); }
+
+    .btn--ghost       { background: transparent; color: var(--brand-primary); }
+    .btn--ghost:hover { background: var(--brand-primary-subtle); }
+
+    .btn--danger        { background: var(--brand-secondary); color: #fff; }
+    .btn--danger:hover  { background: #B70038; }
+
+    .btn--danger-outline       { background: transparent; color: var(--brand-secondary); border-color: var(--brand-secondary); }
+    .btn--danger-outline:hover { background: var(--brand-secondary-subtle); }
+
+    /* On-dark helpers (wireframe-only — used inside hero/cta/spotlight) */
+    .btn--white        { background: #fff; color: var(--brand-primary); }
+    .btn--white:hover  { background: var(--brand-primary-subtle); }
+    .btn--outline-white       { background: transparent; color: #fff; border-color: rgba(255,255,255,0.6); }
+    .btn--outline-white:hover { background: rgba(255,255,255,0.12); border-color: #fff; }
+
+    /* Disabled */
+    .btn:disabled { pointer-events: none; background: #C5C4C1; color: #888780; border-color: transparent; }
+
+    /* ─── BADGE ──────────────────────────────────────────────── */
+    .badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 11px; font-weight: 600; padding: 2px 8px;
+      border-radius: var(--radius-full); text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .badge--primary  { background: var(--brand-primary-subtle); color: var(--brand-primary); }
+    .badge--danger   { background: var(--brand-secondary-subtle); color: var(--brand-secondary); }
+    .badge--success  { background: #EAF3DE; color: #3B6D11; }
+    .badge--neutral  { background: #E6E5E2; color: #5F5E5A; }
+
+    /* ─── STARS ──────────────────────────────────────────────── */
+    .stars { display: flex; gap: 2px; color: #EF9F27; font-size: 13px; }
+
+    /* ═══════════════════════════════════════════════════════════
+       01 — ANNOUNCEMENT BAR
+       ═══════════════════════════════════════════════════════════ */
+    .announcement-bar {
+      background: var(--brand-secondary);
+      color: #fff;
+      text-align: center;
+      padding: 9px 24px;
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .announcement-bar strong { font-weight: 700; }
+    .announcement-bar a { color: #fff; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+
+    /* ═══════════════════════════════════════════════════════════
+       02 — HEADER · Opción C · Institucional dos niveles
+       ═══════════════════════════════════════════════════════════ */
+
+    /* Sticky wrapper — ambas barras juntas */
+    .header-sticky { position: sticky; top: 0; z-index: 100; }
+
+    /* ── Utility bar ─────────────────────────────────────────── */
+    .topbar {
+      background: var(--brand-primary);
+      height: 36px; display: flex; align-items: center;
+    }
+    .topbar__inner {
+      display: flex; align-items: center; justify-content: space-between; width: 100%;
+    }
+    .topbar__left { display: flex; align-items: center; gap: 20px; }
+    .topbar__item {
+      font-family: var(--font); font-size: 12px; color: rgba(255,255,255,0.65);
+      display: flex; align-items: center; gap: 5px;
+      text-decoration: none; transition: color 0.15s; white-space: nowrap;
+    }
+    .topbar__item:hover { color: #fff; }
+    .topbar__sep { width: 1px; height: 12px; background: rgba(255,255,255,0.2); flex-shrink: 0; }
+    .topbar__right { display: flex; align-items: center; gap: 4px; }
+    .topbar__btn {
+      font-family: var(--font); font-size: 12px; color: rgba(255,255,255,0.65);
+      text-decoration: none; padding: 3px 10px; border-radius: var(--radius-sm);
+      transition: color 0.15s, background 0.15s;
+    }
+    .topbar__btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
+    .topbar__btn--cta {
+      color: #fff; background: var(--brand-secondary);
+      padding: 3px 14px; border-radius: var(--radius-full); font-weight: 700;
+    }
+    .topbar__btn--cta:hover { background: var(--brand-secondary-hover); }
+
+    /* ── Main navbar ─────────────────────────────────────────── */
+    .navbar {
+      background: var(--bg-surface);
+      height: 80px; display: flex; align-items: center;
+      border-bottom: 3px solid var(--brand-secondary);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .navbar__inner {
+      display: flex; align-items: center; justify-content: space-between; width: 100%;
+    }
+    .navbar__logo { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; }
+    .navbar__logo img { height: 42px; width: auto; display: block; }
+
+    .navbar__right { display: flex; align-items: center; gap: 28px; }
+    .navbar__links  { display: flex; align-items: center; }
+
+    /* Link — underline deslizante en hover/active */
+    .navbar__link {
+      font-family: var(--font); font-size: 15px; font-weight: 500;
+      color: var(--text-secondary); text-decoration: none;
+      padding: 8px 16px; position: relative;
+      display: inline-flex; align-items: center; gap: 4px;
+      transition: color 0.15s; white-space: nowrap;
+    }
+    .navbar__link::after {
+      content: ''; position: absolute;
+      bottom: -3px; left: 16px; right: 16px;
+      height: 3px; background: var(--brand-primary);
+      transform: scaleX(0); transition: transform 0.2s; border-radius: 2px;
+    }
+    .navbar__link:hover        { color: var(--brand-primary); }
+    .navbar__link:hover::after { transform: scaleX(1); }
+    .navbar__link--active      { color: var(--brand-primary); font-weight: 600; }
+    .navbar__link--active::after { transform: scaleX(1); }
+
+    /* Dropdown */
+    .navbar__dropdown { position: relative; }
+    .navbar__dropdown-menu {
+      display: none; position: absolute;
+      top: calc(100% + 9px); left: 0;
+      background: var(--bg-surface); border: 1px solid var(--border-md);
+      border-top: 3px solid var(--brand-primary);
+      border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
+      min-width: 260px; padding: 8px; z-index: 200;
+    }
+    .navbar__dropdown:hover .navbar__dropdown-menu { display: flex; flex-direction: column; }
+    .navbar__dropdown-label {
+      font-family: var(--font-display); font-size: 10px; font-weight: 400;
+      color: var(--text-tertiary); letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 6px 10px 4px;
+    }
+    .navbar__dropdown-item {
+      font-family: var(--font); font-size: 14px; color: var(--text-secondary);
+      text-decoration: none; padding: 9px 12px; border-radius: var(--radius-md);
+      transition: all 0.15s;
+    }
+    .navbar__dropdown-item:hover { color: var(--brand-primary); background: var(--brand-primary-subtle); }
+    .navbar__chevron { width: 13px; height: 13px; transition: transform 0.2s; }
+    .navbar__dropdown:hover .navbar__chevron { transform: rotate(180deg); }
+
+    /* Search */
+    .navbar__search { position: relative; flex-shrink: 0; }
+    .navbar__search-icon {
+      position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+      color: var(--text-tertiary); pointer-events: none; display: flex;
+    }
+    .navbar__search-input {
+      height: 36px; width: 200px; padding: 0 12px 0 34px;
+      font-family: var(--font-body); font-size: 13px; color: var(--text-primary);
+      background: var(--bg-page); border: 1px solid var(--border-md);
+      border-radius: var(--radius-full); outline: none;
+      transition: width 0.2s, border-color 0.15s, box-shadow 0.15s;
+    }
+    .navbar__search-input::placeholder { color: var(--text-tertiary); }
+    .navbar__search-input:focus {
+      width: 260px; border-color: var(--brand-primary);
+      box-shadow: 0 0 0 3px rgba(0,45,114,0.08); background: var(--bg-surface);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       03 — HERO
+       ═══════════════════════════════════════════════════════════ */
+    .hero {
+      background: linear-gradient(135deg, #001B45 0%, #002D72 60%, #0A3E8F 100%);
+      color: #fff;
+      padding: 80px 0 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero__inner { display: grid; grid-template-columns: 1fr 440px; gap: 48px; align-items: center; position: relative; }
+    .hero__eyebrow {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: var(--radius-full);
+      padding: 4px 14px;
+      /* Eyebrow token: Fira Sans Regular 14px, tracking 0.26em, uppercase */
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 14px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      color: rgba(255,255,255,0.9);
+    }
+    .hero__eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: #E40046; flex-shrink: 0; }
+    .hero__h1 {
+      font-family: var(--font-display); /* Fira Sans — Desktop/H1 */
+      font-size: 46px;
+      font-weight: 400; /* Regular */
+      line-height: 56px;
+      letter-spacing: 0;
+      margin-bottom: 20px;
+    }
+    .hero__h1 em { font-style: normal; color: #E40046; }
+    .hero__subtitle {
+      font-family: var(--font-body); /* Open Sans — Paragraph token */
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 24px;
+      letter-spacing: 0.015em;
+      color: rgba(255,255,255,0.75);
+      max-width: 520px;
+      margin-bottom: 36px;
+    }
+    .hero__actions { display: flex; align-items: center; gap: 12px; margin-bottom: 36px; }
+    .hero__trust {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+    }
+    .hero__trust-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,0.7); }
+    .hero__trust-item strong { color: #fff; font-weight: 700; }
+    .hero__trust-sep { width: 1px; height: 20px; background: rgba(255,255,255,0.2); }
+
+    /* Hero card preview */
+    .hero__card {
+      background: #fff;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+    }
+    .hero__card-thumb { width: 100%; height: 220px; background: #A8C5E0; }
+    .hero__card-body { padding: 20px; }
+    .hero__card-tag { margin-bottom: 10px; }
+    .hero__card-title { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+    .hero__card-meta { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-secondary); margin-bottom: 12px; }
+    .hero__card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--border); }
+    .hero__card-price { display: flex; flex-direction: column; }
+    .hero__card-price-main { font-size: 22px; font-weight: 800; color: var(--text-primary); }
+    .hero__card-price-orig { font-size: 13px; color: var(--text-tertiary); text-decoration: line-through; }
+    .hero__card-badge {
+      background: var(--brand-secondary);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       04 — STATS BAR (Social proof)
+       ═══════════════════════════════════════════════════════════ */
+    .stats-bar {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      padding: 24px 0;
+    }
+    .stats-bar__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .stat-item { text-align: center; flex: 1; }
+    .stat-item__value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--brand-primary);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-item__label { font-size: 13px; color: var(--text-secondary); }
+    .stats-bar__sep { width: 1px; height: 40px; background: var(--border-md); flex-shrink: 0; }
+
+    /* ═══════════════════════════════════════════════════════════
+       05 — CATEGORY TABS + COURSE GRID
+       ═══════════════════════════════════════════════════════════ */
+    .section { padding: 64px 0; }
+    .section--alt { background: var(--bg-surface); }
+
+    .section-header { margin-bottom: 32px; }
+    .section-header__eyebrow {
+      font-family: var(--font-display); /* Fira Sans Regular — Eyebrow token */
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 14px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--brand-secondary);
+      margin-bottom: 8px;
+    }
+    .section-header__title {
+      font-family: var(--font-display); /* Fira Sans — Desktop/H2 */
+      font-size: 40px;
+      font-weight: 500;
+      line-height: 52px;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    .section-header__subtitle {
+      font-family: var(--font-body); /* Open Sans — Paragraph */
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 24px;
+      letter-spacing: 0.015em;
+      color: var(--text-secondary);
+      max-width: 560px;
+    }
+
+    .tabs {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0;
+      overflow-x: auto;
+    }
+    .tab {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      padding: 8px 16px;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      cursor: pointer;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: all 0.15s;
+    }
+    .tab:hover { color: var(--brand-primary); background: var(--brand-primary-subtle); }
+    .tab--active { color: var(--brand-primary); font-weight: 700; border-bottom-color: var(--brand-primary); background: transparent; }
+
+    /* Course grid */
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .course-card {
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+    }
+    .course-card:hover { border-color: var(--brand-primary); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .course-card__thumb { width: 100%; height: 170px; background: #C5D3EE; position: relative; }
+    .course-card__thumb-label {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+    .course-card__thumb-duration {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: var(--radius-sm);
+    }
+    .course-card__body { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+    .course-card__title { font-size: 15px; font-weight: 700; color: var(--text-primary); line-height: 1.35; }
+    .course-card__instructor { font-size: 12px; color: var(--text-secondary); }
+    .course-card__rating {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 12px; color: var(--text-secondary);
+    }
+    .course-card__rating strong { color: var(--text-primary); font-weight: 600; }
+    .course-card__footer {
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+    }
+    .course-card__price { font-size: 18px; font-weight: 800; color: var(--text-primary); }
+    .course-card__price-orig { font-size: 12px; color: var(--text-tertiary); text-decoration: line-through; }
+
+    .course-grid__cta { text-align: center; }
+
+    /* ═══════════════════════════════════════════════════════════
+       06 — FEATURED COURSE (Spotlight)
+       ═══════════════════════════════════════════════════════════ */
+    .spotlight {
+      background: linear-gradient(120deg, #001B45 0%, #002D72 100%);
+      border-radius: var(--radius-2xl);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      min-height: 340px;
+      color: #fff;
+    }
+    .spotlight__body { padding: 48px; display: flex; flex-direction: column; justify-content: center; gap: 16px; }
+    .spotlight__eyebrow {
+      font-family: var(--font-display); /* Eyebrow token — Fira Sans Regular */
+      font-size: 14px; font-weight: 400; line-height: 14px;
+      letter-spacing: 0.26em; text-transform: uppercase; color: #E40046;
+    }
+    .spotlight__title {
+      font-family: var(--font-display); /* Desktop/H3 token — Fira Sans Medium */
+      font-size: 36px; font-weight: 500; line-height: 44px; letter-spacing: -0.01em;
+    }
+    .spotlight__meta { display: flex; align-items: center; gap: 16px; font-size: 13px; color: rgba(255,255,255,0.7); flex-wrap: wrap; }
+    .spotlight__meta-item { display: flex; align-items: center; gap: 5px; }
+    .spotlight__actions { display: flex; gap: 10px; margin-top: 8px; }
+    .spotlight__thumb { background: #2A4A8A; display: flex; align-items: center; justify-content: center; }
+
+    /* ═══════════════════════════════════════════════════════════
+       07 — HOW IT WORKS
+       ═══════════════════════════════════════════════════════════ */
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .how-item { display: flex; flex-direction: column; gap: 16px; }
+    .how-item__step {
+      width: 44px; height: 44px;
+      background: var(--brand-primary);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 800;
+      flex-shrink: 0;
+    }
+    .how-item__title {
+      font-family: var(--font-display); /* Desktop/H5 — Fira Sans Medium */
+      font-size: 20px; font-weight: 500; line-height: 28px; letter-spacing: 0;
+      color: var(--text-primary);
+    }
+    .how-item__body {
+      font-family: var(--font-body); /* Paragraph Small — Open Sans Regular */
+      font-size: 14px; font-weight: 400; line-height: 20px; letter-spacing: 0.015em;
+      color: var(--text-secondary);
+    }
+    .how-item__connector {
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, var(--brand-primary), transparent);
+      margin-top: 22px;
+      border-radius: 2px;
+    }
+    .how-row { display: flex; align-items: flex-start; }
+
+    /* ═══════════════════════════════════════════════════════════
+       08 — TESTIMONIALS
+       ═══════════════════════════════════════════════════════════ */
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .testimonial {
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .testimonial--accent { border-top: 3px solid var(--brand-primary); }
+    .testimonial__stars { margin-bottom: 4px; }
+    .testimonial__text {
+      font-family: var(--font-body); /* Paragraph Small — Open Sans Regular */
+      font-size: 14px; font-weight: 400; line-height: 20px; letter-spacing: 0.015em;
+      color: var(--text-secondary); font-style: italic; flex: 1;
+    }
+    .testimonial__footer { display: flex; align-items: center; gap: 12px; padding-top: 12px; border-top: 1px solid var(--border); margin-top: auto; }
+    .testimonial__avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--brand-primary-subtle);
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; color: var(--brand-primary); font-size: 15px;
+    }
+    .testimonial__name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+    .testimonial__role { font-size: 12px; color: var(--text-tertiary); }
+
+    /* ═══════════════════════════════════════════════════════════
+       09 — PRICING
+       ═══════════════════════════════════════════════════════════ */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      align-items: stretch;
+    }
+    .plan {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: relative;
+    }
+    .plan--featured {
+      border-color: var(--brand-primary);
+      box-shadow: var(--shadow-md);
+    }
+    .plan__popular {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--brand-secondary);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: var(--radius-full);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .plan__name { font-size: 13px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.06em; }
+    .plan__price-block { display: flex; flex-direction: column; gap: 4px; }
+    .plan__price { font-size: 40px; font-weight: 800; color: var(--text-primary); line-height: 1; }
+    .plan__price span { font-size: 18px; font-weight: 600; color: var(--text-secondary); }
+    .plan__period { font-size: 13px; color: var(--text-tertiary); }
+    .plan__features { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    .plan__feature { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-secondary); }
+    .plan__feature::before { content: '✓'; color: #22C55E; font-weight: 700; flex-shrink: 0; }
+    .plan__feature--off { color: #C5C4C1; }
+    .plan__feature--off::before { content: '×'; color: #C5C4C1; }
+
+    /* ═══════════════════════════════════════════════════════════
+       10 — FAQ
+       ═══════════════════════════════════════════════════════════ */
+    .faq-list { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 0; }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+    }
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+    .faq-question {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .faq-question::after { content: '+'; font-size: 20px; color: var(--brand-primary); flex-shrink: 0; }
+    .faq-answer {
+      font-family: var(--font-body); /* Paragraph Small — Open Sans Regular */
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      letter-spacing: 0.015em;
+      color: var(--text-secondary);
+      padding-top: 12px;
+      display: none;
+    }
+    .faq-item--open .faq-answer { display: block; }
+    .faq-item--open .faq-question::after { content: '–'; }
+
+    /* ═══════════════════════════════════════════════════════════
+       11 — CTA BANNER
+       ═══════════════════════════════════════════════════════════ */
+    .cta-banner {
+      background: linear-gradient(135deg, #E40046 0%, #A30033 100%);
+      border-radius: var(--radius-2xl);
+      padding: 64px 80px;
+      text-align: center;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='40' cy='40' r='35' fill='none' stroke='%23ffffff' stroke-opacity='0.06' stroke-width='1'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .cta-banner__eyebrow {
+      font-family: var(--font-display); /* Eyebrow token — Fira Sans Regular */
+      font-size: 14px; font-weight: 400; line-height: 14px;
+      letter-spacing: 0.26em; text-transform: uppercase;
+      color: rgba(255,255,255,0.75); margin-bottom: 12px;
+    }
+    .cta-banner__title {
+      font-family: var(--font-display); /* Desktop/H1 token — Fira Sans Regular */
+      font-size: 46px; font-weight: 400; line-height: 56px; letter-spacing: 0;
+      margin-bottom: 16px;
+    }
+    .cta-banner__subtitle {
+      font-family: var(--font-body); /* Paragraph token — Open Sans Regular */
+      font-size: 18px; font-weight: 400; line-height: 24px; letter-spacing: 0.015em;
+      color: rgba(255,255,255,0.8); margin-bottom: 36px;
+      max-width: 560px; margin-left: auto; margin-right: auto;
+    }
+    .cta-banner__actions { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    .cta-banner__timer {
+      margin-top: 20px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       12 — FOOTER
+       ═══════════════════════════════════════════════════════════ */
+    .footer {
+      background: #0F1924;
+      color: rgba(255,255,255,0.7);
+      padding: 56px 0 32px;
+    }
+    .footer__grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+    .footer__logo { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+    .footer__tagline { font-size: 13px; line-height: 1.7; margin-bottom: 20px; }
+    .footer__social { display: flex; gap: 8px; }
+    .footer__social-btn {
+      width: 36px; height: 36px;
+      border-radius: var(--radius-md);
+      background: rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+    }
+    .footer__col-title { font-size: 12px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 16px; }
+    .footer__links { display: flex; flex-direction: column; gap: 10px; }
+    .footer__link { font-size: 13px; color: rgba(255,255,255,0.6); text-decoration: none; }
+    .footer__link:hover { color: #fff; }
+    .footer__bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* ─── WIREFRAME SIDEBAR (annotation panel) ───────────────── */
+    .wf-sidebar {
+      position: fixed;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #1a1a1a;
+      color: #fff;
+      border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 200;
+      width: 200px;
+    }
+    .wf-sidebar__title { font-size: 10px; font-weight: 700; color: #FFEC3E; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .wf-sidebar__link { font-size: 11px; color: rgba(255,255,255,0.65); text-decoration: none; padding: 4px 8px; border-radius: 4px; }
+    .wf-sidebar__link:hover { color: #fff; background: rgba(255,255,255,0.1); }
+    .wf-sidebar__num { color: rgba(255,255,255,0.35); margin-right: 4px; }
+
+    /* ─── UTILS ──────────────────────────────────────────────── */
+    .text-center { text-align: center; }
+    .mt-8 { margin-top: 32px; }
+    .mt-12 { margin-top: 48px; }
+    .flex { display: flex; }
+    .flex-center { display: flex; align-items: center; justify-content: center; }
+  </style>
+</head>
+<body>
+
+<!-- ─── WIREFRAME NAV PANEL ─────────────────────────────────── -->
+<nav class="wf-sidebar">
+  <div class="wf-sidebar__title">Wireframe v1</div>
+  <a href="#s01" class="wf-sidebar__link"><span class="wf-sidebar__num">01</span>Announcement</a>
+  <a href="#s02" class="wf-sidebar__link"><span class="wf-sidebar__num">02</span>Navbar</a>
+  <a href="#s03" class="wf-sidebar__link"><span class="wf-sidebar__num">03</span>Hero</a>
+  <a href="#s04" class="wf-sidebar__link"><span class="wf-sidebar__num">04</span>Social Proof</a>
+  <a href="#s05" class="wf-sidebar__link"><span class="wf-sidebar__num">05</span>Cursos</a>
+  <a href="#s06" class="wf-sidebar__link"><span class="wf-sidebar__num">06</span>Spotlight</a>
+  <a href="#s07" class="wf-sidebar__link"><span class="wf-sidebar__num">07</span>Cómo funciona</a>
+  <a href="#s08" class="wf-sidebar__link"><span class="wf-sidebar__num">08</span>Testimonios</a>
+  <a href="#s09" class="wf-sidebar__link"><span class="wf-sidebar__num">09</span>Planes</a>
+  <a href="#s10" class="wf-sidebar__link"><span class="wf-sidebar__num">10</span>FAQ</a>
+  <a href="#s11" class="wf-sidebar__link"><span class="wf-sidebar__num">11</span>CTA Final</a>
+  <a href="#s12" class="wf-sidebar__link"><span class="wf-sidebar__num">12</span>Footer</a>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════════
+     01 — ANNOUNCEMENT BAR
+     Objetivo: urgencia + descuento antes de que lean cualquier cosa.
+     ════════════════════════════════════════════════════════════ -->
+<div id="s01">
+  <div class="wf-label">01 · Announcement bar — urgencia y descuento</div>
+  <div class="announcement-bar">
+    <span>🔥</span>
+    <span><strong>Próxima cohorte: 15 de mayo</strong> · Solo quedan 12 cupos · Usa el código <strong>CARDIO30</strong> y ahorra 30 %</span>
+    <a href="#">Inscríbete ahora →</a>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     02 — HEADER · Opción C · Institucional dos niveles
+     Utility bar azul + navbar blanca con acento rojo · sticky
+     ════════════════════════════════════════════════════════════ -->
+<div id="s02">
+  <div class="wf-label">02 · Header institucional — utility bar + nav principal · sticky</div>
+  <div class="header-sticky">
+
+    <!-- Utility bar -->
+    <div class="topbar">
+      <div class="max-w topbar__inner">
+        <div class="topbar__left">
+          <a href="#" class="topbar__item">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.86a16 16 0 0 0 6.13 6.13l.86-.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            +57 1 330 5555
+          </a>
+          <div class="topbar__sep"></div>
+          <a href="#" class="topbar__item">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            cardio-u@lacardio.org
+          </a>
+          <div class="topbar__sep"></div>
+          <a href="#" class="topbar__item">Fundación CardioInfantil</a>
+        </div>
+        <div class="topbar__right">
+          <a href="#" class="topbar__btn">Iniciar sesión</a>
+          <div class="topbar__sep" style="margin:0 4px;"></div>
+          <a href="#s11" class="topbar__btn topbar__btn--cta">Inscribirme</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main navbar -->
+    <nav class="navbar">
+      <div class="max-w navbar__inner">
+
+        <!-- Logo -->
+        <a href="#" class="navbar__logo">
+          <img src="assets/Cardio_u_Logo.svg" alt="CardioU" />
+        </a>
+
+        <!-- Right: nav + search -->
+        <div class="navbar__right">
+          <nav class="navbar__links">
+
+            <!-- Escuelas dropdown -->
+            <div class="navbar__dropdown">
+              <a href="#" class="navbar__link navbar__link--active">
+                Escuelas
+                <svg class="navbar__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </a>
+              <div class="navbar__dropdown-menu">
+                <div class="navbar__dropdown-label">Áreas de especialidad</div>
+                <a href="#" class="navbar__dropdown-item">Cardiología Intervencionista</a>
+                <a href="#" class="navbar__dropdown-item">Electrofisiología</a>
+                <a href="#" class="navbar__dropdown-item">Ecocardiografía</a>
+                <a href="#" class="navbar__dropdown-item">Imagen Cardíaca</a>
+                <a href="#" class="navbar__dropdown-item">Insuficiencia Cardíaca</a>
+                <a href="#" class="navbar__dropdown-item">Prevención Cardiovascular</a>
+              </div>
+            </div>
+
+            <a href="#" class="navbar__link">Acerca de nosotros</a>
+
+          </nav>
+
+          <!-- Search -->
+          <div class="navbar__search">
+            <span class="navbar__search-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </span>
+            <input class="navbar__search-input" type="text" placeholder="Buscar cursos o especialistas…" />
+          </div>
+
+        </div>
+      </div>
+    </nav>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     03 — HERO
+     Objetivo: capturar atención, comunicar valor y empujar el primer CTA.
+     Estructura: 2 cols — copy + card preview del curso destacado.
+     ════════════════════════════════════════════════════════════ -->
+<div id="s03">
+  <div class="wf-label">03 · Hero — propuesta de valor + CTA primario + preview del curso destacado</div>
+  <section class="hero">
+    <div class="max-w hero__inner">
+      <!-- Left: Copy -->
+      <div>
+        <div class="hero__eyebrow">
+          <span class="hero__eyebrow-dot"></span>
+          Plataforma N.º 1 en educación cardiológica en Colombia
+        </div>
+        <h1 class="hero__h1">
+          Domina la cardiología<br>
+          con los <em>mejores</em><br>
+          especialistas
+        </h1>
+        <p class="hero__subtitle">
+          Cursos en vivo y grabados diseñados por cardiólogos líderes.
+          Aprende a tu ritmo, obtén certificación avalada y avanza en tu carrera clínica.
+        </p>
+        <div class="hero__actions">
+          <a href="#s05" class="btn btn--danger btn--xl">Ver todos los cursos</a>
+          <a href="#s06" class="btn btn--outline-white btn--xl">Conoce el programa estrella</a>
+        </div>
+        <div class="hero__trust">
+          <div class="hero__trust-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span><strong>Avalado</strong> por la SCC</span>
+          </div>
+          <div class="hero__trust-sep"></div>
+          <div class="hero__trust-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <span><strong>Certificado</strong> incluido</span>
+          </div>
+          <div class="hero__trust-sep"></div>
+          <div class="hero__trust-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <span>Acceso <strong>100 % online</strong></span>
+          </div>
+        </div>
+      </div>
+      <!-- Right: Course preview card -->
+      <div class="hero__card">
+        <div class="hero__card-thumb ph">Thumbnail curso / 440×220</div>
+        <div class="hero__card-body">
+          <div class="hero__card-tag">
+            <span class="badge badge--primary">Cardiología Intervencionista</span>
+            <span class="badge badge--danger" style="margin-left:6px">Nuevo</span>
+          </div>
+          <div class="hero__card-title">Intervencionismo Coronario Percutáneo: de básico a avanzado</div>
+          <div class="hero__card-meta">
+            <span>Dr. Juan Pérez · Cardiólogo Intervencionista</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <div class="stars">★★★★★</div>
+            <span style="font-size:12px;color:#5F5E5A;">4.9 (342 calificaciones)</span>
+          </div>
+          <div style="display:flex;gap:12px;font-size:12px;color:#888780;margin-top:4px;">
+            <span>⏱ 18 horas</span>
+            <span>📄 6 módulos</span>
+            <span>🎓 Certificado</span>
+          </div>
+        </div>
+        <div class="hero__card-footer">
+          <div class="hero__card-price">
+            <span class="hero__card-price-main">$299.000</span>
+            <span class="hero__card-price-orig">$420.000</span>
+          </div>
+          <a href="#s11" class="btn btn--danger btn--md">Inscribirme</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     04 — STATS BAR (Social proof rápido)
+     Objetivo: validar autoridad antes de que sigan scrolleando.
+     ════════════════════════════════════════════════════════════ -->
+<div id="s04">
+  <div class="wf-label">04 · Social proof bar — números que generan confianza antes del catálogo</div>
+  <div class="stats-bar">
+    <div class="max-w stats-bar__inner">
+      <div class="stat-item">
+        <div class="stat-item__value">+8.500</div>
+        <div class="stat-item__label">Profesionales certificados</div>
+      </div>
+      <div class="stats-bar__sep"></div>
+      <div class="stat-item">
+        <div class="stat-item__value">32</div>
+        <div class="stat-item__label">Cursos activos</div>
+      </div>
+      <div class="stats-bar__sep"></div>
+      <div class="stat-item">
+        <div class="stat-item__value">48</div>
+        <div class="stat-item__label">Especialistas docentes</div>
+      </div>
+      <div class="stats-bar__sep"></div>
+      <div class="stat-item">
+        <div class="stat-item__value">12</div>
+        <div class="stat-item__label">Años de trayectoria</div>
+      </div>
+      <div class="stats-bar__sep"></div>
+      <div class="stat-item">
+        <div class="stat-item__value">4.9 ★</div>
+        <div class="stat-item__label">Calificación promedio</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     05 — COURSE CATALOG
+     Objetivo: dejar al usuario descubrir y filtrar el catálogo rápido.
+     ════════════════════════════════════════════════════════════ -->
+<div id="s05">
+  <div class="wf-label">05 · Catálogo de cursos — tabs de especialidad + grid 3 cols + CTA "ver todos"</div>
+  <section class="section">
+    <div class="max-w">
+      <div class="section-header" style="display:flex;justify-content:space-between;align-items:flex-end;">
+        <div>
+          <div class="section-header__eyebrow">Catálogo</div>
+          <h2 class="section-header__title">Cursos de especialidad</h2>
+          <p class="section-header__subtitle">Filtra por área y encuentra el programa que necesitas para avanzar.</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="navbar__search" style="max-width:220px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            Filtrar cursos…
+          </div>
+          <select style="font-size:13px;padding:7px 12px;border:1px solid var(--border-md);border-radius:var(--radius-full);background:#fff;color:var(--text-secondary);">
+            <option>Nivel: todos</option>
+            <option>Básico</option>
+            <option>Avanzado</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <div class="tab tab--active">Todos</div>
+        <div class="tab">Intervencionismo</div>
+        <div class="tab">Electrofisiología</div>
+        <div class="tab">Ecocardiografía</div>
+        <div class="tab">Imagen Cardíaca</div>
+        <div class="tab">Insuficiencia Cardíaca</div>
+        <div class="tab">Prevención CV</div>
+      </div>
+
+      <!-- Grid -->
+      <div class="course-grid">
+
+        <!-- Card 1 -->
+        <a href="#" class="course-card">
+          <div class="course-card__thumb ph">Thumbnail 360×170</div>
+          <div class="course-card__thumb-label"><span class="badge badge--danger">Nuevo</span></div>
+          <div class="course-card__thumb-duration">18 h</div>
+          <div class="course-card__body">
+            <div class="course-card__title">ICP Avanzado: técnicas complejas y manejo de complicaciones</div>
+            <div class="course-card__instructor">Dr. Juan Pérez Cardiointervencionista · HC</div>
+            <div class="course-card__rating">
+              <div class="stars">★★★★★</div>
+              <strong>4.9</strong>
+              <span>(342)</span>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;">
+              <span class="badge badge--primary">Intervencionismo</span>
+              <span class="badge badge--neutral">Avanzado</span>
+            </div>
+          </div>
+          <div class="course-card__footer">
+            <div>
+              <div class="course-card__price">$299.000</div>
+              <div class="course-card__price-orig">$420.000</div>
+            </div>
+            <span class="btn btn--primary btn--sm">Ver curso</span>
+          </div>
+        </a>
+
+        <!-- Card 2 -->
+        <a href="#" class="course-card">
+          <div class="course-card__thumb ph" style="background:#C5D8C5;">Thumbnail 360×170</div>
+          <div class="course-card__thumb-label"><span class="badge badge--success">Popular</span></div>
+          <div class="course-card__thumb-duration">24 h</div>
+          <div class="course-card__body">
+            <div class="course-card__title">Electrofisiología clínica: arritmias y ablación por catéter</div>
+            <div class="course-card__instructor">Dra. María López · Electrofisióloga HC</div>
+            <div class="course-card__rating">
+              <div class="stars">★★★★★</div>
+              <strong>4.8</strong>
+              <span>(218)</span>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;">
+              <span class="badge badge--primary">Electrofisiología</span>
+              <span class="badge badge--neutral">Intermedio</span>
+            </div>
+          </div>
+          <div class="course-card__footer">
+            <div>
+              <div class="course-card__price">$349.000</div>
+              <div class="course-card__price-orig">$490.000</div>
+            </div>
+            <span class="btn btn--primary btn--sm">Ver curso</span>
+          </div>
+        </a>
+
+        <!-- Card 3 -->
+        <a href="#" class="course-card">
+          <div class="course-card__thumb ph" style="background:#C5CAD8;">Thumbnail 360×170</div>
+          <div class="course-card__thumb-label"><span class="badge badge--neutral">En vivo</span></div>
+          <div class="course-card__thumb-duration">12 h</div>
+          <div class="course-card__body">
+            <div class="course-card__title">Ecocardiografía transesofágica: protocolo y casos clínicos</div>
+            <div class="course-card__instructor">Dr. Carlos Ruiz · Ecocardiografista</div>
+            <div class="course-card__rating">
+              <div class="stars">★★★★☆</div>
+              <strong>4.7</strong>
+              <span>(175)</span>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;">
+              <span class="badge badge--primary">Ecocardiografía</span>
+              <span class="badge badge--neutral">Básico</span>
+            </div>
+          </div>
+          <div class="course-card__footer">
+            <div>
+              <div class="course-card__price">$199.000</div>
+              <div class="course-card__price-orig">$280.000</div>
+            </div>
+            <span class="btn btn--primary btn--sm">Ver curso</span>
+          </div>
+        </a>
+
+        <!-- Card 4 -->
+        <a href="#" class="course-card">
+          <div class="course-card__thumb ph" style="background:#D8C5C5;">Thumbnail 360×170</div>
+          <div class="course-card__thumb-label"><span class="badge badge--primary">Certificado SCC</span></div>
+          <div class="course-card__thumb-duration">20 h</div>
+          <div class="course-card__body">
+            <div class="course-card__title">Insuficiencia cardíaca avanzada: diagnóstico y terapia moderna</div>
+            <div class="course-card__instructor">Dra. Ana Gómez · Cardióloga HC</div>
+            <div class="course-card__rating">
+              <div class="stars">★★★★★</div>
+              <strong>4.9</strong>
+              <span>(289)</span>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;">
+              <span class="badge badge--primary">Insuficiencia Cardíaca</span>
+              <span class="badge badge--neutral">Avanzado</span>
+            </div>
+          </div>
+          <div class="course-card__footer">
+            <div>
+              <div class="course-card__price">$319.000</div>
+              <div class="course-card__price-orig">$450.000</div>
+            </div>
+            <span class="btn btn--primary btn--sm">Ver curso</span>
+          </div>
+        </a>
+
+        <!-- Card 5 -->
+        <a href="#" class="course-card">
+          <div class="course-card__thumb ph" style="background:#D5C5D8;">Thumbnail 360×170</div>
+          <div class="course-card__thumb-duration">16 h</div>
+          <div class="course-card__body">
+            <div class="course-card__title">Resonancia magnética cardíaca: fundamentos e interpretación</div>
+            <div class="course-card__instructor">Dr. Luis Torres · Radiólogo Cardíaco</div>
+            <div class="course-card__rating">
+              <div class="stars">★★★★☆</div>
+              <strong>4.6</strong>
+              <span>(143)</span>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;">
+              <span class="badge badge--primary">Imagen Cardíaca</span>
+              <span class="badge badge--neutral">Intermedio</span>
+            </div>
+          </div>
+          <div class="course-card__footer">
+            <div>
+              <div class="course-card__price">$279.000</div>
+              <div class="course-card__price-orig">$380.000</div>
+            </div>
+            <span class="btn btn--primary btn--sm">Ver curso</span>
+          </div>
+        </a>
+
+        <!-- Card 6 -->
+        <a href="#" class="course-card">
+          <div class="course-card__thumb ph" style="background:#C5D8D5;">Thumbnail 360×170</div>
+          <div class="course-card__thumb-label"><span class="badge badge--success">Incluido en plan</span></div>
+          <div class="course-card__thumb-duration">8 h</div>
+          <div class="course-card__body">
+            <div class="course-card__title">Prevención cardiovascular: riesgo, estatinas y estilo de vida</div>
+            <div class="course-card__instructor">Dra. Sara Mora · Cardióloga Preventiva</div>
+            <div class="course-card__rating">
+              <div class="stars">★★★★★</div>
+              <strong>4.8</strong>
+              <span>(410)</span>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;">
+              <span class="badge badge--primary">Prevención CV</span>
+              <span class="badge badge--neutral">Básico</span>
+            </div>
+          </div>
+          <div class="course-card__footer">
+            <div>
+              <div class="course-card__price">$149.000</div>
+              <div class="course-card__price-orig">$210.000</div>
+            </div>
+            <span class="btn btn--primary btn--sm">Ver curso</span>
+          </div>
+        </a>
+
+      </div>
+
+      <div class="course-grid__cta">
+        <a href="#" class="btn btn--secondary btn--lg">Ver los 32 cursos disponibles →</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     06 — FEATURED COURSE (Spotlight)
+     Objetivo: crear deseo con el curso estrella, urgencia de cupos.
+     ════════════════════════════════════════════════════════════ -->
+<div id="s06">
+  <div class="wf-label">06 · Spotlight — curso estrella con urgencia de cupos (conversión directa)</div>
+  <section class="section section--alt">
+    <div class="max-w">
+      <div class="section-header text-center">
+        <div class="section-header__eyebrow">Programa estrella</div>
+        <h2 class="section-header__title">El curso más completo de CardioU</h2>
+      </div>
+      <div class="spotlight">
+        <div class="spotlight__body">
+          <div class="spotlight__eyebrow">⭐ Programa insignia · Edición 2025</div>
+          <h3 class="spotlight__title">Fellowship en Cardiología Intervencionista: programa completo</h3>
+          <div class="spotlight__meta">
+            <span class="spotlight__meta-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              48 horas de contenido
+            </span>
+            <span class="spotlight__meta-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              12 especialistas docentes
+            </span>
+            <span class="spotlight__meta-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Certificado SCC avalado
+            </span>
+            <span class="spotlight__meta-item" style="color:#FFEC3E;font-weight:700;">
+              🔥 Solo 4 cupos disponibles
+            </span>
+          </div>
+          <div class="spotlight__actions">
+            <a href="#" class="btn btn--danger btn--lg">Reservar mi cupo — $890.000</a>
+            <a href="#" class="btn btn--outline-white btn--lg">Ver temario completo</a>
+          </div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:8px;">
+            Precio regular: <s>$1.290.000</s> · Ahorro del 31 %
+          </div>
+        </div>
+        <div class="spotlight__thumb ph ph--dark" style="min-height:340px;">Imagen / video preview del programa</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     07 — HOW IT WORKS
+     Objetivo: eliminar fricción de "¿cómo funciona esto?".
+     ════════════════════════════════════════════════════════════ -->
+<div id="s07">
+  <div class="wf-label">07 · Cómo funciona — 3 pasos para eliminar fricción de onboarding</div>
+  <section class="section">
+    <div class="max-w">
+      <div class="section-header text-center" style="margin-bottom:48px;">
+        <div class="section-header__eyebrow">Proceso</div>
+        <h2 class="section-header__title">Empieza a aprender hoy</h2>
+        <p class="section-header__subtitle">Sin complicaciones. En 3 pasos ya estarás dentro de tu primer módulo.</p>
+      </div>
+      <div class="how-grid">
+        <div class="how-item">
+          <div class="how-item__step">1</div>
+          <div class="how-item__title">Elige tu curso o plan</div>
+          <div class="how-item__body">Filtra por especialidad, nivel o formato (en vivo / grabado). Encuentra exactamente lo que necesitas para crecer.</div>
+        </div>
+        <div class="how-item">
+          <div class="how-item__step">2</div>
+          <div class="how-item__title">Accede al instante</div>
+          <div class="how-item__body">Crea tu cuenta gratuita en 30 segundos. El contenido queda disponible en cualquier dispositivo, las 24 horas.</div>
+        </div>
+        <div class="how-item">
+          <div class="how-item__step">3</div>
+          <div class="how-item__title">Certifícate y avanza</div>
+          <div class="how-item__body">Completa las evaluaciones, descarga tu certificado avalado y compártelo en LinkedIn con un clic.</div>
+        </div>
+      </div>
+      <div class="flex-center mt-12">
+        <a href="#s05" class="btn btn--primary btn--lg">Explorar cursos</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     08 — TESTIMONIALS
+     Objetivo: prueba social de pares. El médico convence a otros médicos.
+     ════════════════════════════════════════════════════════════ -->
+<div id="s08">
+  <div class="wf-label">08 · Testimonios — prueba social de pares (colegas convencen colegas)</div>
+  <section class="section section--alt">
+    <div class="max-w">
+      <div class="section-header text-center" style="margin-bottom:40px;">
+        <div class="section-header__eyebrow">Testimonios</div>
+        <h2 class="section-header__title">Lo que dicen nuestros estudiantes</h2>
+        <p class="section-header__subtitle">Más de 8.500 profesionales de la salud ya transformaron su práctica clínica.</p>
+      </div>
+      <div class="testimonial-grid">
+        <div class="testimonial testimonial--accent">
+          <div class="testimonial__stars"><div class="stars">★★★★★</div></div>
+          <p class="testimonial__text">"El Fellowship en Intervencionismo me dio las herramientas que en el hospital tardaríamos años en ver. Casos reales, docentes de talla internacional y un certificado que realmente pesa en el CV."</p>
+          <div class="testimonial__footer">
+            <div class="testimonial__avatar">JP</div>
+            <div>
+              <div class="testimonial__name">Dr. Jorge Pineda</div>
+              <div class="testimonial__role">Cardiólogo · Clínica Las Américas, Medellín</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial testimonial--accent">
+          <div class="testimonial__stars"><div class="stars">★★★★★</div></div>
+          <p class="testimonial__text">"La calidad del contenido supera a muchos congresos. Los módulos de arritmias eran exactamente lo que necesitaba. Lo hice en mis tiempos libres sin descuidar la guardia."</p>
+          <div class="testimonial__footer">
+            <div class="testimonial__avatar" style="background:#FEE5EB;color:#E40046;">LR</div>
+            <div>
+              <div class="testimonial__name">Dra. Luisa Ramírez</div>
+              <div class="testimonial__role">Residente de Cardiología · U. del Valle</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial testimonial--accent">
+          <div class="testimonial__stars"><div class="stars">★★★★★</div></div>
+          <p class="testimonial__text">"Presenté el certificado en mi proceso de ascenso y fue determinante. La plataforma es ágil, los docentes son accesibles y el soporte responde en horas. Vale cada peso."</p>
+          <div class="testimonial__footer">
+            <div class="testimonial__avatar" style="background:#EAF3DE;color:#3B6D11;">CM</div>
+            <div>
+              <div class="testimonial__name">Dr. Camilo Mora</div>
+              <div class="testimonial__role">Jefe de Unidad Coronaria · Hospital San Ignacio</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Trust logos bar -->
+      <div style="margin-top:48px;text-align:center;">
+        <div style="font-size:12px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.08em;font-weight:600;margin-bottom:20px;">Estudiantes de las mejores instituciones del país</div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap;">
+          <div class="ph" style="width:120px;height:36px;border-radius:4px;font-size:10px;">Logo institución</div>
+          <div class="ph" style="width:120px;height:36px;border-radius:4px;font-size:10px;">Logo institución</div>
+          <div class="ph" style="width:120px;height:36px;border-radius:4px;font-size:10px;">Logo institución</div>
+          <div class="ph" style="width:120px;height:36px;border-radius:4px;font-size:10px;">Logo institución</div>
+          <div class="ph" style="width:120px;height:36px;border-radius:4px;font-size:10px;">Logo institución</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     09 — PRICING
+     Objetivo: capturar distintos segmentos (curso suelto, plan mensual, institucional).
+     ════════════════════════════════════════════════════════════ -->
+<div id="s09">
+  <div class="wf-label">09 · Planes de precios — 3 opciones para convertir distintos segmentos</div>
+  <section class="section">
+    <div class="max-w">
+      <div class="section-header text-center" style="margin-bottom:48px;">
+        <div class="section-header__eyebrow">Planes</div>
+        <h2 class="section-header__title">Elige cómo quieres aprender</h2>
+        <p class="section-header__subtitle">Paga por curso individual o accede a todo el catálogo con un plan. Sin ataduras.</p>
+        <div style="display:inline-flex;align-items:center;gap:10px;margin-top:16px;background:var(--bg-page);border:1px solid var(--border);border-radius:var(--radius-full);padding:4px 6px;">
+          <span style="font-size:13px;font-weight:600;background:#fff;padding:5px 14px;border-radius:var(--radius-full);box-shadow:var(--shadow-sm);">Mensual</span>
+          <span style="font-size:13px;color:var(--text-secondary);padding:5px 14px;">Anual <span class="badge badge--success" style="margin-left:4px;">Ahorra 30%</span></span>
+        </div>
+      </div>
+      <div class="pricing-grid">
+        <!-- Plan 1: Individual -->
+        <div class="plan">
+          <div>
+            <div class="plan__name">Curso individual</div>
+            <div class="plan__price-block">
+              <div class="plan__price">$199<span style="font-size:14px">k</span></div>
+              <div class="plan__period">por curso · acceso de por vida</div>
+            </div>
+          </div>
+          <div class="plan__features">
+            <div class="plan__feature">Acceso al curso elegido</div>
+            <div class="plan__feature">Certificado descargable</div>
+            <div class="plan__feature">Foro de la comunidad</div>
+            <div class="plan__feature--off plan__feature">Acceso a todo el catálogo</div>
+            <div class="plan__feature--off plan__feature">Sesiones en vivo mensuales</div>
+            <div class="plan__feature--off plan__feature">Descuentos en futuros cursos</div>
+          </div>
+          <a href="#" class="btn btn--secondary btn--md" style="width:100%;justify-content:center;">Elegir curso</a>
+        </div>
+
+        <!-- Plan 2: Pro (Featured) -->
+        <div class="plan plan--featured">
+          <div class="plan__popular">Más elegido</div>
+          <div>
+            <div class="plan__name" style="color:var(--brand-primary);">Pro mensual</div>
+            <div class="plan__price-block">
+              <div class="plan__price" style="color:var(--brand-primary);">$89<span style="font-size:14px">k</span></div>
+              <div class="plan__period">por mes · cancela cuando quieras</div>
+            </div>
+          </div>
+          <div class="plan__features">
+            <div class="plan__feature">Acceso a todo el catálogo</div>
+            <div class="plan__feature">Certificados ilimitados</div>
+            <div class="plan__feature">Foro y comunidad exclusiva</div>
+            <div class="plan__feature">Sesiones en vivo mensuales</div>
+            <div class="plan__feature">20 % de descuento en fellows</div>
+            <div class="plan__feature--off plan__feature">Panel de equipo (institucional)</div>
+          </div>
+          <a href="#s11" class="btn btn--primary btn--md" style="width:100%;justify-content:center;">Empezar prueba gratis</a>
+          <div style="text-align:center;font-size:11px;color:var(--text-tertiary);">14 días gratis · sin tarjeta de crédito</div>
+        </div>
+
+        <!-- Plan 3: Institucional -->
+        <div class="plan">
+          <div>
+            <div class="plan__name">Institucional</div>
+            <div class="plan__price-block">
+              <div class="plan__price">Personalizado</div>
+              <div class="plan__period">desde 5 usuarios · factura empresa</div>
+            </div>
+          </div>
+          <div class="plan__features">
+            <div class="plan__feature">Todo lo del plan Pro</div>
+            <div class="plan__feature">Panel de gestión de equipos</div>
+            <div class="plan__feature">Reportes de progreso</div>
+            <div class="plan__feature">Contenido a medida</div>
+            <div class="plan__feature">Soporte prioritario</div>
+            <div class="plan__feature">Facturación centralizada</div>
+          </div>
+          <a href="#" class="btn btn--secondary btn--md" style="width:100%;justify-content:center;">Hablar con ventas</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     10 — FAQ
+     Objetivo: resolver objeciones que frenan la compra.
+     ════════════════════════════════════════════════════════════ -->
+<div id="s10">
+  <div class="wf-label">10 · FAQ — responde objeciones de compra antes del CTA final</div>
+  <section class="section section--alt">
+    <div class="max-w">
+      <div class="section-header text-center" style="margin-bottom:48px;">
+        <div class="section-header__eyebrow">FAQ</div>
+        <h2 class="section-header__title">Preguntas frecuentes</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item faq-item--open">
+          <div class="faq-question">¿Necesito ser médico para acceder a los cursos?</div>
+          <div class="faq-answer">La mayoría de nuestros cursos están dirigidos a profesionales de la salud (médicos, residentes, enfermeros especializados). Sin embargo, algunos programas introductorios están abiertos a estudiantes de medicina y otros profesionales del área de salud. Cada curso indica claramente el perfil recomendado.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">¿Los certificados tienen reconocimiento oficial?</div>
+          <div class="faq-answer">Sí. Nuestros certificados están avalados por la Sociedad Colombiana de Cardiología y Cirugía Cardiovascular (SCC) y por la Fundación CardioInfantil. Son aceptados como créditos de educación médica continua (EMC) en la mayoría de hospitales e instituciones.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">¿Puedo cancelar mi plan Pro en cualquier momento?</div>
+          <div class="faq-answer">Sí, sin penalidades. Si cancelas antes de tu próximo ciclo de facturación, no se te cobra el siguiente mes. Mantienes acceso hasta el final del período pagado.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">¿Los cursos tienen contenido en vivo o solo grabado?</div>
+          <div class="faq-answer">Ofrecemos ambos formatos. Los cursos grabados están disponibles las 24 horas para que aprendas a tu ritmo. Los programas fellows y masterclasses incluyen sesiones en vivo con los especialistas, que quedan grabadas para quienes no puedan asistir en tiempo real.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">¿Cómo funciona la facturación para instituciones?</div>
+          <div class="faq-answer">Emitimos factura a nombre de la institución con todos los requisitos tributarios colombianos. Puedes pagar por transferencia bancaria, PSE o tarjeta corporativa. Contáctanos en instituciones@lacardio.org para armar el plan según tus necesidades.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     11 — CTA FINAL
+     Objetivo: el empuje final. Urgencia + garantía para quien aún duda.
+     ════════════════════════════════════════════════════════════ -->
+<div id="s11">
+  <div class="wf-label">11 · CTA Final — urgencia + garantía. El cierre de conversión de la página</div>
+  <section class="section">
+    <div class="max-w">
+      <div class="cta-banner">
+        <div class="cta-banner__eyebrow">Último paso</div>
+        <h2 class="cta-banner__title">Tu carrera en cardiología<br>empieza hoy</h2>
+        <p class="cta-banner__subtitle">Únete a más de 8.500 profesionales que ya eligieron formarse con los mejores. Empieza con 14 días gratis, sin tarjeta de crédito.</p>
+        <div class="cta-banner__actions">
+          <a href="#" class="btn btn--white btn--xl">Crear cuenta gratis</a>
+          <a href="#s09" class="btn btn--outline-white btn--xl">Ver planes y precios</a>
+        </div>
+        <div class="cta-banner__timer">
+          ⏳ Oferta de lanzamiento termina en: <strong>2 días · 14:32:08</strong>
+        </div>
+        <div style="margin-top:16px;font-size:12px;color:rgba(255,255,255,0.55);">
+          🔒 Pago 100 % seguro · Garantía de devolución de 7 días · Sin permanencia
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     12 — FOOTER
+     Objetivo: links de confianza, SEO y acceso a soporte.
+     ════════════════════════════════════════════════════════════ -->
+<div id="s12">
+  <div class="wf-label">12 · Footer — navegación secundaria, confianza y contacto</div>
+  <footer class="footer">
+    <div class="max-w">
+      <div class="footer__grid">
+        <div>
+          <div class="footer__logo">CardioU</div>
+          <p class="footer__tagline">La plataforma de educación médica continua de la Fundación CardioInfantil. Formamos a los mejores especialistas del corazón.</p>
+          <div class="footer__social">
+            <div class="footer__social-btn">in</div>
+            <div class="footer__social-btn">ig</div>
+            <div class="footer__social-btn">yt</div>
+            <div class="footer__social-btn">tw</div>
+          </div>
+        </div>
+        <div>
+          <div class="footer__col-title">Cursos</div>
+          <div class="footer__links">
+            <a href="#" class="footer__link">Intervencionismo</a>
+            <a href="#" class="footer__link">Electrofisiología</a>
+            <a href="#" class="footer__link">Ecocardiografía</a>
+            <a href="#" class="footer__link">Imagen Cardíaca</a>
+            <a href="#" class="footer__link">Prevención CV</a>
+            <a href="#" class="footer__link">Todos los cursos</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer__col-title">Plataforma</div>
+          <div class="footer__links">
+            <a href="#" class="footer__link">¿Cómo funciona?</a>
+            <a href="#" class="footer__link">Planes y precios</a>
+            <a href="#" class="footer__link">Para instituciones</a>
+            <a href="#" class="footer__link">Certificaciones</a>
+            <a href="#" class="footer__link">Blog</a>
+            <a href="#" class="footer__link">Soporte</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer__col-title">Legales</div>
+          <div class="footer__links">
+            <a href="#" class="footer__link">Términos y condiciones</a>
+            <a href="#" class="footer__link">Política de privacidad</a>
+            <a href="#" class="footer__link">Política de cookies</a>
+            <a href="#" class="footer__link">Tratamiento de datos</a>
+          </div>
+          <div style="margin-top:24px;">
+            <div class="footer__col-title">Contacto</div>
+            <div class="footer__links">
+              <a href="#" class="footer__link">cardio-u@lacardio.org</a>
+              <a href="#" class="footer__link">+57 1 XXXX XXXX</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2025 Fundación CardioInfantil · CardioU. Todos los derechos reservados.</span>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div class="ph" style="width:80px;height:24px;border-radius:4px;font-size:9px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.3);">Logo SCC</div>
+          <div class="ph" style="width:80px;height:24px;border-radius:4px;font-size:9px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.3);">Logo FC</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+  /* FAQ toggle */
+  document.querySelectorAll('.faq-question').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.closest('.faq-item');
+      const wasOpen = item.classList.contains('faq-item--open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('faq-item--open'));
+      if (!wasOpen) item.classList.add('faq-item--open');
+    });
+  });
+</script>
+</body>
+</html>
