@@ -1173,7 +1173,7 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
   gap: var(--sp-16);
   align-items: start;
 }
-.faq-simple__left { position: sticky; top: 140px; }
+.faq-simple__left { position: static; }
 .faq-simple__support {
   margin-top: var(--sp-8);
   padding: var(--sp-5);
