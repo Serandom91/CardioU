@@ -16,7 +16,8 @@
 /* ── Garet — headings & eyebrow (local) ──────────────────── */
 @font-face {
   font-family: 'Garet';
-  src: url('Fonts/Garet-Book.ttf') format('truetype');
+  src: url('Fonts/Garet-Book.woff2') format('woff2'),
+       url('Fonts/Garet-Book.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -24,7 +25,8 @@
 
 @font-face {
   font-family: 'Garet';
-  src: url('Fonts/Garet-Heavy.ttf') format('truetype');
+  src: url('Fonts/Garet-Heavy.woff2') format('woff2'),
+       url('Fonts/Garet-Heavy.ttf') format('truetype');
   font-weight: 800;
   font-style: normal;
   font-display: swap;
