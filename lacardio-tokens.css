@@ -3,200 +3,273 @@
  *  LACARDIO — TOKENS DE CLIENTE
  *  Clínica CardioInfantil · Fundación CardioInfantil
  *
- *  Este archivo extiende tokens.css con la identidad
- *  específica de la marca LaCardio.
+ *  Fuente: Figma "Insumo IA — Tokens CardioU" 2024
  *
  *  Uso:
- *    <link rel="stylesheet" href="tokens.css">
  *    <link rel="stylesheet" href="lacardio-tokens.css">
- *
- *  Para la variante Fundación, añadir también:
- *    <link rel="stylesheet" href="lacardio-fundacion.css">
  * ============================================================
  */
 
-/* ── Importa el sistema base ──────────────────────────────── */
-@import url('tokens.css');
+/* ── Inter — body text ────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+/* ── Garet — headings & eyebrow (local) ──────────────────── */
+@font-face {
+  font-family: 'Garet';
+  src: url('Fonts/Garet-Book.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Garet';
+  src: url('Fonts/Garet-Heavy.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
 
 
 :root {
 
   /* ══════════════════════════════════════════════════════════
-     BRAND — CLÍNICA (por defecto)
-     Azul institucional. Confirma y documenta que el
-     sistema genérico ya refleja estos valores.
+     PALETA PRIMITIVA
+     Fuente: Figma "Colores" — colores primitivos
   ══════════════════════════════════════════════════════════ */
 
-  --color-brand-primary:        #002d72;  /* Blue/500 */
-  --color-brand-primary-hover:  #00245c;  /* Blue/600 */
-  --color-brand-primary-active: #001b45;  /* Blue/700 */
-  --color-brand-primary-subtle: #e5ebf6;  /* Blue/50  */
-  --color-brand-primary-on:     #ffffff;
+  /* Básicos */
+  --color-black: #000000;
+  --color-white: #ffffff;
+
+  /* Gray */
+  --color-gray-900: #080808;
+  --color-gray-800: #1e1d1b;
+  --color-gray-700: #31302e;
+  --color-gray-600: #474644;
+  --color-gray-500: #62615e;
+  --color-gray-400: #83827f;
+  --color-gray-300: #a4a3a0;
+  --color-gray-200: #c5c4c1;
+  --color-gray-100: #e6e5e2;
+  --color-gray-50:  #f4f3f0;
+
+  /* Red */
+  --color-red-900: #2e000e;
+  --color-red-800: #5c001c;
+  --color-red-700: #8a002a;
+  --color-red-600: #b70038;
+  --color-red-500: #ff0040;
+  --color-red-400: #ee335a;
+  --color-red-300: #f56183;
+  --color-red-200: #fa94ae;
+  --color-red-100: #fdc4d4;
+  --color-red-50:  #fee5eb;
+
+  /* Blue */
+  --color-blue-900: #040810;
+  --color-blue-800: #08101f;
+  --color-blue-700: #0d1931;
+  --color-blue-600: #14284f;
+  --color-blue-500: #1d386d;
+  --color-blue-400: #254686;
+  --color-blue-300: #426cbe;
+  --color-blue-200: #87a9ec;
+  --color-blue-100: #b8cef9;
+  --color-blue-50:  #e0eaff;
+
+  /* Green */
+  --color-green-900: #040c00;
+  --color-green-800: #0c1c02;
+  --color-green-700: #173404;
+  --color-green-600: #27500a;
+  --color-green-500: #3b6d11;
+  --color-green-400: #649922;
+  --color-green-300: #6ea52b;
+  --color-green-200: #97c459;
+  --color-green-100: #c0dd97;
+  --color-green-50:  #eaf3de;
+
+  /* Amber */
+  --color-amber-900: #100800;
+  --color-amber-800: #241300;
+  --color-amber-700: #412402;
+  --color-amber-600: #633806;
+  --color-amber-500: #854f07;
+  --color-amber-400: #ba750b;
+  --color-amber-300: #cc8011;
+  --color-amber-200: #ef9f27;
+  --color-amber-100: #fac775;
+  --color-amber-50:  #faeeda;
 
   /* ══════════════════════════════════════════════════════════
-     BRAND — SECUNDARIO (Fundación)
-     Rojo institucional. Se activa en lacardio-fundacion.css.
-     Documentado aquí para centralizar la paleta de marca.
+     BRAND — TOKENS SEMÁNTICOS
   ══════════════════════════════════════════════════════════ */
 
-  --color-brand-secondary:        #e40046;  /* Red/500 */
-  --color-brand-secondary-hover:  #b70038;  /* Red/600 */
-  --color-brand-secondary-active: #8a002a;  /* Red/700 */
-  --color-brand-secondary-subtle: #fee5eb;  /* Red/50  */
-  --color-brand-secondary-on:     #ffffff;
+  --color-brand-primary:        var(--color-blue-500);  /* #1d386d */
+  --color-brand-primary-hover:  var(--color-blue-600);  /* #14284f */
+  --color-brand-primary-active: var(--color-blue-700);  /* #0d1931 */
+  --color-brand-primary-subtle: var(--color-blue-50);   /* #e0eaff */
+  --color-brand-primary-on:     var(--color-white);
+
+  --color-brand-secondary:        var(--color-red-400); /* #ee335a */
+  --color-brand-secondary-hover:  var(--color-red-600); /* #b70038 */
+  --color-brand-secondary-active: var(--color-red-700); /* #8a002a */
+  --color-brand-secondary-subtle: var(--color-red-50);  /* #fee5eb */
+  --color-brand-secondary-on:     var(--color-white);
 
   /* ══════════════════════════════════════════════════════════
-     TIPOGRAFÍA — LaCardio / CardioU
-     Verificado en Figma: Tokens--LaCardio (node 21:37)
-
-       · Fira Sans  → TODOS los headings (H1–H6) + Eyebrow
-       · Open Sans  → párrafos, captions y botones
-       · Inter      → UI cromática (nav, labels, badges)
-       · IBM Plex Mono → datos clínicos / código
+     PALETA DE ESCUELAS
   ══════════════════════════════════════════════════════════ */
 
-  --font-sans:    'Inter', system-ui, -apple-system, sans-serif;
-  --font-display: 'Fira Sans', 'Inter', sans-serif;
-  --font-body:    'Open Sans', 'Inter', sans-serif;
+  --color-escuela-medicina:       #1c7fca;
+  --color-escuela-enfermeria:     #6ea4dd;
+  --color-escuela-innovacion:     #2a55c3;
+  --color-escuela-servicio:       #a4c6fc;
+  --color-escuela-habilidades:    #2193ff;
+  --color-escuela-investigacion:  #165b8b;
+  --color-escuela-continua:       #ff0040;
+
+  /* ══════════════════════════════════════════════════════════
+     SUPERFICIES — Dark theme
+  ══════════════════════════════════════════════════════════ */
+
+  --color-bg-page:       var(--color-blue-500);          /* #1d386d */
+  --color-bg-surface:    var(--color-blue-400);          /* #254686 */
+  --color-bg-surface-2:  var(--color-blue-600);          /* #14284f */
+  --color-bg-overlay:    rgba(29, 56, 109, 0.85);
+
+  --color-text-primary:    var(--color-white);
+  --color-text-secondary:  var(--color-blue-100);        /* #b8cef9 */
+  --color-text-on-primary: var(--color-white);
+  --color-text-disabled:   rgba(255, 255, 255, 0.4);
+
+  --color-border:        rgba(199, 218, 239, 0.2);
+  --color-border-strong: rgba(199, 218, 239, 0.5);
+
+  /* ══════════════════════════════════════════════════════════
+     TIPOGRAFÍA
+       · Garet Heavy (800) → H1–H6
+       · Garet Book  (400) → eyebrow, subtítulos
+       · Inter Bold  (700) → párrafos bold, botones
+       · Inter       (400) → párrafos, captions, UI
+  ══════════════════════════════════════════════════════════ */
+
+  --font-display: 'Garet', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
   --font-mono:    'IBM Plex Mono', 'SF Mono', 'Fira Code', monospace;
 
-  /* ── HEADINGS — Fira Sans · Desktop ───────────────────────
-     letter-spacing en PERCENT de Figma → em en CSS
-     (Figma -1% @ Xpx = -0.01em en CSS)
-  ─────────────────────────────────────────────────────────── */
-  --text-h1-family:  var(--font-display);
-  --text-h1-size:    46px;
-  --text-h1-weight:  400;       /* Regular */
-  --text-h1-lh:      56px;
-  --text-h1-ls:      0em;
+  /* ── HEADINGS — Garet Heavy · Desktop ─────────────────── */
+  --text-h1-size:   46px;
+  --text-h1-weight: 800;
+  --text-h1-lh:     1.2;
+  --text-h1-ls:     0em;
 
-  --text-h2-family:  var(--font-display);
-  --text-h2-size:    40px;
-  --text-h2-weight:  500;       /* Medium */
-  --text-h2-lh:      52px;
-  --text-h2-ls:      -0.01em;
+  --text-h2-size:   38px;
+  --text-h2-weight: 800;
+  --text-h2-lh:     1.24;
+  --text-h2-ls:     0em;
 
-  --text-h3-family:  var(--font-display);
-  --text-h3-size:    36px;
-  --text-h3-weight:  500;
-  --text-h3-lh:      44px;
-  --text-h3-ls:      -0.01em;
+  --text-h3-size:   32px;
+  --text-h3-weight: 800;
+  --text-h3-lh:     1.24;
+  --text-h3-ls:     0em;
 
-  --text-h4-family:  var(--font-display);
-  --text-h4-size:    32px;
-  --text-h4-weight:  500;
-  --text-h4-lh:      41px;
-  --text-h4-ls:      -0.01em;
+  --text-h4-size:   28px;
+  --text-h4-weight: 800;
+  --text-h4-lh:     1.24;
+  --text-h4-ls:     0em;
 
-  --text-h5-family:  var(--font-display);
-  --text-h5-size:    24px;
-  --text-h5-weight:  500;
-  --text-h5-lh:      32px;
-  --text-h5-ls:      -0.01em;
+  --text-h5-size:   24px;
+  --text-h5-weight: 800;
+  --text-h5-lh:     1.24;
+  --text-h5-ls:     0em;
 
-  --text-h6-family:  var(--font-display);
-  --text-h6-size:    20px;
-  --text-h6-weight:  500;
-  --text-h6-lh:      28px;
-  --text-h6-ls:      0em;
+  --text-h6-size:   20px;
+  --text-h6-weight: 800;
+  --text-h6-lh:     1.24;
+  --text-h6-ls:     0em;
 
-  /* ── HEADINGS — Fira Sans · Mobile ────────────────────── */
-  --text-h1-mobile-size:   37px;
-  --text-h1-mobile-weight: 400;
-  --text-h1-mobile-lh:     45px;
-  --text-h1-mobile-ls:     0em;
+  /* ── HEADINGS — Garet Heavy · Mobile ──────────────────── */
+  --text-h1-mobile-size: 37px;
+  --text-h1-mobile-lh:   45px;
+  --text-h1-mobile-ls:   0em;
 
-  --text-h2-mobile-size:   32px;
-  --text-h2-mobile-weight: 500;
-  --text-h2-mobile-lh:     40px;
-  --text-h2-mobile-ls:     -0.01em;
+  --text-h2-mobile-size: 32px;
+  --text-h2-mobile-lh:   40px;
+  --text-h2-mobile-ls:   -0.01em;
 
-  --text-h3-mobile-size:   26px;
-  --text-h3-mobile-weight: 500;
-  --text-h3-mobile-lh:     31px;
-  --text-h3-mobile-ls:     -0.01em;
+  --text-h3-mobile-size: 26px;
+  --text-h3-mobile-lh:   31px;
+  --text-h3-mobile-ls:   -0.01em;
 
-  --text-h4-mobile-size:   24px;
-  --text-h4-mobile-weight: 500;
-  --text-h4-mobile-lh:     30px;
-  --text-h4-mobile-ls:     -0.01em;
+  --text-h4-mobile-size: 24px;
+  --text-h4-mobile-lh:   30px;
+  --text-h4-mobile-ls:   -0.01em;
 
-  --text-h5-mobile-size:   21px;
-  --text-h5-mobile-weight: 500;
-  --text-h5-mobile-lh:     27px;
-  --text-h5-mobile-ls:     -0.01em;
+  --text-h5-mobile-size: 21px;
+  --text-h5-mobile-lh:   27px;
+  --text-h5-mobile-ls:   -0.01em;
 
-  /* ── BODY — Open Sans ──────────────────────────────────── */
-  --text-body-size:        18px;
-  --text-body-weight:      400;       /* Regular */
-  --text-body-lh:          24px;
-  --text-body-ls:          0.015em;   /* Figma +1.5% */
+  /* ── BODY — Inter ──────────────────────────────────────── */
+  --text-body-size:     16px;
+  --text-body-weight:   400;
+  --text-body-lh:       1.3;
+  --text-body-ls:       0em;
 
-  --text-body-bold-size:   18px;
-  --text-body-bold-weight: 700;       /* Bold */
-  --text-body-bold-lh:     24px;
-  --text-body-bold-ls:     -0.02em;   /* Figma -2% */
+  --text-body-bold-size:   16px;
+  --text-body-bold-weight: 700;
+  --text-body-bold-lh:     1.3;
+  --text-body-bold-ls:     0em;
 
-  --text-body-sm-size:     14px;
-  --text-body-sm-weight:   400;
-  --text-body-sm-lh:       20px;
-  --text-body-sm-ls:       0.015em;
+  --text-body-sm-size:   12px;
+  --text-body-sm-weight: 400;
+  --text-body-sm-lh:     1.3;
+  --text-body-sm-ls:     0em;
 
-  --text-body-sm-bold-size:   14px;
+  --text-body-sm-bold-size:   12px;
   --text-body-sm-bold-weight: 700;
-  --text-body-sm-bold-lh:     20px;
-  --text-body-sm-bold-ls:     -0.01em;
+  --text-body-sm-bold-lh:     1.3;
+  --text-body-sm-bold-ls:     0em;
 
-  --text-caption-size:     12px;
-  --text-caption-weight:   400;
-  --text-caption-lh:       18px;
-  --text-caption-ls:       0.005em;   /* Figma +0.5% */
+  --text-caption-size:   11px;
+  --text-caption-weight: 400;
+  --text-caption-lh:     1.24;
+  --text-caption-ls:     0em;
 
-  /* ── EYEBROW — Fira Sans Regular · UPPERCASE ──────────── */
-  --text-eyebrow-family:    var(--font-display);
-  --text-eyebrow-size:      14px;
+  /* ── EYEBROW — Garet Book · UPPERCASE ─────────────────── */
+  --text-eyebrow-size:      13px;
   --text-eyebrow-weight:    400;
   --text-eyebrow-lh:        14px;
-  --text-eyebrow-ls:        0.26em;   /* Figma +26% */
+  --text-eyebrow-ls:        0.2em;
   --text-eyebrow-transform: uppercase;
 
-  /* ── BUTTONS — Open Sans Bold ──────────────────────────── */
-  --text-btn-family:  var(--font-body);
-  --text-btn-size:    18px;
-  --text-btn-weight:  700;
-  --text-btn-lh:      24px;
-  --text-btn-ls:      -0.02em;        /* Figma -2% */
+  /* ── BUTTONS — Inter Bold ─────────────────────────────── */
+  --text-btn-lg-size:   16px;
+  --text-btn-lg-weight: 700;
+  --text-btn-lg-lh:     1.2;
+  --text-btn-lg-ls:     -0.02em;
+
+  --text-btn-md-size:   14px;
+  --text-btn-md-weight: 700;
+  --text-btn-md-lh:     1.2;
+  --text-btn-md-ls:     -0.01em;
+
+  --text-btn-sm-size:   13px;
+  --text-btn-sm-weight: 700;
+  --text-btn-sm-lh:     1.2;
+  --text-btn-sm-ls:     0em;
 
   /* ══════════════════════════════════════════════════════════
      COMPONENTES — LaCardio específicos
-     Extensiones sobre los tokens base del sistema genérico.
   ══════════════════════════════════════════════════════════ */
 
-  /* Navbar LaCardio */
-  --navbar-height: 64px;  /* Spacing/3XL — altura estándar del header */
+  --navbar-height: 64px;
 
-  /* Header Clínica — bottom bar mobile */
-  --header-clinica-bar-bg:   var(--color-brand-primary);        /* azul */
-  --header-clinica-bar-text: var(--color-brand-primary-on);
+  --header-clinica-bar-bg:     var(--color-brand-primary);
+  --header-clinica-bar-text:   var(--color-brand-primary-on);
 
-  /* Header Fundación — bottom bar mobile */
-  --header-fundacion-bar-bg:   var(--color-brand-secondary);    /* rojo */
+  --header-fundacion-bar-bg:   var(--color-brand-secondary);
   --header-fundacion-bar-text: var(--color-brand-secondary-on);
 
 }
-
-
-/*
- * ══════════════════════════════════════════════════════════
- *  TEMA OSCURO (scaffold — completar cuando aplique)
- * ══════════════════════════════════════════════════════════
- *
- * @media (prefers-color-scheme: dark) {
- *   :root {
- *     --color-bg-page:    #0f0f0f;
- *     --color-bg-surface: #1a1a1a;
- *     --color-text-primary:   #f4f3f0;
- *     --color-text-secondary: #a4a3a0;
- *   }
- * }
- */

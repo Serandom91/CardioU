@@ -14,11 +14,11 @@
   <style>
     /* ── Responsive overrides on top of Bootstrap + landing.css ── */
 
-    /* Fluid container padding */
+    /* Fluid container padding — desktop: 40px, mobile: 16px */
     .container {
       max-width: 1440px;
-      padding-left: clamp(16px, 6.5vw, 97px);
-      padding-right: clamp(16px, 6.5vw, 97px);
+      padding-left: clamp(16px, 2.78vw, 40px);
+      padding-right: clamp(16px, 2.78vw, 40px);
     }
 
     /* Topbar — hide on mobile */
@@ -26,82 +26,115 @@
 
     /* Navbar — Bootstrap collapse integration */
     .navbar-toggler {
-      border: 1.5px solid var(--brand-primary);
+      border: 1.5px solid rgba(255,255,255,0.4);
       border-radius: var(--radius-md);
       padding: 6px 10px;
     }
     .navbar-toggler-icon {
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23002D72' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
     }
     @media (max-width: 991px) {
       .navbar__right { flex-direction: column; align-items: flex-start; gap: 12px; width: 100%; padding: 12px 0; }
       .navbar__nav   { flex-direction: column; gap: 4px; }
-      .navbar__search-bar { width: 100%; }
+      .navbar__search-bar { width: 100%; margin-left: 0 !important; padding: 12px 0 0; }
       .navbar__search-input { width: 100%; }
     }
 
-    /* Hero — stack on mobile.
-       hero .container is display:grid (not flex) so flex-direction is a no-op.
-       Override the grid columns to single-column instead. */
+    /* Hero slider — stack on mobile */
     @media (max-width: 991px) {
-      .hero {
-        padding-top: var(--sp-6);
-        padding-bottom: var(--sp-6);
-      }
-      .hero .container {
+      .hero .container     { padding-left: 24px; padding-right: 24px; }
+      .hero__slide-grid {
         grid-template-columns: 1fr !important;
-        gap: var(--sp-3) !important;
+        min-height: 0 !important;
+        padding-top: 0;
+        padding-bottom: 0;
+        gap: 0 !important;
       }
+      /* Image moves above content, fixed 320px height */
+      .hero__visual         { width: 100%; height: 320px; overflow: hidden; order: -1; }
+      .hero__visual img     { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
       .hero__content        { max-width: 100%; }
-      .hero__card           { width: 100%; max-width: 480px; margin: 0 auto; }
       .hero__heading-wrap   { padding-bottom: 0; }
       .hero__h1             { margin-bottom: 0; }
-      .hero__body           { margin-bottom: 0; padding-bottom: var(--sp-4); }
+      .hero__body           { margin-bottom: 0; padding-bottom: var(--sp-3); }
+      /* Button above trust */
+      .hero__buttons        { width: 100%; }
       .hero__buttons .btn   { width: 100%; }
+      /* Trust sits below button with 12px top spacing */
+      .hero__trust          { order: 1; flex-wrap: wrap; gap: var(--sp-3); padding-top: 12px; padding-bottom: 0; }
+      /* Slide controls overlaid at center of image (260px / 2 = 130px) */
+      .hero__controls-wrap {
+        position: absolute;
+        top: 130px;
+        left: 0;
+        right: 0;
+        transform: translateY(-50%);
+        z-index: 10;
+        pointer-events: none;
+      }
+      .hero__controls       { justify-content: space-between; padding-bottom: 0; }
+      .hero__ctrl           { pointer-events: all; }
+      .hero__dot            { pointer-events: all; }
     }
 
-    /* Hero + section-header typography scale-down — values from lacardio-tokens.css mobile scale */
+    /* Typography mobile scale — tokens from lacardio-tokens.css */
     @media (max-width: 575px) {
-      .hero__eyebrow         { font-size: 11px; letter-spacing: 1.8px; }
-      /* H1 mobile token: 37px / 45px / weight 400 / ls 0 */
-      .hero__h1              { font-size: 37px; line-height: 45px; font-weight: 400; letter-spacing: 0; }
+      .hero__eyebrow         { font-size: 13px; letter-spacing: 0.2em; }
+      /* H2 mobile: 32px / 40px / 800 / ls -0.01em */
+      .hero__h1              { font-size: 32px; line-height: 40px; font-weight: 800; letter-spacing: -0.01em; }
       .hero__body            { font-size: 15px; line-height: 22px; }
       .hero__trust           { flex-wrap: wrap; gap: var(--sp-3); justify-content: flex-start; }
-      /* H2 mobile token: 32px / 40px / weight 500 / ls -0.01em */
-      .section-header__title { font-size: 32px; line-height: 40px; font-weight: 500; letter-spacing: -0.01em; }
+      /* H2 mobile: 32px / 40px / 800 / ls -0.01em */
+      .section-header__title { font-size: 32px; line-height: 40px; font-weight: 800; letter-spacing: -0.01em; }
       .section-header__sub   { font-size: 15px; line-height: 22px; }
-      .cta-final__title      { font-size: 32px; line-height: 40px; font-weight: 500; letter-spacing: -0.01em; }
+      .cta-final__title      { font-size: 32px; line-height: 40px; font-weight: 800; letter-spacing: -0.01em; }
       .cta-final__sub        { font-size: 15px; }
-      /* H5 mobile token: 21px / 27px / weight 500 / ls -0.01em */
-      .pillar__title         { font-size: 21px; line-height: 27px; font-weight: 500; letter-spacing: -0.01em; }
+      .testimonials__title   { font-size: 32px; line-height: 40px; font-weight: 800; letter-spacing: -0.01em; }
+      /* H3 mobile: 26px / 31px / 800 / ls -0.01em */
+      .hero__course-title    { font-size: 26px; line-height: 31px; font-weight: 800; letter-spacing: -0.01em; }
+      /* H4 mobile: 24px / 30px / 800 / ls -0.01em */
+      .school-card__name     { font-size: 24px; line-height: 30px; font-weight: 800; letter-spacing: -0.01em; }
+      /* Numeric H2 used as stat — same mobile scale */
+      .cifras__title         { font-size: 32px; line-height: 40px; font-weight: 800; letter-spacing: -0.01em; }
+      .cifras__stat-num      { font-size: 28px; line-height: 1.24; }
+      /* H5 mobile: 21px / 27px / 800 / ls -0.01em */
+      .pillar__title         { font-size: 21px; line-height: 27px; font-weight: 800; letter-spacing: -0.01em; }
     }
 
-    /* Stats bar — full-width single column on mobile */
+    /* Cifras — single column on mobile */
     @media (max-width: 767px) {
-      .stats-bar {
-        display: flex !important;
-        flex-direction: column;
-        padding: 0 var(--sp-6);
-      }
-      .stats-bar__item {
-        width: 100%;
-        padding: var(--sp-3) 24px;
-        border-right: none !important;
-        border-bottom: none !important;
-      }
-      .stats-bar__item:nth-child(-n+4) {
-        border-bottom: 1px solid var(--border-subtle) !important;
-      }
+      .cifras                { padding-bottom: 24px; }
+      .cifras__inner         { flex-direction: column; gap: var(--sp-6); }
+      /* Reset flex-basis (434px in row) so height = image height in column */
+      .cifras__img-col       { flex: none; width: 100%; max-width: 400px; margin: 0 auto; height: auto; }
+      .cifras__title         { margin-top: 0; }
+      .cifras__desc          { font-size: 16px; }
+      .cifras__stat          { width: calc(50% - 8px); }
     }
 
-    /* Schools grid — 2-col on tablet, 1-col on mobile */
-    @media (max-width: 991px) { .schools__grid { grid-template-columns: 1fr 1fr !important; } }
-    @media (max-width: 576px)  {
-      .schools { padding-top: var(--sp-10); padding-bottom: var(--sp-6); }
+    /* Schools grid — already 2-col; 1-col on mobile */
+    @media (max-width: 640px) {
+      .schools { padding-top: 24px; padding-bottom: var(--sp-10); }
+      .schools .section-header__sub { padding-bottom: 0; margin-bottom: 0; }
       .schools__grid { grid-template-columns: 1fr !important; }
-      .schools .section-header { margin-bottom: 0; }
-      .schools .mt-8 { margin-top: var(--sp-6); }
-      .schools .btn { width: 100%; }
+      .schools__grid .school-card:last-child:nth-child(odd) { grid-column: auto; max-width: none; }
+      .school-card { flex-direction: column; }
+      .school-card__icon-wrap { width: 80px; height: 80px; }
+      .school-card__icon-bg { width: 66px; height: 76px; left: 7px; }
+      .school-card__icon-rest,
+      .school-card__icon-hover { width: 36px; height: 48px; }
+      /* Per-school mobile icon overrides */
+      .schools__grid .school-card:nth-child(2) .school-card__icon-rest,
+      .schools__grid .school-card:nth-child(2) .school-card__icon-hover { width: 48px; height: 48px; }
+      .schools__grid .school-card:nth-child(3) .school-card__icon-rest,
+      .schools__grid .school-card:nth-child(3) .school-card__icon-hover { width: 52px; height: 44px; }
+      .schools__grid .school-card:nth-child(4) .school-card__icon-rest,
+      .schools__grid .school-card:nth-child(4) .school-card__icon-hover { width: 40px; height: 52px; }
+      .schools__grid .school-card:nth-child(5) .school-card__icon-rest,
+      .schools__grid .school-card:nth-child(5) .school-card__icon-hover { width: 44px; height: 44px; }
+      .school-card__name { font-size: 24px; }
+      .school-card__count { font-size: 14px; }
+      .school-card__link { font-size: 14px; }
     }
 
     /* Course list section-actions — stack on mobile */
@@ -114,28 +147,32 @@
       .course-list                      { margin-top: var(--sp-2); }
     }
 
-    /* Course rows — stack on mobile */
+    /* Course cards — mobile layout (Figma node 2089:201) */
     @media (max-width: 767px) {
-      .course-row          { flex-wrap: wrap; gap: 12px; padding: 16px 0; border-bottom: none !important; }
-      .course-row__thumb   { width: 100%; height: 180px; }
-      .course-row__info    { flex: 1 1 100%; }
-      /* features row: allow wrap so items don't overflow on narrow screens */
-      .course-row__features { flex-wrap: wrap; gap: 6px 12px; }
-      /* price: show as inline row instead of stacked column */
-      .course-row__price        { width: 100%; flex-direction: row; align-items: baseline; gap: var(--sp-2); }
-      .course-row__price-current { font-size: 24px; line-height: 32px; }
-      .course-row__actions { width: 100%; }
-      .course-row__actions .btn { flex: 1; justify-content: center; }
-      .course-row__link-cta { display: none; }
+      .courses-grid          { grid-template-columns: 1fr; gap: 40px; }
+      .course-card           { flex-direction: column; gap: 16px; }
+      /* Image area: identificador left (123px, -78px overlap) + photo fills remaining */
+      .course-card__img-area { height: 200px; justify-content: flex-start; align-items: flex-start; }
+      .course-card__identificador { width: 123px; height: 200px; margin-right: -78px; }
+      .course-card__photo    { height: 155px; width: 100%; flex: 1; border-radius: 12px; }
+      /* Price: keep at 28px (same as desktop token) */
+      .course-card__price-now { font-size: 28px; }
+      .course-card__actions  { flex-wrap: nowrap; gap: 10px; }
+      .course-card__actions .btn { flex: 1; justify-content: center; }
     }
 
-    /* Differentiator — stack on tablet */
+    /* Differentiator — stack on mobile */
     @media (max-width: 991px) {
-      .differentiator              { padding-top: var(--sp-10); padding-bottom: var(--sp-8); }
-      .differentiator .container   { display: block !important; }
-      .differentiator__sticky      { position: static !important; top: auto; margin-bottom: var(--sp-6); }
-      .differentiator__pillars     { display: block !important; }
-      .pillar                      { margin-bottom: var(--sp-6); gap: var(--sp-2); }
+      .differentiator              { padding-top: 24px; padding-bottom: 24px; }
+      .differentiator__inner       { flex-direction: column; gap: 0; padding-left: 24px; padding-right: 24px; }
+      .differentiator__left        { margin-bottom: 24px; }
+      /* Reset flex-basis (322px in row) so height follows content in column */
+      .differentiator__left        { flex: none; width: 100%; }
+      /* Reset flex-basis so img-col height follows the image */
+      .differentiator__img-col     { flex: none; width: 100%; max-width: 100%; height: 320px; }
+      .differentiator__img-col .differentiator__img { height: 100%; object-fit: cover; object-position: top center; }
+      .differentiator__pillars     { width: 100%; }
+      .pillar                      { margin-bottom: var(--sp-4); gap: var(--sp-2); }
       .pillar__title               { margin-bottom: 0; }
       .pillar__text                { margin-bottom: 0; }
     }
@@ -144,10 +181,42 @@
     @media (max-width: 991px) { .instructors__grid { grid-template-columns: 1fr 1fr !important; } }
     @media (max-width: 576px)  { .instructors__grid { grid-template-columns: 1fr !important; } }
 
-    /* Testimonials grid — 1-col on mobile */
+    /* Testimonials — horizontal scroll on mobile */
     @media (max-width: 767px) {
-      .testimonials__grid { grid-template-columns: 1fr !important; }
-      .testimonials .container { padding-top: var(--sp-10); }
+      .testimonials__inner { padding: 24px 0 0; }
+      .testimonials__title { padding: 0 24px; }
+      .testimonials__grid  {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto;
+        gap: 16px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-left: 24px;
+        padding-right: 24px;
+        padding-bottom: 0;
+      }
+      .testimonials__grid::-webkit-scrollbar { display: none; }
+      .testimonial-card    { flex: 0 0 300px; width: 300px; scroll-snap-align: start; }
+      /* Dots indicator */
+      .testimonials__dots  { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 16px 0 24px; }
+      .testimonials__dot   { width: 8px; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.35); transition: background 0.2s, width 0.2s; flex-shrink: 0; }
+      .testimonials__dot.active { background: #fff; width: 24px; }
+    }
+
+    /* Slide 2 (curso) — stack vertically on mobile, same as slide 1 */
+    @media (max-width: 991px) {
+      .hero__slide-grid--course    { flex-direction: column; align-items: stretch; }
+      .hero__content--course       { width: 100%; }
+      .hero__visual--course        { order: -1; width: 100%; height: 280px; margin-top: 20px; margin-bottom: 20px; box-shadow: none; }
+      .hero__visual--course img    { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+    }
+
+    /* Hero bottom dots — mobile only */
+    .hero__bottom-dots { display: none; }
+    @media (max-width: 991px) {
+      .hero__bottom-dots { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 16px 0; }
     }
 
     /* FAQ simple — desktop: explicit grid areas so support stays below the title */
@@ -177,10 +246,15 @@
       .cta-final__badges      { flex-direction: column; align-items: flex-start; gap: var(--sp-2); }
       .cta-final__badge-sep   { display: none; }
     }
+    /* CTA Final — btn full width on mobile */
+    @media (max-width: 767px) {
+      .cta-final__left        { width: 100%; }
+      .cta-final__left > .btn { width: 100%; justify-content: center; }
+    }
 
     /* Footer — stack on mobile */
     @media (max-width: 767px) {
-      .footer     { padding: 0 24px; }
+      .footer     { padding: 0 16px; }
       .footer__top { flex-direction: column; align-items: flex-start; gap: 24px; }
       .footer__nav { flex-wrap: wrap; gap: 12px 20px; }
       .footer__rrss { margin-left: 0; }
@@ -194,15 +268,13 @@
       .wa-float:hover { max-width: 52px; padding: 10px; }
     }
 
-    /* Bootstrap accordion overrides to match our FAQ style */
-    .accordion-item      { background: none; border: none; border-bottom: 1px solid var(--border-default); border-radius: 0 !important; }
-    .accordion-button    { font-family: var(--font-body); font-size: 17px; font-weight: 500; color: var(--text-primary); background: none; padding: var(--sp-5) 0; box-shadow: none; border-radius: 0 !important; }
-    /* Support box button */
-    .faq-support__btn    { width: 100%; margin-top: 0; }
-    .accordion-button:not(.collapsed) { color: var(--brand-primary); background: none; box-shadow: none; }
-    .accordion-button::after { filter: none; }
-    .accordion-button:not(.collapsed)::after { filter: none; }
-    .accordion-body      { font-family: var(--font-body); font-size: 15px; color: var(--text-secondary); line-height: 1.6; padding: 0 0 var(--sp-5) 0; }
+    /* Bootstrap accordion overrides — FAQ dark blue style */
+    .accordion-item      { background: none; border: none; border-bottom: 1px solid #87a9ec; border-radius: 0 !important; }
+    .accordion-button    { font-family: var(--font-body); font-size: 16px; font-weight: 700; color: #ffffff; background: none; padding: var(--sp-5) 0; box-shadow: none; border-radius: 0 !important; }
+    .accordion-button:not(.collapsed) { color: #ffffff; background: none; box-shadow: none; }
+    .accordion-button::after { filter: brightness(0) invert(1); }
+    .accordion-button:not(.collapsed)::after { filter: brightness(0) invert(1); transform: rotate(-180deg); }
+    .accordion-body      { font-family: var(--font-body); font-size: 16px; color: #b8cef9; line-height: 1.3; padding: 0 0 var(--sp-5) 0; }
     .accordion-collapse  { background: none; }
   </style>
 </head>
@@ -226,7 +298,6 @@
         <a href="#" class="topbar__item topbar__item--sep">LaCardio</a>
         <a href="#" class="topbar__item">Fundación Cardioinfantil</a>
       </div>
-      <a href="#" class="topbar__cta" aria-label="Inscribirme en CardioU">Inscribirme</a>
     </div>
   </div>
 
@@ -234,25 +305,26 @@
   <nav class="navbar navbar-expand-lg" aria-label="Navegación principal">
     <div class="container">
       <a href="/" class="navbar__logo navbar-brand" aria-label="CardioU — Inicio">
-        <img src="Assets/Cardio_u_Logo.svg" alt="CardioU" class="navbar__logo-svg" width="154" height="48">
+        <img src="Assets/Cardio_u_Logo_blanco.svg" alt="CardioU" class="navbar__logo-svg" width="154" height="48">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Abrir menú">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="mainNav">
+        <div class="navbar__search-bar ms-4" role="search">
+          <label for="site-search" class="sr-only">Buscar cursos</label>
+          <input id="site-search" type="search" class="navbar__search-input" placeholder="¿Qué deseas aprender?" aria-label="Buscar cursos">
+          <svg class="navbar__search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7.25" stroke="#b8cef9" stroke-width="1.5"/><path d="M16.5 16.5l4 4" stroke="#b8cef9" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
         <div class="navbar__right ms-auto">
           <div class="navbar__nav" role="list">
             <a href="#escuelas" class="navbar__link" role="listitem">
               Escuelas
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="#002D72" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
             <a href="#" class="navbar__link" role="listitem">Acerca de nosotros</a>
           </div>
-          <div class="navbar__search-bar" role="search">
-            <label for="site-search" class="sr-only">Buscar cursos</label>
-            <input id="site-search" type="search" class="navbar__search-input" placeholder="¿Qué deseas aprender?" aria-label="Buscar cursos">
-            <svg class="navbar__search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7.25" stroke="#83827F" stroke-width="1.5"/><path d="M16.5 16.5l4 4" stroke="#83827F" stroke-width="1.5" stroke-linecap="round"/></svg>
-          </div>
+          <a href="#" class="btn btn-outline-white btn-lg">Inscríbete</a>
         </div>
       </div>
     </div>
@@ -260,101 +332,123 @@
 
 </header>
 
-<!-- ── HERO ── -->
+<!-- ── HERO SLIDER ── -->
 <section class="hero" aria-label="Presentación de CardioU">
-  <div class="container">
-    <div class="hero__content">
-      <p class="hero__eyebrow type-eyebrow">Plataforma N.º 1 en educación cardiológica en Colombia</p>
-      <div class="hero__heading-wrap">
-        <h1 class="hero__h1 type-h1">Domina la cardiología con los mejores especialistas</h1>
-        <p class="hero__body type-paragraph">
-          Hacemos fluir el aprendizaje a través de
-          <strong>diversas metodologías como la modalidad presencial, virtual y blended,</strong>
-          asegurando que cada pulso de saber llegue a donde más se necesita, fortaleciendo nuestro compromiso con la excelencia académica.
-        </p>
-      </div>
-      <div class="hero__buttons">
-        <a href="#cursos" class="btn btn-primary btn-lg">Ver todos los cursos</a>
-      </div>
-      <div class="hero__trust" role="list" aria-label="Garantías">
-        <div class="hero__trust-item" role="listitem">
-          <span class="trust-icon" aria-hidden="true"><img src="Assets/Icons/Shield.svg" width="16" height="16" alt=""></span>
-          <span class="trust-text type-paragraph-sm"><strong class="type-paragraph-sm-bold">Avalado</strong> por la SCC</span>
-        </div>
-        <div class="hero__trust-item" role="listitem">
-          <span class="trust-icon" aria-hidden="true"><img src="Assets/Icons/Check-circle.svg" width="16" height="16" alt=""></span>
-          <span class="trust-text type-paragraph-sm"><strong class="type-paragraph-sm-bold">Certificado</strong> incluído</span>
-        </div>
-        <div class="hero__trust-item" role="listitem">
-          <span class="trust-icon" aria-hidden="true"><img src="Assets/Icons/Screen.svg" width="16" height="16" alt=""></span>
-          <span class="trust-text type-paragraph-sm"><strong class="type-paragraph-sm-bold">Acceso</strong> Online</span>
-        </div>
-      </div>
-    </div>
+  <div class="carousel slide" id="heroCarousel" data-bs-ride="false">
+    <div class="carousel-inner">
 
-    <aside class="hero__card" aria-label="Curso destacado">
-      <div class="hero__card-img">
-        <img src="Assets/img-card-destacada-hero.jpg" alt="Imagen del curso destacado">
-      </div>
-      <div class="hero__card-body">
-        <div class="hero__card-header">
-          <span class="pill pill-blue">Cardiología intervencionista</span>
-          <span class="pill pill-red">Nuevo</span>
-        </div>
-        <h2 class="hero__card-title type-h6">Intervencionismo Coronario Percutáneo: de básico a avanzado</h2>
-        <div class="hero__card-author" aria-label="Instructor">
-          <span>Dr. Juan Pérez</span><span class="dot" aria-hidden="true">·</span><span>Cardiólogo intervencionista</span>
-        </div>
-        <div class="hero__card-rating" aria-label="Calificación: 4.9 de 5">
-          <div class="stars" role="img" aria-label="5 estrellas">
-            <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
-            <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
-            <span class="star" aria-hidden="true">★</span>
+      <!-- Slide 1: Presentación del sitio -->
+      <div class="carousel-item active">
+        <div class="container">
+          <div class="hero__slide-grid">
+
+            <div class="hero__content">
+              <p class="hero__eyebrow type-eyebrow">Plataforma N.º 1 en educación cardiológica en Colombia</p>
+              <div class="hero__heading-wrap">
+                <h2 class="hero__h1 type-h1">Domina la cardiología con los mejores especialistas</h2>
+                <p class="hero__body">
+                  Formación cardiológica de alto nivel con los especialistas más reconocidos del país.
+                  <strong>Presencial, virtual y blended</strong> — a tu ritmo, con certificado avalado por la SCC.
+                </p>
+              </div>
+              <div class="hero__buttons">
+                <a href="#cursos" class="btn btn-primary btn-lg">Ver todos los cursos</a>
+              </div>
+              <div class="hero__trust" role="list" aria-label="Garantías">
+                <div class="hero__trust-item" role="listitem">
+                  <span class="trust-icon" aria-hidden="true"><img src="Assets/Icons/Shield-dm.svg" width="16" height="16" alt=""></span>
+                  <span class="trust-text type-paragraph-sm"><strong class="type-paragraph-sm-bold">Avalado</strong> por la SCC</span>
+                </div>
+                <div class="hero__trust-item" role="listitem">
+                  <span class="trust-icon" aria-hidden="true"><img src="Assets/Icons/Check-circle-dm.svg" width="16" height="16" alt=""></span>
+                  <span class="trust-text type-paragraph-sm"><strong class="type-paragraph-sm-bold">Certificado</strong> incluído</span>
+                </div>
+                <div class="hero__trust-item" role="listitem">
+                  <span class="trust-icon" aria-hidden="true"><img src="Assets/Icons/Screen-dm.svg" width="16" height="16" alt=""></span>
+                  <span class="trust-text type-paragraph-sm"><strong class="type-paragraph-sm-bold">Acceso</strong> Online</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Visual derecho — ilustración slide 1 -->
+            <div class="hero__visual" aria-hidden="true">
+              <img src="Assets/hero-img-slide-1.png" alt="">
+            </div>
+
           </div>
-          <span class="rating-text type-paragraph-sm">4.9 (342 calificaciones)</span>
-        </div>
-        <div class="hero__card-features" role="list" aria-label="Características del curso">
-          <div class="hero__card-feature" role="listitem"><span class="feat-icon" aria-hidden="true"><img src="Assets/Icons/Tiempo.svg" width="16" height="16" alt=""></span>18 horas</div>
-          <div class="hero__card-feature" role="listitem"><span class="feat-icon" aria-hidden="true"><img src="Assets/Icons/Modulos.svg" width="16" height="16" alt=""></span>6 módulos</div>
-          <div class="hero__card-feature" role="listitem"><span class="feat-icon" aria-hidden="true"><img src="Assets/Icons/Feature Icon.svg" width="16" height="16" alt=""></span>Certificado</div>
         </div>
       </div>
-      <div class="hero__card-price">
-        <div class="hero__card-price-details">
-          <span class="price-current">$299.000</span>
-          <span class="price-original">$420.000</span>
-        </div>
-        <a href="#" class="btn btn-primary btn-md">Inscribirme</a>
-      </div>
-    </aside>
-  </div>
-</section>
 
-<!-- ── STATS BAR ── -->
-<section class="stats-bar" aria-label="Cifras de CardioU">
-  <div class="stats-bar__item stats-bar__item--sep">
-    <span class="stats-bar__number" data-count="8500" data-prefix="+" data-thousands="." aria-label="Más de 8.500">+8.500</span>
-    <span class="stats-bar__label">Profesionales certificados</span>
-  </div>
-  <div class="stats-bar__item stats-bar__item--sep">
-    <span class="stats-bar__number" data-count="32" aria-label="32">32</span>
-    <span class="stats-bar__label">Cursos activos</span>
-  </div>
-  <div class="stats-bar__item stats-bar__item--sep">
-    <span class="stats-bar__number" data-count="48" aria-label="48">48</span>
-    <span class="stats-bar__label">Especialistas docentes</span>
-  </div>
-  <div class="stats-bar__item stats-bar__item--sep">
-    <span class="stats-bar__number" data-count="12" aria-label="12">12</span>
-    <span class="stats-bar__label">Años de trayectoria</span>
-  </div>
-  <div class="stats-bar__item">
-    <div class="stats-bar__number-row">
-      <span class="stats-bar__number" data-count="4.9" data-decimals="1" aria-label="4.9">4.9</span>
-      <svg width="25" height="24" viewBox="0 0 25 24" fill="none" aria-hidden="true"><path d="M12.5 2l3.09 6.26L22.5 9.27l-5 4.87 1.18 6.88L12.5 18l-6.18 3.02L7.5 14.14 2.5 9.27l6.91-1.01L12.5 2z" fill="#EF9F27" stroke="#EF9F27" stroke-width="1" stroke-linejoin="round"/></svg>
+      <!-- Slide 2: Curso destacado -->
+      <div class="carousel-item">
+        <div class="container">
+          <div class="hero__slide-grid hero__slide-grid--course">
+
+            <div class="hero__content hero__content--course">
+              <div class="hero__course-info">
+                <div class="hero__course-pills">
+                  <span class="pill pill-red">Formación Continua</span>
+                  <span class="pill pill-green">Nuevo</span>
+                </div>
+                <h2 class="hero__course-title">Transfusión Sanguínea Segura: Ciencia, Técnica y Cuidado del Paciente</h2>
+                <div class="hero__course-author">
+                  <span>Dra. Angélica María Patiño</span><span class="dot" aria-hidden="true">·</span><span>Coordinadora de Medicina Transfusional</span>
+                </div>
+                <div class="hero__course-rating" aria-label="Calificación: 4.9 de 5">
+                  <div class="stars" role="img" aria-hidden="true">
+                    <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+                  </div>
+                  <span class="hero__course-rating-text">4.9 (218 calificaciones)</span>
+                </div>
+                <div class="hero__course-features" role="list" aria-label="Características">
+                  <span class="hero__course-feat" role="listitem"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">65 horas</span>
+                  <span class="hero__course-feat" role="listitem"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="" aria-hidden="true">5 módulos</span>
+                  <span class="hero__course-feat" role="listitem"><img src="Assets/Icons/Feature Icon-dm.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
+                </div>
+              </div>
+              <div class="hero__course-footer">
+                <div class="hero__course-price">
+                  <span class="hero__course-price-current">$1.490.000</span>
+                  <span class="hero__course-price-original">$2.290.000</span>
+                </div>
+                <a href="#" class="btn btn-primary btn-md">Inscribirme</a>
+              </div>
+            </div>
+
+            <div class="hero__visual hero__visual--course" aria-hidden="true">
+              <img src="Assets/img-card-destacada-hero.jpg" alt="Transfusión Sanguínea Segura">
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.carousel-inner -->
+
+    <!-- Controles del slider -->
+    <div class="container hero__controls-wrap">
+      <div class="hero__controls">
+        <button class="hero__ctrl" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" aria-label="Slide anterior">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="hero__dots" role="tablist" aria-label="Slides del hero">
+          <button class="hero__dot active" type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" aria-label="Slide 1" aria-selected="true"></button>
+          <button class="hero__dot" type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2" aria-selected="false"></button>
+        </div>
+        <button class="hero__ctrl" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" aria-label="Slide siguiente">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
     </div>
-    <span class="stats-bar__label">Calificación promedio</span>
+
+  </div><!-- /.carousel -->
+
+  <!-- Mobile-only bottom slide indicator -->
+  <div class="hero__bottom-dots" aria-hidden="true">
+    <button class="hero__dot active" type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" aria-label="Slide 1"></button>
+    <button class="hero__dot" type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
   </div>
+
 </section>
 
 <!-- ── SCHOOLS ── -->
@@ -366,45 +460,145 @@
       <p class="section-header__sub">Cada escuela concentra el conocimiento más avanzado de su especialidad, impartido por los referentes del sector.</p>
     </header>
     <div class="schools__grid">
+
+      <!-- Formación Continua -->
       <article class="school-card">
-        <div class="school-card__icon" aria-hidden="true">⚡</div>
-        <h3 class="school-card__name">Escuela de Electrofisiología</h3>
-        <p class="school-card__desc">ECG clínico, Holter, dispositivos de estimulación, ablación y diagnóstico de arritmias complejas.</p>
-        <footer class="school-card__footer"><span class="school-card__count">32 cursos disponibles</span><a href="#" class="school-card__link">Ver escuela →</a></footer>
+        <img class="school-card__blob" src="Assets/Icons/Cursos/blob.svg" aria-hidden="true" alt="">
+        <div class="school-card__icon-wrap" aria-hidden="true">
+          <img class="school-card__icon-bg" src="Assets/Icons/Cursos/bg_continua.svg" alt="">
+          <img class="school-card__icon-rest" src="Assets/Icons/Cursos/continua.svg" alt="">
+          <img class="school-card__icon-hover" src="Assets/Icons/Cursos/Hover/continua.svg" alt="">
+        </div>
+        <div class="school-card__body">
+          <h3 class="school-card__name">Formación Continua y normativa</h3>
+          <p class="school-card__desc">Programas de actualización y especialización para profesionales del sector salud, con enfoque en protocolos clínicos, normatividad y seguridad del paciente.</p>
+          <footer class="school-card__footer">
+            <span class="school-card__count">14 cursos disponibles</span>
+            <a href="#" class="school-card__link">Ver todos los cursos
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </footer>
+        </div>
       </article>
+
+      <!-- Pacientes Trasplantados -->
       <article class="school-card">
-        <div class="school-card__icon" aria-hidden="true">🔬</div>
-        <h3 class="school-card__name">Imágenes Cardíacas</h3>
-        <p class="school-card__desc">Ecocardiografía transtorácica, transesofágica, RM cardíaca y TC de alta resolución.</p>
-        <footer class="school-card__footer"><span class="school-card__count">28 cursos disponibles</span><a href="#" class="school-card__link">Ver escuela →</a></footer>
+        <img class="school-card__blob" src="Assets/Icons/Cursos/blob.svg" aria-hidden="true" alt="">
+        <div class="school-card__icon-wrap" aria-hidden="true">
+          <img class="school-card__icon-bg" src="Assets/Icons/Cursos/bg_trasplantados.svg" alt="">
+          <img class="school-card__icon-rest" src="Assets/Icons/Cursos/trasplantados.svg" alt="">
+          <img class="school-card__icon-hover" src="Assets/Icons/Cursos/Hover/trasplantados.svg" alt="">
+        </div>
+        <div class="school-card__body">
+          <h3 class="school-card__name">Escuela de Pacientes Trasplantados</h3>
+          <p class="school-card__desc">Acompañamiento integral para pacientes trasplantados y sus familias, con contenidos sobre cuidado, bienestar emocional y reintegración social.</p>
+          <footer class="school-card__footer">
+            <span class="school-card__count">1 curso disponible</span>
+            <a href="#" class="school-card__link">Ver todos los cursos
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </footer>
+        </div>
       </article>
+
+      <!-- Innovación -->
       <article class="school-card">
-        <div class="school-card__icon" aria-hidden="true">🩺</div>
-        <h3 class="school-card__name">Cardiología Intervencionista</h3>
-        <p class="school-card__desc">Cateterismo, angioplastia coronaria, TAVI, cierre de defectos septales y procedimientos estructurales.</p>
-        <footer class="school-card__footer"><span class="school-card__count">19 cursos disponibles</span><a href="#" class="school-card__link">Ver escuela →</a></footer>
+        <img class="school-card__blob" src="Assets/Icons/Cursos/blob.svg" aria-hidden="true" alt="">
+        <div class="school-card__icon-wrap" aria-hidden="true">
+          <img class="school-card__icon-bg" src="Assets/Icons/Cursos/bg_innovacion.svg" alt="">
+          <img class="school-card__icon-rest" src="Assets/Icons/Cursos/innovacion.svg" alt="">
+          <img class="school-card__icon-hover" src="Assets/Icons/Cursos/Hover/innovacion.svg" alt="">
+        </div>
+        <div class="school-card__body">
+          <h3 class="school-card__name">Escuela de Innovación</h3>
+          <p class="school-card__desc">Herramientas de transformación digital y design thinking aplicadas al entorno hospitalario, con foco en la experiencia del paciente y la gestión del cambio.</p>
+          <footer class="school-card__footer">
+            <span class="school-card__count">1 curso disponible</span>
+            <a href="#" class="school-card__link">Ver todos los cursos
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </footer>
+        </div>
       </article>
+
+      <!-- Enfermería -->
       <article class="school-card">
-        <div class="school-card__icon" aria-hidden="true">💊</div>
-        <h3 class="school-card__name">Falla Cardíaca</h3>
-        <p class="school-card__desc">Diagnóstico, farmacoterapia avanzada, dispositivos de asistencia ventricular y manejo integral.</p>
-        <footer class="school-card__footer"><span class="school-card__count">18 cursos disponibles</span><a href="#" class="school-card__link">Ver escuela →</a></footer>
+        <img class="school-card__blob" src="Assets/Icons/Cursos/blob.svg" aria-hidden="true" alt="">
+        <div class="school-card__icon-wrap" aria-hidden="true">
+          <img class="school-card__icon-bg" src="Assets/Icons/Cursos/bg_enfermeria.svg" alt="">
+          <img class="school-card__icon-rest" src="Assets/Icons/Cursos/enfermeria.svg" alt="">
+          <img class="school-card__icon-hover" src="Assets/Icons/Cursos/Hover/enfermeria.svg" alt="">
+        </div>
+        <div class="school-card__body">
+          <h3 class="school-card__name">Escuela de Enfermería</h3>
+          <p class="school-card__desc">Formación especializada en accesos vasculares y procedimientos de alta complejidad, con práctica presencial en las instalaciones de LaCardio.</p>
+          <footer class="school-card__footer">
+            <span class="school-card__count">3 cursos disponibles</span>
+            <a href="#" class="school-card__link">Ver todos los cursos
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </footer>
+        </div>
       </article>
+
+      <!-- Servicio -->
       <article class="school-card">
-        <div class="school-card__icon" aria-hidden="true">🏃</div>
-        <h3 class="school-card__name">Prevención Cardiovascular</h3>
-        <p class="school-card__desc">Rehabilitación cardíaca, control de factores de riesgo, cardiología deportiva y estilos de vida saludable.</p>
-        <footer class="school-card__footer"><span class="school-card__count">21 cursos disponibles</span><a href="#" class="school-card__link">Ver escuela →</a></footer>
+        <img class="school-card__blob" src="Assets/Icons/Cursos/blob.svg" aria-hidden="true" alt="">
+        <div class="school-card__icon-wrap" aria-hidden="true">
+          <img class="school-card__icon-bg" src="Assets/Icons/Cursos/bg_servicio.svg" alt="">
+          <img class="school-card__icon-rest" src="Assets/Icons/Cursos/servicio.svg" alt="">
+          <img class="school-card__icon-hover" src="Assets/Icons/Cursos/Hover/servicio.svg" alt="">
+        </div>
+        <div class="school-card__body">
+          <h3 class="school-card__name">Escuela de Servicio</h3>
+          <p class="school-card__desc">Formación en habilidades de conexión humana y acompañamiento terapéutico para crear entornos positivos durante la hospitalización.</p>
+          <footer class="school-card__footer">
+            <span class="school-card__count">1 curso disponible</span>
+            <a href="#" class="school-card__link">Ver todos los cursos
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </footer>
+        </div>
       </article>
-      <article class="school-card">
-        <div class="school-card__icon" aria-hidden="true">👶</div>
-        <h3 class="school-card__name">Cardiología Pediátrica</h3>
-        <p class="school-card__desc">Cardiopatías congénitas, evaluación ecocardiográfica fetal, diagnóstico neonatal y manejo quirúrgico.</p>
-        <footer class="school-card__footer"><span class="school-card__count">12 cursos disponibles</span><a href="#" class="school-card__link">Ver escuela →</a></footer>
-      </article>
+
     </div>
-    <div class="text-center mt-8">
-      <a href="#" class="btn btn-secondary btn-lg">Ver todas las escuelas</a>
+  </div>
+</section>
+
+<!-- ── CIFRAS ── -->
+<section class="cifras" aria-label="Cifras de CardioU">
+  <div class="cifras__inner">
+    <div class="cifras__img-col">
+      <img src="Assets/img-cifras.png" alt="Profesionales de CardioU">
+    </div>
+    <div class="cifras__content">
+      <h2 class="cifras__title">El impacto de nuestro compromiso, en números</h2>
+      <p class="cifras__desc">La confianza de miles de profesionales de la salud y el rigor académico de la Fundación CardioInfantil se traducen en resultados concretos. Cada cifra refleja un <strong>compromiso real con la formación cardiovascular de alto nivel</strong> en Colombia.</p>
+      <div class="cifras__stats">
+        <div class="cifras__stat">
+          <span class="cifras__stat-num" data-count="8500" data-prefix="+" data-thousands=".">+8.500</span>
+          <span class="cifras__stat-label">Profesionales certificados</span>
+        </div>
+        <div class="cifras__stat">
+          <span class="cifras__stat-num" data-count="32">32</span>
+          <span class="cifras__stat-label">Cursos activos</span>
+        </div>
+        <div class="cifras__stat">
+          <span class="cifras__stat-num" data-count="48">48</span>
+          <span class="cifras__stat-label">Especialistas docentes</span>
+        </div>
+        <div class="cifras__stat">
+          <span class="cifras__stat-num" data-count="12">12</span>
+          <span class="cifras__stat-label">Años de trayectoria</span>
+        </div>
+        <div class="cifras__stat">
+          <div class="cifras__stat-num-row">
+            <span class="cifras__stat-num" data-count="4.9" data-decimals="1">4.9</span>
+            <svg width="25" height="24" viewBox="0 0 25 24" fill="none" aria-hidden="true"><path d="M12.5 2l3.09 6.26L22.5 9.27l-5 4.87 1.18 6.88L12.5 18l-6.18 3.02L7.5 14.14 2.5 9.27l6.91-1.01L12.5 2z" fill="#EF9F27" stroke="#EF9F27" stroke-width="1" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="cifras__stat-label">Calificación promedio</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -416,190 +610,269 @@
       <p class="section-header__eyebrow">Catálogo de cursos</p>
       <h2 class="section-header__title" id="courses-title">Los cursos más valorados</h2>
     </header>
-    <div class="section-actions">
-      <p style="font-family:var(--font-ui);font-size:14px;color:var(--text-tertiary);">Mostrando <strong>8</strong> de <strong>120+</strong> cursos disponibles</p>
-      <a href="#" class="btn btn-secondary btn-lg">Ver catálogo completo</a>
+
+    <div class="courses-grid">
+
+      <!-- Card 1 — Formación Continua -->
+      <article class="course-card">
+        <div class="course-card__img-area">
+          <img class="course-card__identificador" src="Assets/continua-id-vector.svg" aria-hidden="true" alt="">
+          <picture>
+            <source media="(max-width: 767px)" srcset="Assets/IMG_card-1-mobile.png">
+            <img class="course-card__photo" src="Assets/IMG_card-1.png" alt="Inteligencia Artificial en el Entorno Hospitalario">
+          </picture>
+        </div>
+        <div class="course-card__body">
+          <span class="course-pill course-pill--continua">Formación Continua</span>
+          <h3 class="course-card__title">Inteligencia Artificial en el Entorno Hospitalario</h3>
+          <div class="course-card__features">
+            <span class="course-feat"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">36 horas</span>
+            <span class="course-feat"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="" aria-hidden="true">6 módulos</span>
+            <span class="course-feat"><img src="Assets/Icons/Feature Icon-dm.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
+            <span class="course-feat course-feat--rating">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>4.9 (342)
+            </span>
+          </div>
+          <div class="course-card__price">
+            <span class="course-card__price-now">$ 1.540.000</span>
+            <span class="course-card__price-was">$ 2.190.000</span>
+          </div>
+          <div class="course-card__actions">
+            <a href="#" class="course-card__ver-link">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="#" class="btn btn-outline-white btn-lg">Inscribirme</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2 — Escuela de Enfermería -->
+      <article class="course-card">
+        <div class="course-card__img-area">
+          <img class="course-card__identificador" src="Assets/enfermeria-id-vector.svg" aria-hidden="true" alt="">
+          <picture>
+            <source media="(max-width: 767px)" srcset="Assets/IMG_card-2-mobile.png">
+            <img class="course-card__photo" src="Assets/IMG_card-2.png" alt="Curso de Accesos Vasculares CAVA">
+          </picture>
+        </div>
+        <div class="course-card__body">
+          <span class="course-pill course-pill--enfermeria">Escuela de Enfermería</span>
+          <h3 class="course-card__title">Curso de Accesos Vasculares CAVA</h3>
+          <div class="course-card__features">
+            <span class="course-feat"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">65 horas</span>
+            <span class="course-feat"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="" aria-hidden="true">5 módulos</span>
+            <span class="course-feat"><img src="Assets/Icons/Feature Icon-dm.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
+            <span class="course-feat course-feat--rating">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>4.9 (87)
+            </span>
+          </div>
+          <div class="course-card__price">
+            <span class="course-card__price-now">$ 1.600.000</span>
+            <span class="course-card__price-was">$ 2.490.000</span>
+          </div>
+          <div class="course-card__actions">
+            <a href="#" class="course-card__ver-link">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="#" class="btn btn-outline-white btn-lg">Inscribirme</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 — Escuela de Innovación -->
+      <article class="course-card">
+        <div class="course-card__img-area">
+          <img class="course-card__identificador" src="Assets/innovacion-id-vector.svg" aria-hidden="true" alt="">
+          <picture>
+            <source media="(max-width: 767px)" srcset="Assets/IMG_card-3-mobile.png">
+            <img class="course-card__photo" src="Assets/IMG_card-3.png" alt="Innovación en Experiencia del Paciente">
+          </picture>
+        </div>
+        <div class="course-card__body">
+          <span class="course-pill course-pill--innovacion">Escuela de Innovación</span>
+          <h3 class="course-card__title">Innovación en Experiencia del Paciente</h3>
+          <div class="course-card__features">
+            <span class="course-feat"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">60 horas</span>
+            <span class="course-feat"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="" aria-hidden="true">9 módulos</span>
+            <span class="course-feat"><img src="Assets/Icons/Feature Icon-dm.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
+            <span class="course-feat course-feat--rating">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>4.8 (156)
+            </span>
+          </div>
+          <div class="course-card__price">
+            <span class="course-card__price-now">$ 1.100.000</span>
+            <span class="course-card__price-was">$ 1.790.000</span>
+          </div>
+          <div class="course-card__actions">
+            <a href="#" class="course-card__ver-link">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="#" class="btn btn-outline-white btn-lg">Inscribirme</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4 — Formación Continua -->
+      <article class="course-card">
+        <div class="course-card__img-area">
+          <img class="course-card__identificador" src="Assets/continua-id-vector.svg" aria-hidden="true" alt="">
+          <picture>
+            <source media="(max-width: 767px)" srcset="Assets/IMG_card-4-mobile.png">
+            <img class="course-card__photo" src="Assets/IMG_card-4.png" alt="Anticoagulación en Escenarios Cardiovasculares">
+          </picture>
+        </div>
+        <div class="course-card__body">
+          <span class="course-pill course-pill--continua">Formación Continua</span>
+          <h3 class="course-card__title">Anticoagulación en Escenarios Cardiovasculares</h3>
+          <div class="course-card__features">
+            <span class="course-feat"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">65 horas</span>
+            <span class="course-feat"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="" aria-hidden="true">6 módulos</span>
+            <span class="course-feat"><img src="Assets/Icons/Feature Icon-dm.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
+            <span class="course-feat course-feat--rating">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>4.7 (203)
+            </span>
+          </div>
+          <div class="course-card__price">
+            <span class="course-card__price-now">$ 1.100.000</span>
+            <span class="course-card__price-was">$ 1.690.000</span>
+          </div>
+          <div class="course-card__actions">
+            <a href="#" class="course-card__ver-link">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="#" class="btn btn-outline-white btn-lg">Inscribirme</a>
+          </div>
+        </div>
+      </article>
+
     </div>
-    <div class="course-list" role="list">
 
-      <article class="course-row" role="listitem">
-        <div class="course-row__thumb" aria-label="Electrocardiografía Clínica Avanzada">
-          <img src="https://images.unsplash.com/photo-1682706841281-f723c5bfcd83?w=358&h=200&fit=crop&auto=format&q=80" alt="Electrocardiografía en pantalla" loading="lazy">
-        </div>
-        <div class="course-row__info">
-          <span class="course-row__school-pill">Escuela de Electrofisiología</span>
-          <h3 class="course-row__title">Electrocardiografía Clínica Avanzada: Interpretación y Diagnóstico</h3>
-          <div class="course-row__features">
-            <span class="course-row__feat"><img src="Assets/Icons/Tiempo.svg" width="16" height="16" alt="" aria-hidden="true">48 horas</span>
-            <span class="course-row__feat"><img src="Assets/Icons/Modulos.svg" width="16" height="16" alt="" aria-hidden="true">12 módulos</span>
-            <span class="course-row__feat"><img src="Assets/Icons/Feature Icon.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
-            <span class="course-row__feat course-row__feat--rating">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>4.9 (312)
-            </span>
-          </div>
-        </div>
-        <div class="course-row__price">
-          <span class="course-row__price-current">$490.000</span>
-          <span class="course-row__price-original">$890.000</span>
-        </div>
-        <div class="course-row__actions">
-          <a href="#" class="course-row__link-cta">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          <a href="#" class="btn btn-primary btn-lg">Inscribirme</a>
-        </div>
-      </article>
-
-      <article class="course-row" role="listitem">
-        <div class="course-row__thumb" aria-label="Holter de Ritmo e Interpretación Ambulatoria">
-          <img src="https://images.unsplash.com/photo-1682706841297-5524ba1faa9c?w=358&h=200&fit=crop&auto=format&q=80" alt="Monitor cardíaco" loading="lazy">
-        </div>
-        <div class="course-row__info">
-          <span class="course-row__school-pill">Escuela de Electrofisiología</span>
-          <h3 class="course-row__title">Holter de Ritmo e Interpretación Ambulatoria</h3>
-          <div class="course-row__features">
-            <span class="course-row__feat"><img src="Assets/Icons/Tiempo.svg" width="16" height="16" alt="" aria-hidden="true">32 horas</span>
-            <span class="course-row__feat"><img src="Assets/Icons/Modulos.svg" width="16" height="16" alt="" aria-hidden="true">8 módulos</span>
-            <span class="course-row__feat"><img src="Assets/Icons/Feature Icon.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
-            <span class="course-row__feat course-row__feat--rating">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>4.8 (189)
-            </span>
-          </div>
-        </div>
-        <div class="course-row__price">
-          <span class="course-row__price-current">$390.000</span>
-          <span class="course-row__price-original">$690.000</span>
-        </div>
-        <div class="course-row__actions">
-          <a href="#" class="course-row__link-cta">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          <a href="#" class="btn btn-primary btn-lg">Inscribirme</a>
-        </div>
-      </article>
-
-      <article class="course-row" role="listitem">
-        <div class="course-row__thumb" aria-label="Ecocardiografía Transesofágica">
-          <img src="https://images.unsplash.com/photo-1746842419525-9db17f434859?w=358&h=200&fit=crop&auto=format&q=80" alt="Equipo de ecocardiografía" loading="lazy">
-        </div>
-        <div class="course-row__info">
-          <span class="course-row__school-pill">Imágenes Cardíacas</span>
-          <h3 class="course-row__title">Ecocardiografía Transesofágica: Protocolo Básico y Aplicaciones</h3>
-          <div class="course-row__features">
-            <span class="course-row__feat"><img src="Assets/Icons/Tiempo.svg" width="16" height="16" alt="" aria-hidden="true">60 horas</span>
-            <span class="course-row__feat"><img src="Assets/Icons/Modulos.svg" width="16" height="16" alt="" aria-hidden="true">15 módulos</span>
-            <span class="course-row__feat"><img src="Assets/Icons/Feature Icon.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
-            <span class="course-row__feat course-row__feat--rating">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>4.9 (97)
-            </span>
-          </div>
-        </div>
-        <div class="course-row__price">
-          <span class="course-row__price-current">$890.000</span>
-          <span class="course-row__price-original">$1.490.000</span>
-        </div>
-        <div class="course-row__actions">
-          <a href="#" class="course-row__link-cta">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          <a href="#" class="btn btn-primary btn-lg">Inscribirme</a>
-        </div>
-      </article>
-
-      <article class="course-row" role="listitem">
-        <div class="course-row__thumb" aria-label="Manejo Integral de la Falla Cardíaca">
-          <img src="https://images.unsplash.com/photo-1708433061324-06cfe6d48762?w=358&h=200&fit=crop&auto=format&q=80" alt="Estetoscopio cardiología" loading="lazy">
-        </div>
-        <div class="course-row__info">
-          <span class="course-row__school-pill">Falla Cardíaca</span>
-          <h3 class="course-row__title">Manejo Integral de la Falla Cardíaca Crónica y Aguda</h3>
-          <div class="course-row__features">
-            <span class="course-row__feat"><img src="Assets/Icons/Tiempo.svg" width="16" height="16" alt="" aria-hidden="true">40 horas</span>
-            <span class="course-row__feat"><img src="Assets/Icons/Modulos.svg" width="16" height="16" alt="" aria-hidden="true">10 módulos</span>
-            <span class="course-row__feat"><img src="Assets/Icons/Feature Icon.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
-            <span class="course-row__feat course-row__feat--rating">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>4.7 (243)
-            </span>
-          </div>
-        </div>
-        <div class="course-row__price">
-          <span class="course-row__price-current">$490.000</span>
-          <span class="course-row__price-original">$790.000</span>
-        </div>
-        <div class="course-row__actions">
-          <a href="#" class="course-row__link-cta">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          <a href="#" class="btn btn-primary btn-lg">Inscribirme</a>
-        </div>
-      </article>
-
+    <div class="courses-cta">
+      <a href="#" class="btn btn-danger btn-lg">Ver todos los cursos</a>
     </div>
+
   </div>
 </section>
 
 <!-- ── DIFFERENTIATOR ── -->
 <section class="differentiator" aria-labelledby="diff-title">
-  <div class="container">
-    <div class="differentiator__sticky">
+  <div class="differentiator__inner">
+
+    <!-- Left: eyebrow + title + desc -->
+    <div class="differentiator__left">
       <p class="section-header__eyebrow">Por qué CardioU</p>
-      <h2 class="section-header__title" id="diff-title" style="margin-top:12px;">Lo que nos hace diferentes</h2>
-      <p class="section-header__sub" style="margin-top:12px;">No somos una plataforma genérica. Somos la comunidad de aprendizaje de la Liga Colombiana del Corazón.</p>
+      <h2 class="differentiator__title" id="diff-title">Lo que nos hace diferentes</h2>
+      <p class="differentiator__desc">No somos una plataforma genérica. Somos la comunidad de aprendizaje de la Liga Colombiana del Corazón.</p>
     </div>
+
+    <!-- Center: key visual -->
+    <div class="differentiator__img-col">
+      <img src="Assets/img-diferentes.png" alt="Profesional de salud CardioU" class="differentiator__img">
+    </div>
+
+    <!-- Right: pillars -->
     <div class="differentiator__pillars">
       <div class="pillar">
-        <span class="pillar__number">01</span>
-        <h3 class="pillar__title">Instructores con trayectoria clínica real</h3>
+        <div class="pillar__header">
+          <span class="pillar__number">01</span>
+          <h3 class="pillar__title">Instructores con trayectoria clínica real</h3>
+        </div>
         <p class="pillar__text">Cada curso es diseñado y dictado por especialistas activos en los mejores centros cardiológicos de Colombia y Latinoamérica. No académicos de cátedra — clínicos en ejercicio.</p>
-        <div class="pillar__tags"><span class="pillar__tag">Cardiólogos certificados</span><span class="pillar__tag">Práctica activa</span><span class="pillar__tag">Centros de referencia</span></div>
+        <div class="pillar__tags">
+          <span class="pillar__tag">Cardiólogos certificados</span>
+          <span class="pillar__tag">Práctica activa</span>
+          <span class="pillar__tag">Centros de referencia</span>
+        </div>
       </div>
       <div class="pillar">
-        <span class="pillar__number">02</span>
-        <h3 class="pillar__title">Avalados por las principales sociedades científicas</h3>
+        <div class="pillar__header">
+          <span class="pillar__number">02</span>
+          <h3 class="pillar__title">Avalados por las principales sociedades científicas</h3>
+        </div>
         <p class="pillar__text">Nuestros programas cuentan con el respaldo de la SCC, SIAC y LAHRS, garantizando que cada hora certificada sea reconocida para su educación médica continua.</p>
-        <div class="pillar__tags"><span class="pillar__tag">Aval SCC</span><span class="pillar__tag">Aval SIAC</span><span class="pillar__tag">Aval LAHRS</span><span class="pillar__tag">Certificado descargable</span></div>
+        <div class="pillar__tags">
+          <span class="pillar__tag">Aval SCC</span>
+          <span class="pillar__tag">Aval SIAC</span>
+          <span class="pillar__tag">Aval LAHRS</span>
+          <span class="pillar__tag">Certificado descargable</span>
+        </div>
       </div>
       <div class="pillar">
-        <span class="pillar__number">03</span>
-        <h3 class="pillar__title">Metodología que se adapta a tu vida profesional</h3>
+        <div class="pillar__header">
+          <span class="pillar__number">03</span>
+          <h3 class="pillar__title">Metodología que se adapta a tu vida profesional</h3>
+        </div>
         <p class="pillar__text">Presencial, virtual asincrónico o blended. Acceso desde cualquier dispositivo, a cualquier hora. Aprendizaje que respeta tu tiempo sin sacrificar la calidad clínica.</p>
-        <div class="pillar__tags"><span class="pillar__tag">Virtual 24/7</span><span class="pillar__tag">Blended</span><span class="pillar__tag">Presencial</span><span class="pillar__tag">Acceso de por vida</span></div>
+        <div class="pillar__tags">
+          <span class="pillar__tag">Virtual 24/7</span>
+          <span class="pillar__tag">Blended</span>
+          <span class="pillar__tag">Presencial</span>
+          <span class="pillar__tag">Acceso de por vida</span>
+        </div>
       </div>
     </div>
+
   </div>
 </section>
 
 <!-- ── TESTIMONIALS ── -->
 <section class="testimonials" aria-labelledby="testimonials-title">
-  <div class="container">
-    <header class="section-header text-center" style="max-width:640px;margin:0 auto var(--sp-10);">
-      <p class="section-header__eyebrow">Testimonios</p>
-      <h2 class="section-header__title" id="testimonials-title">Lo que dicen nuestros graduados</h2>
-    </header>
+  <div class="testimonials__inner">
+    <h2 class="testimonials__title" id="testimonials-title">Lo que dicen nuestros graduados</h2>
     <div class="testimonials__grid" role="list">
+
       <article class="testimonial-card" role="listitem">
+        <div class="testimonial-card__header">
+          <div class="testimonial-card__author">
+            <div class="testimonial-card__avatar" aria-hidden="true">J</div>
+            <div>
+              <p class="testimonial-card__name">Dr. Juan Martínez</p>
+              <p class="testimonial-card__meta">Médico internista</p>
+            </div>
+          </div>
+          <img src="Assets/Google_logo.svg" alt="Google" class="testimonial-card__google" width="30" height="30" aria-hidden="true">
+        </div>
         <div class="testimonial-card__stars" aria-label="5 estrellas">
           <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
         </div>
-        <blockquote class="testimonial-card__quote">El curso de ECG avanzado cambió completamente mi capacidad de diagnóstico en urgencias. Ahora identifico arritmias complejas que antes me pasaban desapercibidas.</blockquote>
-        <footer class="testimonial-card__footer">
-          <div class="testimonial-card__avatar" aria-hidden="true">JM</div>
-          <div><p class="testimonial-card__name">Dr. Juan Martínez</p><p class="testimonial-card__role">Médico internista · Hospital San Ignacio, Bogotá</p></div>
-        </footer>
+        <p class="testimonial-card__quote">El curso de ECG avanzado cambió completamente mi capacidad de diagnóstico en urgencias. Ahora identifico arritmias complejas que antes me pasaban desapercibidas.</p>
       </article>
+
       <article class="testimonial-card" role="listitem">
+        <div class="testimonial-card__header">
+          <div class="testimonial-card__author">
+            <div class="testimonial-card__avatar" aria-hidden="true">C</div>
+            <div>
+              <p class="testimonial-card__name">Dra. Carmen Rivas</p>
+              <p class="testimonial-card__meta">Cardióloga</p>
+            </div>
+          </div>
+          <img src="Assets/Google_logo.svg" alt="Google" class="testimonial-card__google" width="30" height="30" aria-hidden="true">
+        </div>
         <div class="testimonial-card__stars" aria-label="5 estrellas">
           <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
         </div>
-        <blockquote class="testimonial-card__quote">Tomé el programa de ecocardiografía desde Perú. La calidad del contenido y la disposición del instructor fueron excepcionales. El certificado es reconocido en todo el continente.</blockquote>
-        <footer class="testimonial-card__footer">
-          <div class="testimonial-card__avatar" aria-hidden="true">CR</div>
-          <div><p class="testimonial-card__name">Dra. Carmen Rivas</p><p class="testimonial-card__role">Cardióloga · Clínica Anglo Americana, Lima</p></div>
-        </footer>
+        <p class="testimonial-card__quote">Tomé el programa de ecocardiografía desde Perú. La calidad del contenido y la disposición del instructor fueron excepcionales. El certificado es reconocido en todo el continente.</p>
       </article>
+
       <article class="testimonial-card" role="listitem">
+        <div class="testimonial-card__header">
+          <div class="testimonial-card__author">
+            <div class="testimonial-card__avatar" aria-hidden="true">A</div>
+            <div>
+              <p class="testimonial-card__name">Dr. Andrés Fuentes</p>
+              <p class="testimonial-card__meta">Residente de cardiología</p>
+            </div>
+          </div>
+          <img src="Assets/Google_logo.svg" alt="Google" class="testimonial-card__google" width="30" height="30" aria-hidden="true">
+        </div>
         <div class="testimonial-card__stars" aria-label="5 estrellas">
           <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
         </div>
-        <blockquote class="testimonial-card__quote">El aval de la SCC fue determinante para incluir el curso en mi hoja de vida. La formación en falla cardíaca es la más completa y actualizada que he encontrado en la región.</blockquote>
-        <footer class="testimonial-card__footer">
-          <div class="testimonial-card__avatar" aria-hidden="true">AF</div>
-          <div><p class="testimonial-card__name">Dr. Andrés Fuentes</p><p class="testimonial-card__role">Residente de cardiología · UNC, Manizales</p></div>
-        </footer>
+        <p class="testimonial-card__quote">El aval de la SCC fue determinante para incluir el curso en mi hoja de vida. La formación en falla cardíaca es la más completa y actualizada que he encontrado en la región.</p>
       </article>
+
+    </div><!-- /.testimonials__grid -->
+
+    <!-- Mobile slide dots -->
+    <div class="testimonials__dots" aria-hidden="true">
+      <div class="testimonials__dot active"></div>
+      <div class="testimonials__dot"></div>
+      <div class="testimonials__dot"></div>
     </div>
+
   </div>
 </section>
 
@@ -678,7 +951,7 @@
       <div class="faq-simple__support">
         <p class="faq-simple__support-title">¿No encuentras tu respuesta?</p>
         <p class="faq-simple__support-body">Nuestro equipo responde en menos de 24 horas hábiles.</p>
-        <a href="mailto:cardiou_admin@lacardio.org" class="btn btn-secondary btn-lg faq-support__btn">Contactar asesor</a>
+        <a href="mailto:cardiou_admin@lacardio.org" class="btn btn-outline-white btn-lg">Contactar asesor</a>
       </div>
 
     </div>
@@ -692,23 +965,23 @@
       <div class="cta-final__text">
         <p class="cta-final__eyebrow">¿Listo para comenzar?</p>
         <h2 class="cta-final__title" id="cta-title">Tu próximo paso en cardiología empieza aquí</h2>
-        <p class="cta-final__sub">Únete a <strong>más de 18.000</strong> profesionales que ya transformaron su práctica clínica con CardioU.</p>
+        <p class="cta-final__sub">Únete a más de 18.000 profesionales que ya transforman su práctica clínica con CardioU.</p>
         <div class="cta-final__badges">
           <div class="cta-final__badge">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="7" stroke="white" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <img src="Assets/Icons/Check-circle-dm.svg" width="24" height="24" alt="" aria-hidden="true">
             <span>Garantía de satisfacción</span>
           </div>
           <span class="cta-final__badge-sep" aria-hidden="true"></span>
           <div class="cta-final__badge">
-            <span>Financiación con</span>
+            <span>Financiación con:</span>
             <img src="Assets/Wompi_LogoPrincipal 1.svg" height="20" alt="Wompi" class="cta-final__wompi">
           </div>
         </div>
       </div>
-      <a href="#cursos" class="btn btn-white btn-lg">Ver todos los cursos</a>
+      <a href="#cursos" class="btn btn-outline-white btn-lg">Ver todos los cursos</a>
     </div>
     <div class="cta-final__illustration" aria-hidden="true">
-      <img src="Assets/cardiology-svg.svg" width="208" height="208" alt="">
+      <img src="Assets/img-cta-final.png" alt="">
     </div>
   </div>
 </section>
@@ -779,6 +1052,31 @@
       });
     }, { threshold: 0.3 });
     counters.forEach(el => observer.observe(el));
+  })();
+</script>
+
+<script>
+  /* ── Hero slider: sync ALL hero dots on slide change ── */
+  (function () {
+    const carousel = document.getElementById('heroCarousel');
+    if (!carousel) return;
+    carousel.addEventListener('slide.bs.carousel', function (e) {
+      document.querySelectorAll('.hero__dot').forEach(function (dot, i) {
+        dot.classList.toggle('active', i === e.to);
+        if (dot.hasAttribute('aria-selected')) dot.setAttribute('aria-selected', i === e.to ? 'true' : 'false');
+      });
+    });
+  })();
+
+  /* ── Testimonials: sync dots on scroll ── */
+  (function () {
+    const grid = document.querySelector('.testimonials__grid');
+    const dots = document.querySelectorAll('.testimonials__dot');
+    if (!grid || !dots.length) return;
+    grid.addEventListener('scroll', function () {
+      const index = Math.min(Math.round(grid.scrollLeft / (300 + 16)), dots.length - 1);
+      dots.forEach(function (dot, i) { dot.classList.toggle('active', i === index); });
+    }, { passive: true });
   })();
 </script>
 
