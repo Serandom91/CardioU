@@ -67,19 +67,8 @@
       .hero__buttons .btn   { width: 100%; }
       /* Trust sits below button with 12px top spacing */
       .hero__trust          { order: 1; flex-wrap: wrap; gap: var(--sp-3); padding-top: 12px; padding-bottom: 0; }
-      /* Slide controls overlaid at center of image (260px / 2 = 130px) */
-      .hero__controls-wrap {
-        position: absolute;
-        top: 130px;
-        left: 0;
-        right: 0;
-        transform: translateY(-50%);
-        z-index: 10;
-        pointer-events: none;
-      }
-      .hero__controls       { justify-content: space-between; padding-bottom: 0; }
-      .hero__ctrl           { pointer-events: all; }
-      .hero__dot            { pointer-events: all; }
+      /* Hide desktop controls on mobile — bottom-dots strip takes over */
+      .hero__controls-wrap  { display: none; }
     }
 
     /* Typography mobile scale — tokens from lacardio-tokens.css */
@@ -445,10 +434,16 @@
 
   </div><!-- /.carousel -->
 
-  <!-- Mobile-only bottom slide indicator -->
-  <div class="hero__bottom-dots" aria-hidden="true">
+  <!-- Mobile-only bottom slide indicator with arrows -->
+  <div class="hero__bottom-dots" role="group" aria-label="Controles del slider">
+    <button class="hero__ctrl" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" aria-label="Slide anterior">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
     <button class="hero__dot active" type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" aria-label="Slide 1"></button>
     <button class="hero__dot" type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button class="hero__ctrl" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" aria-label="Slide siguiente">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
   </div>
 
 </section>
