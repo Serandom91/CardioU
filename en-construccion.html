@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CardioU — En construcción</title>
+  <link rel="stylesheet" href="lacardio-tokens.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background: var(--color-bg-page); /* #1d386d */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 28px;
+      padding: 24px;
+      font-family: var(--font-body);
+      color: #ffffff;
+    }
+    .uc__logo { width: 200px; height: auto; }
+    .uc__h1 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 46px;
+      line-height: 1.2;
+      color: #ffffff;
+    }
+    .uc__sub {
+      font-size: 18px;
+      line-height: 1.4;
+      color: var(--color-text-secondary); /* #b8cef9 */
+      max-width: 520px;
+    }
+    .uc__btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 999px;
+      padding: 14px 28px;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .uc__btn:hover { background: rgba(255, 255, 255, 0.12); border-color: #ffffff; }
+    @media (max-width: 575px) {
+      .uc__logo { width: 160px; }
+      .uc__h1 { font-size: 32px; }
+      .uc__sub { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <img src="Assets/Cardio_u_Logo_blanco.svg" alt="CardioU" class="uc__logo">
+  <h1 class="uc__h1">Estamos en construcción</h1>
+  <p class="uc__sub">Estamos trabajando en esta sección. Muy pronto estará disponible.</p>
+  <a href="home.html" class="uc__btn">Volver al inicio</a>
+</body>
+</html>
