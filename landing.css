@@ -251,7 +251,7 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--font-display); }
 .btn-outline-white:hover { background: rgba(255,255,255,0.12); border-color: #fff; }
 
 .btn-outline-red { background: transparent; color: var(--btn-primary-bg); border-color: var(--btn-primary-bg); }
-.btn-outline-red:hover { background: rgba(238,51,90,0.08); }
+.btn-outline-red:hover { background: var(--btn-primary-bg); color: var(--btn-primary-text); border-color: var(--btn-primary-bg); }
 
 /* ─── BADGES / PILLS ────────────────────────────────────────────── */
 .pill {
