@@ -1,6 +1,6 @@
 # CardioU — Project Brief
 **Documento vivo. Actualizar al cerrar cada sesión.**
-**Última actualización: 2026-05-21**
+**Última actualización: 2026-05-25**
 
 ---
 
@@ -71,11 +71,11 @@ Medicina `#2a60c9` · Enfermería `#accdfc` · Innovación `#0059f7` · Servicio
 | Sección | Desktop | Mobile | Notas |
 |---|---|---|---|
 | **Topbar** | ✅ | — (oculto mobile) | |
-| **Header / Navbar** | ✅ | ✅ | Sólido `#1d386d`, sin borde toggler, links H3 mobile, btn full width |
+| **Header / Navbar** | ✅ | ✅ | Sólido `#1d386d`, sin borde toggler, links H3 mobile (`var(--font-display)`), btn full width |
 | **Hero** | ✅ | ✅ | 2 slides carousel; mobile: imagen arriba, controles `[← ● ○ →]` debajo de trust |
-| **Schools** | ✅ | ✅ | Degradé `#1d386d 0% → #426cbe 100%`; mobile hover-always-on, 24px padding |
+| **Course List** | ✅ | ✅ | Fondo `#f4f3f0`; 4 columnas desktop, cards verticales (img arriba, body abajo); CTA "Ver todos" inline en header (derecha); mobile 1 col |
+| **Schools** | ✅ | ✅ | Outer `#f4f3f0` + inner container `#1d386d` border-radius 24px; mobile padding 16px, border-radius xl, 1 col |
 | **Cifras** | ✅ | ✅ | Fondo `#f4f3f0`, padding 64px top / 48px bottom / 155px lateral, gap 140px |
-| **Course List** | ✅ | ✅ | Fondo `#f4f3f0`, pills underline, img 207×155px; mobile img full width |
 | **Differentiator** | ✅ | ✅ | Gradiente `#426cbe → #1d386d`, layout header arriba + img/pillars abajo; 155px lateral |
 | **Testimonials** | ✅ | ✅ | Título "Esto dicen nuestros graduados", estrellas `#e0eaff`; mobile scroll horizontal, margin-left/right en first/last card |
 | **FAQ** | ✅ | ✅ | Fondo `#ffffff`, grid 322px + 1fr + gap 140px; mobile orden: título → accordion → support, 24px padding |
@@ -102,6 +102,9 @@ Medicina `#2a60c9` · Enfermería `#accdfc` · Innovación `#0059f7` · Servicio
 - **Scroll horizontal testimonials:** `overflow-x: auto` + `margin-left: 24px` en first-child / `margin-right: 24px` en last-child (no usar padding en el contenedor)
 - **FAQ grid desktop:** `display: grid; grid-template-columns: 322px 1fr; grid-template-rows: auto 1fr` — left en row 1, list span rows 1–2, support en row 2
 - **Hero bottom controls mobile:** `.hero__bottom-dots` contiene `[← btn] [dot] [dot] [→ btn]`, reutiliza clases `.hero__ctrl` y `.hero__dot`
+- **Course list header con CTA inline:** `.course-list__header` flex row, `align-items: flex-end`, `justify-content: space-between`; izquierda `.course-list__header-text` (eyebrow + H2), derecha `.btn`
+- **Schools inner container:** `.schools` es el wrapper `#f4f3f0`; `.schools__inner` es el contenedor oscuro con `border-radius: 24px` y `overflow: hidden`; no usar `.container` de Bootstrap en esta sección
+- **Navbar links inline-flex:** evitar whitespace entre `<a>` y el texto interior — los nodos de texto anónimos se convierten en flex items y generan indent visual en mobile
 
 ---
 
@@ -146,7 +149,21 @@ Para consultar el diseño en Figma usar el MCP tool `get_design_context` con `fi
 
 ---
 
-## 10. Pendientes
+## 10. Orden de secciones (actual)
+
+1. Hero
+2. Course List (`#cursos`)
+3. Schools (`#escuelas`)
+4. Cifras
+5. Differentiator
+6. Testimonials
+7. FAQ
+8. CTA Final
+9. Footer
+
+---
+
+## 11. Pendientes
 
 - [ ] Revisar/implementar mobile del **Footer**
 - [ ] Verificar ajuste visual del hero bottom dots en dispositivo real
@@ -154,7 +171,7 @@ Para consultar el diseño en Figma usar el MCP tool `get_design_context` con `fi
 
 ---
 
-## 11. Historial de sesiones
+## 12. Historial de sesiones
 
 | Fecha | Trabajo realizado |
 |---|---|
@@ -162,3 +179,4 @@ Para consultar el diseño en Figma usar el MCP tool `get_design_context` con `fi
 | 2026-05-12 | Implementación cifras, botones, course list, differentiator, testimonials |
 | 2026-05-13 | Implementación FAQ, CTA final; rename a `home.html`; push a GitHub con PAT |
 | 2026-05-21 | Mobile pass completo: schools, cifras, courses, differentiator, testimonials (scroll fix), FAQ (reorder + grid), navbar (sólido, sin borde toggler, H3 links, alineación, btn full width), hero controls (bottom dots con flechas) |
+| 2026-05-25 | Ajustes cliente: course-list movida debajo del hero; schools movida debajo de course-list; schools rediseño (outer `#f4f3f0` + inner `#1d386d` border-radius 24px); course cards: layout vertical 4 columnas, img full-width arriba; CTA "Ver todos" movido a header inline; fix navbar mobile "Escuelas" (whitespace anonymous flex item); fix `--font-heading` → `--font-display` en navbar mobile |
