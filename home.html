@@ -39,7 +39,7 @@
       .navbar .container     { padding-left: 24px; padding-right: 24px; }
       .navbar__right         { flex-direction: column; align-items: flex-start; gap: 16px; width: 100%; padding: 12px 0; margin-left: 0 !important; }
       .navbar__nav           { flex-direction: column; gap: 8px; padding: 0; margin: 0; }
-      .navbar__link          { font-family: var(--font-heading); font-size: 26px; line-height: 31px; font-weight: 800; letter-spacing: -0.01em; padding: 0; }
+      .navbar__link          { font-family: var(--font-display); font-size: 26px; line-height: 31px; font-weight: 800; letter-spacing: -0.01em; padding: 0; }
       .navbar__search-bar    { width: 100%; margin-left: 0 !important; margin-top: 12px; padding: 0; }
       .navbar__search-input  { width: 100%; }
       .navbar__right .btn    { width: 100%; justify-content: center; }
@@ -105,9 +105,10 @@
       .cifras__stat          { width: calc(50% - 8px); }
     }
 
-    /* Schools grid — already 2-col; 1-col on mobile */
+    /* Schools — 1-col grid on mobile, inner container adjustments */
     @media (max-width: 640px) {
-      .schools { padding-top: 24px; padding-bottom: var(--sp-10); }
+      .schools { padding: 0 16px; }
+      .schools__inner { padding: 24px 16px; border-radius: var(--radius-xl); gap: 24px; }
       .schools .section-header__sub { padding-bottom: 0; margin-bottom: 0; }
       .schools__grid { grid-template-columns: 1fr !important; }
       .schools__grid .school-card:last-child:nth-child(odd) { grid-column: auto; max-width: none; }
@@ -129,9 +130,6 @@
       .school-card__count { font-size: 14px; }
       .school-card__link { font-size: 14px; }
 
-      /* Padding lateral 24px */
-      .schools .container { padding-left: 24px; padding-right: 24px; }
-
       /* Hover state permanente en mobile (no hay cursor) */
       .school-card { box-shadow: 0px 12px 18.8px -7px rgba(20,38,75,0.66), 0px 20px 50px 0px rgba(20,38,75,0.49); }
       .school-card .school-card__blob { left: -260px; top: -260px; width: 1400px; }
@@ -141,27 +139,20 @@
       .school-card .school-card__link { text-decoration: underline; }
     }
 
-    /* Course list section-actions — stack on mobile */
+    /* Course list header — stack on mobile */
     @media (max-width: 575px) {
-      .course-list-section              { padding-top: var(--sp-6); padding-bottom: var(--sp-6); }
-      .course-list-section .section-header { margin-bottom: 0; }
-      .section-actions                  { flex-direction: column; align-items: stretch; gap: var(--sp-2); margin-top: var(--sp-2); }
-      .section-actions > p              { width: 100%; text-align: center; }
-      .section-actions .btn             { width: 100%; justify-content: center; }
-      .course-list                      { margin-top: var(--sp-2); }
+      .course-list-section     { padding-top: var(--sp-6); padding-bottom: var(--sp-6); }
+      .course-list__header     { flex-direction: column; align-items: stretch; gap: var(--sp-2); margin-bottom: var(--sp-4); }
+      .course-list__header .btn { width: 100%; justify-content: center; }
     }
 
     /* Course cards — mobile layout */
     @media (max-width: 767px) {
       .course-list-section .container { padding-left: 24px; padding-right: 24px; }
       .courses-grid          { grid-template-columns: 1fr; gap: 40px; }
-      .course-card           { flex-direction: column; gap: 16px; }
-      .course-card__img-area { height: 155px; width: 100%; }
-      .course-card__photo    { width: 100%; height: 155px; border-radius: 12px; }
       .course-card__price-now { font-size: 28px; }
       .course-card__actions  { flex-wrap: nowrap; gap: 10px; }
       .course-card__actions .btn { flex: 1; justify-content: center; }
-      .courses-cta .btn { width: 100%; justify-content: center; }
     }
 
     /* Differentiator — stack on mobile */
@@ -309,10 +300,7 @@
         </div>
         <div class="navbar__right ms-auto">
           <div class="navbar__nav" role="list">
-            <a href="#escuelas" class="navbar__link" role="listitem">
-              Escuelas
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
+            <a href="#escuelas" class="navbar__link" role="listitem">Escuelas <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
             <a href="#" class="navbar__link" role="listitem">Acerca de nosotros</a>
           </div>
           <a href="#" class="btn btn-outline-white btn-lg">Inscríbete</a>
@@ -448,9 +436,135 @@
 
 </section>
 
+<!-- ── COURSE LIST ── -->
+<section class="course-list-section" id="cursos" aria-labelledby="courses-title">
+  <div class="container">
+    <div class="course-list__header">
+      <div class="course-list__header-text">
+        <p class="section-header__eyebrow">Catálogo de cursos</p>
+        <h2 class="section-header__title" id="courses-title">Los cursos más valorados</h2>
+      </div>
+      <a href="#" class="btn btn-primary btn-lg">Ver todos los cursos</a>
+    </div>
+
+    <div class="courses-grid">
+
+      <!-- Card 1 — Formación Continua -->
+      <article class="course-card">
+        <div class="course-card__img-area">
+          <img class="course-card__photo" src="Assets/IMG_card-1.png" alt="Inteligencia Artificial en el Entorno Hospitalario">
+        </div>
+        <div class="course-card__body">
+          <span class="course-pill course-pill--continua">Formación Continua</span>
+          <h3 class="course-card__title">Inteligencia Artificial en el Entorno Hospitalario</h3>
+          <div class="course-card__features">
+            <span class="course-feat"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">36 horas</span>
+            <span class="course-feat"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="" aria-hidden="true">6 módulos</span>
+            <span class="course-feat"><img src="Assets/Icons/Feature Icon-dm.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
+            <span class="course-feat course-feat--rating">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>4.9 (342)
+            </span>
+          </div>
+          <div class="course-card__price">
+            <span class="course-card__price-now">$ 1.540.000</span>
+            <span class="course-card__price-was">$ 2.190.000</span>
+          </div>
+          <div class="course-card__actions">
+            <a href="#" class="course-card__ver-link">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="#" class="btn btn-outline-red btn-lg">Inscribirme</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2 — Escuela de Enfermería -->
+      <article class="course-card">
+        <div class="course-card__img-area">
+          <img class="course-card__photo" src="Assets/IMG_card-2.png" alt="Curso de Accesos Vasculares CAVA">
+        </div>
+        <div class="course-card__body">
+          <span class="course-pill course-pill--enfermeria">Escuela de Enfermería</span>
+          <h3 class="course-card__title">Curso de Accesos Vasculares CAVA</h3>
+          <div class="course-card__features">
+            <span class="course-feat"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">65 horas</span>
+            <span class="course-feat"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="" aria-hidden="true">5 módulos</span>
+            <span class="course-feat"><img src="Assets/Icons/Feature Icon-dm.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
+            <span class="course-feat course-feat--rating">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>4.9 (87)
+            </span>
+          </div>
+          <div class="course-card__price">
+            <span class="course-card__price-now">$ 1.600.000</span>
+            <span class="course-card__price-was">$ 2.490.000</span>
+          </div>
+          <div class="course-card__actions">
+            <a href="#" class="course-card__ver-link">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="#" class="btn btn-outline-red btn-lg">Inscribirme</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 — Escuela de Innovación -->
+      <article class="course-card">
+        <div class="course-card__img-area">
+          <img class="course-card__photo" src="Assets/IMG_card-3.png" alt="Innovación en Experiencia del Paciente">
+        </div>
+        <div class="course-card__body">
+          <span class="course-pill course-pill--innovacion">Escuela de Innovación</span>
+          <h3 class="course-card__title">Innovación en Experiencia del Paciente</h3>
+          <div class="course-card__features">
+            <span class="course-feat"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">60 horas</span>
+            <span class="course-feat"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="" aria-hidden="true">9 módulos</span>
+            <span class="course-feat"><img src="Assets/Icons/Feature Icon-dm.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
+            <span class="course-feat course-feat--rating">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>4.8 (156)
+            </span>
+          </div>
+          <div class="course-card__price">
+            <span class="course-card__price-now">$ 1.100.000</span>
+            <span class="course-card__price-was">$ 1.790.000</span>
+          </div>
+          <div class="course-card__actions">
+            <a href="#" class="course-card__ver-link">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="#" class="btn btn-outline-red btn-lg">Inscribirme</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4 — Formación Continua -->
+      <article class="course-card">
+        <div class="course-card__img-area">
+          <img class="course-card__photo" src="Assets/IMG_card-4.png" alt="Anticoagulación en Escenarios Cardiovasculares">
+        </div>
+        <div class="course-card__body">
+          <span class="course-pill course-pill--continua">Formación Continua</span>
+          <h3 class="course-card__title">Anticoagulación en Escenarios Cardiovasculares</h3>
+          <div class="course-card__features">
+            <span class="course-feat"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">65 horas</span>
+            <span class="course-feat"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="" aria-hidden="true">6 módulos</span>
+            <span class="course-feat"><img src="Assets/Icons/Feature Icon-dm.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
+            <span class="course-feat course-feat--rating">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>4.7 (203)
+            </span>
+          </div>
+          <div class="course-card__price">
+            <span class="course-card__price-now">$ 1.100.000</span>
+            <span class="course-card__price-was">$ 1.690.000</span>
+          </div>
+          <div class="course-card__actions">
+            <a href="#" class="course-card__ver-link">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="#" class="btn btn-outline-red btn-lg">Inscribirme</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+  </div>
+</section>
+
 <!-- ── SCHOOLS ── -->
 <section class="schools" id="escuelas" aria-labelledby="schools-title">
-  <div class="container">
+  <div class="schools__inner">
     <header class="section-header">
       <p class="section-header__eyebrow">Nuestras escuelas</p>
       <h2 class="section-header__title" id="schools-title">Formación especializada por área</h2>
@@ -590,145 +704,6 @@
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ── COURSE LIST ── -->
-<section class="course-list-section" id="cursos" aria-labelledby="courses-title">
-  <div class="container">
-    <header class="section-header">
-      <p class="section-header__eyebrow">Catálogo de cursos</p>
-      <h2 class="section-header__title" id="courses-title">Los cursos más valorados</h2>
-    </header>
-
-    <div class="courses-grid">
-
-      <!-- Card 1 — Formación Continua -->
-      <article class="course-card">
-        <div class="course-card__img-area">
-          <picture>
-            <source media="(max-width: 767px)" srcset="Assets/IMG_card-1-mobile.png">
-            <img class="course-card__photo" src="Assets/IMG_card-1.png" alt="Inteligencia Artificial en el Entorno Hospitalario">
-          </picture>
-        </div>
-        <div class="course-card__body">
-          <span class="course-pill course-pill--continua">Formación Continua</span>
-          <h3 class="course-card__title">Inteligencia Artificial en el Entorno Hospitalario</h3>
-          <div class="course-card__features">
-            <span class="course-feat"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">36 horas</span>
-            <span class="course-feat"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="" aria-hidden="true">6 módulos</span>
-            <span class="course-feat"><img src="Assets/Icons/Feature Icon-dm.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
-            <span class="course-feat course-feat--rating">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>4.9 (342)
-            </span>
-          </div>
-          <div class="course-card__price">
-            <span class="course-card__price-now">$ 1.540.000</span>
-            <span class="course-card__price-was">$ 2.190.000</span>
-          </div>
-          <div class="course-card__actions">
-            <a href="#" class="course-card__ver-link">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-            <a href="#" class="btn btn-outline-red btn-lg">Inscribirme</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Card 2 — Escuela de Enfermería -->
-      <article class="course-card">
-        <div class="course-card__img-area">
-          <picture>
-            <source media="(max-width: 767px)" srcset="Assets/IMG_card-2-mobile.png">
-            <img class="course-card__photo" src="Assets/IMG_card-2.png" alt="Curso de Accesos Vasculares CAVA">
-          </picture>
-        </div>
-        <div class="course-card__body">
-          <span class="course-pill course-pill--enfermeria">Escuela de Enfermería</span>
-          <h3 class="course-card__title">Curso de Accesos Vasculares CAVA</h3>
-          <div class="course-card__features">
-            <span class="course-feat"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">65 horas</span>
-            <span class="course-feat"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="" aria-hidden="true">5 módulos</span>
-            <span class="course-feat"><img src="Assets/Icons/Feature Icon-dm.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
-            <span class="course-feat course-feat--rating">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>4.9 (87)
-            </span>
-          </div>
-          <div class="course-card__price">
-            <span class="course-card__price-now">$ 1.600.000</span>
-            <span class="course-card__price-was">$ 2.490.000</span>
-          </div>
-          <div class="course-card__actions">
-            <a href="#" class="course-card__ver-link">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-            <a href="#" class="btn btn-outline-red btn-lg">Inscribirme</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Card 3 — Escuela de Innovación -->
-      <article class="course-card">
-        <div class="course-card__img-area">
-          <picture>
-            <source media="(max-width: 767px)" srcset="Assets/IMG_card-3-mobile.png">
-            <img class="course-card__photo" src="Assets/IMG_card-3.png" alt="Innovación en Experiencia del Paciente">
-          </picture>
-        </div>
-        <div class="course-card__body">
-          <span class="course-pill course-pill--innovacion">Escuela de Innovación</span>
-          <h3 class="course-card__title">Innovación en Experiencia del Paciente</h3>
-          <div class="course-card__features">
-            <span class="course-feat"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">60 horas</span>
-            <span class="course-feat"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="" aria-hidden="true">9 módulos</span>
-            <span class="course-feat"><img src="Assets/Icons/Feature Icon-dm.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
-            <span class="course-feat course-feat--rating">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>4.8 (156)
-            </span>
-          </div>
-          <div class="course-card__price">
-            <span class="course-card__price-now">$ 1.100.000</span>
-            <span class="course-card__price-was">$ 1.790.000</span>
-          </div>
-          <div class="course-card__actions">
-            <a href="#" class="course-card__ver-link">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-            <a href="#" class="btn btn-outline-red btn-lg">Inscribirme</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Card 4 — Formación Continua -->
-      <article class="course-card">
-        <div class="course-card__img-area">
-          <picture>
-            <source media="(max-width: 767px)" srcset="Assets/IMG_card-4-mobile.png">
-            <img class="course-card__photo" src="Assets/IMG_card-4.png" alt="Anticoagulación en Escenarios Cardiovasculares">
-          </picture>
-        </div>
-        <div class="course-card__body">
-          <span class="course-pill course-pill--continua">Formación Continua</span>
-          <h3 class="course-card__title">Anticoagulación en Escenarios Cardiovasculares</h3>
-          <div class="course-card__features">
-            <span class="course-feat"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">65 horas</span>
-            <span class="course-feat"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="" aria-hidden="true">6 módulos</span>
-            <span class="course-feat"><img src="Assets/Icons/Feature Icon-dm.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
-            <span class="course-feat course-feat--rating">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>4.7 (203)
-            </span>
-          </div>
-          <div class="course-card__price">
-            <span class="course-card__price-now">$ 1.100.000</span>
-            <span class="course-card__price-was">$ 1.690.000</span>
-          </div>
-          <div class="course-card__actions">
-            <a href="#" class="course-card__ver-link">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-            <a href="#" class="btn btn-outline-red btn-lg">Inscribirme</a>
-          </div>
-        </div>
-      </article>
-
-    </div>
-
-    <div class="courses-cta">
-      <a href="#" class="btn btn-danger btn-lg">Ver todos los cursos</a>
-    </div>
-
   </div>
 </section>
 
