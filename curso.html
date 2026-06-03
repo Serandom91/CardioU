@@ -39,12 +39,13 @@
     }
 
     /* ════════ DETALLE DE CURSO ════════ */
-    /* Fondo de página azul (page) → el header se mantiene azul arriba y deja ver el gradiente al hacer scroll.
-       El gris vive solo en el contenedor del cuerpo (.crs-body). */
-    body { background: var(--bg-page, #1d386d); }
+    /* Fondo de página GRIS (igual que catálogo): el azul vive solo en el header (.site-header es
+       opaco #08101f) y en el hero (gradiente full-width). Así en viewports anchos no asoma el azul
+       a los lados del contenedor; arriba se ve azul y al hacer scroll el gris pasa bajo el header sticky. */
+    body { background: #f4f3f0; }
     .crs-body { background: #f4f3f0; }
-    /* Header: mismo comportamiento que el home (sticky + gradiente que se funde con el hero).
-       Hereda de landing.css → .site-header sticky, .navbar gradient. Sin overrides aquí. */
+    /* Header: sticky + gradiente como el home. Hereda de landing.css (.site-header sticky/opaco,
+       .navbar gradient). Sin overrides aquí. */
 
     /* ── HERO oscuro (gradient Figma 2071:1042) ── */
     .crs-hero { background: linear-gradient(0deg, #0d1931 0%, #14284f 18.091%, #193161 38.462%, #1d386d 51.442%); color: #fff; padding: 24px 0 56px; }
