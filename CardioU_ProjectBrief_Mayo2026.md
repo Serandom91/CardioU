@@ -1,6 +1,6 @@
 # CardioU — Project Brief
 **Documento vivo. Actualizar al cerrar cada sesión.**
-**Última actualización: 2026-05-25**
+**Última actualización: 2026-06-02**
 
 ---
 
@@ -165,6 +165,17 @@ Para consultar el diseño en Figma usar el MCP tool `get_design_context` con `fi
 
 ## 11. Pendientes
 
+**Flujo catálogo→curso→lead (en curso):**
+- [x] `curso.html` — página de detalle (Opción A: marketplace + tarjeta sticky). Data-driven por `?id=`.
+- [ ] **Pedir a LaCardio el temario real** (módulos/lecciones) — hoy placeholder con banner "en validación"; pieza clave para conversión
+- [ ] Link de financiación **Wompi** real por curso (hoy botón principal apunta a placeholder `checkout.wompi.co`)
+- [ ] Confirmar precio real CAVA ($1.800.000 web vs $1.600.000 dataset) e info de docente (no publicada)
+- [ ] Formulario de lead — CTA "Solicitar información" y "Inscribirme y pagar" hoy `href=#`
+- [ ] Reemplazar datasets placeholder (`COURSES`) por datos reales del CMS/backend
+- [ ] Catálogo: en vistas muy filtradas con pocas destacadas puede quedar hueco de 4 col en una fila
+- [ ] Validar mobile de `catalogo.html` y `curso.html` en dispositivo
+
+**Home (pendientes previos):**
 - [ ] Revisar/implementar mobile del **Footer**
 - [ ] Verificar ajuste visual del hero bottom dots en dispositivo real
 - [ ] Validar FAQ layout en desktop tras migración a CSS grid
@@ -180,3 +191,6 @@ Para consultar el diseño en Figma usar el MCP tool `get_design_context` con `fi
 | 2026-05-13 | Implementación FAQ, CTA final; rename a `home.html`; push a GitHub con PAT |
 | 2026-05-21 | Mobile pass completo: schools, cifras, courses, differentiator, testimonials (scroll fix), FAQ (reorder + grid), navbar (sólido, sin borde toggler, H3 links, alineación, btn full width), hero controls (bottom dots con flechas) |
 | 2026-05-25 | Ajustes cliente: course-list movida debajo del hero; schools movida debajo de course-list; schools rediseño (outer `#f4f3f0` + inner `#1d386d` border-radius 24px); course cards: layout vertical 4 columnas, img full-width arriba; CTA "Ver todos" movido a header inline; fix navbar mobile "Escuelas" (whitespace anonymous flex item); fix `--font-heading` → `--font-display` en navbar mobile |
+| 2026-06-01 | **Buscador en home** (course-list): barra 8 col centrada + autocompletado en vivo (3 letras, resalta, ↑↓Enter/Esc) → `catalogo.html?q=`. **Catálogo nuevo `catalogo.html`** (Opción B de 2 wireframes): hero búsqueda + filtros + cards + "Cargar más" + estado vacío; flujo home→catálogo conectado (botones, buscador, escuelas con `?escuela=`) |
+| 2026-06-02 | **Interna de curso `curso.html`** (Opción A de 2 wireframes: marketplace + tarjeta de inscripción sticky). Data-driven por `?id=`, reusa navbar/footer/cards/tokens. Hero oscuro + quick-facts montadas (incl. próxima fecha de inicio) + 2 columnas (qué aprenderás, sobre el curso, temario accordion, docente, para quién, FAQ) + tarjeta sticky con **fecha de inicio destacada + botón principal "Financiar con Wompi"** (flujo externo) + pago + lead. Datos reales del CAVA traídos de lacardio.org. Temario en placeholder con banner "en validación" (pendiente pedirlo a LaCardio) |
+| 2026-06-02 | **Refinamiento catálogo con Figma:** superficie crema (`body #f4f3f0`), header sólido no-sticky, hero gradient + breadcrumb + padding 48px; barra de filtros azul flotante (radius-2xl, sombra hover/focus); Duración=radios + Precio=slider; pills hero por escuela (contraste WCAG); buscador + Inscríbete aparecen en barra al hacer scroll; card destacada grande (10/12 centrada, img 464px). **Card destacada en grid `.cat-dcard`** (Figma 2159:493, fondo azul + SVG, texto blanco) como componente compartido en `landing.css`: catálogo grid 10-col (normal span3 / destacada span4, alternando lado por fila); home aplicado a **1 fila** (2 normales + 1 destacada). Botones destacada quedan `#ee335a` (consistencia, no el `#ff0040` del Figma) |

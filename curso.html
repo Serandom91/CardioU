@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CardioU — Detalle del curso</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="lacardio-tokens.css">
+  <link rel="stylesheet" href="landing.css">
+  <style>
+    /* ── Shared overrides (copiados de catalogo.html) ── */
+    .container { max-width: 1440px; padding-left: clamp(24px, 2.78vw, 40px); padding-right: clamp(24px, 2.78vw, 40px); }
+    @media (max-width: 991px) { .topbar { display: none; } }
+    .navbar-toggler { border: none; background: none; padding: 6px 10px; box-shadow: none !important; }
+    .navbar-toggler-icon { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
+    @media (max-width: 991px) {
+      .navbar                { background: #1d386d; }
+      .navbar .container     { padding-left: 24px; padding-right: 24px; }
+      .navbar__right         { flex-direction: column; align-items: flex-start; gap: 16px; width: 100%; padding: 12px 0; margin-left: 0 !important; }
+      .navbar__nav           { flex-direction: column; align-items: flex-start; gap: 8px; padding: 0; margin: 0; }
+      .navbar__link          { font-family: var(--font-display); font-size: 26px; line-height: 31px; font-weight: 800; letter-spacing: -0.01em; padding: 0; }
+      .navbar__search-bar    { width: 100%; margin-left: 0 !important; margin-top: 12px; padding: 0; }
+      .navbar__search-input  { width: 100%; }
+      .navbar__right .btn    { width: 100%; justify-content: center; }
+    }
+    @media (max-width: 767px) {
+      .footer     { padding: 0 16px; }
+      .footer__top { flex-direction: column; align-items: flex-start; gap: 24px; }
+      .footer__nav { flex-wrap: wrap; gap: 12px 20px; }
+      .footer__rrss { margin-left: 0; }
+    }
+    @media (max-width: 576px) {
+      .wa-float { right: 16px; }
+      .wa-float__text { display: none; }
+      .wa-float:hover { max-width: 52px; padding: 10px; }
+    }
+
+    /* ════════ DETALLE DE CURSO ════════ */
+    /* Fondo de página azul (page) → el header se mantiene azul arriba y deja ver el gradiente al hacer scroll.
+       El gris vive solo en el contenedor del cuerpo (.crs-body). */
+    body { background: var(--bg-page, #1d386d); }
+    .crs-body { background: #f4f3f0; }
+    /* Header: mismo comportamiento que el home (sticky + gradiente que se funde con el hero).
+       Hereda de landing.css → .site-header sticky, .navbar gradient. Sin overrides aquí. */
+
+    /* ── HERO oscuro (gradient Figma 2071:1042) ── */
+    .crs-hero { background: linear-gradient(0deg, #0d1931 0%, #14284f 18.091%, #193161 38.462%, #1d386d 51.442%); color: #fff; padding: 24px 0 56px; }
+    .crs-breadcrumb { display: flex; align-items: center; gap: 8px; margin-bottom: 26px; font-family: var(--font-body); font-size: 13px; line-height: 1.3; flex-wrap: wrap; }
+    .crs-breadcrumb a { color: #b8cef9; text-decoration: none; transition: color 0.15s; }
+    .crs-breadcrumb a:hover { color: #fff; text-decoration: underline; }
+    .crs-breadcrumb span[aria-current] { color: #fff; font-weight: 600; }
+    .crs-breadcrumb .sep { color: #6f8cc4; }
+    /* Texto del hero confinado al ancho de la columna izquierda (deja libre la derecha para la card) */
+    .crs-hero__inner { max-width: calc(100% - 432px); }
+    .crs-hero .course-pill { margin-bottom: 18px; color: #fff; }
+    .crs-hero__title { font-family: var(--font-display); font-weight: 800; font-size: 46px; line-height: 1.16; color: #fff; margin: 0 0 18px; }
+    .crs-hero__lead { color: #b8cef9; font-size: 17px; line-height: 1.5; margin: 0 0 24px; max-width: 720px; }
+    .crs-hero__meta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
+    .crs-meta-pill { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.22); border-radius: var(--radius-full); padding: 8px 16px; font-family: var(--font-body); font-size: 14px; color: #fff; }
+    .crs-meta-pill img { filter: brightness(0) invert(1); opacity: 0.9; }
+    .crs-meta-pill--rating svg { margin-right: 2px; }
+    .crs-hero__by { display: flex; align-items: center; gap: 14px; }
+    .crs-hero__by-t { font-size: 12px; color: #9fb6e6; }
+    .crs-hero__by-n { font-family: var(--font-display); font-weight: 800; font-size: 15px; color: #fff; }
+
+    /* ── Layout principal 2 columnas ── */
+    .crs-layout { display: grid; grid-template-columns: 1fr 384px; gap: 48px; align-items: start; position: relative; }
+
+    /* Quick facts — 3 chips compactos, montados ~50% sobre el borde inferior del hero */
+    .crs-quickfacts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; margin: -28px 0 40px; position: relative; z-index: 3; }
+    .crs-qf { display: flex; align-items: center; gap: 12px; min-height: 56px; background: #fff; border-radius: var(--radius-lg); padding: 12px 16px; box-shadow: 0 8px 18px rgba(13,25,49,0.12); }
+    .crs-qf__ic { width: 22px; height: 22px; flex: 0 0 auto; }
+    .crs-qf__text { min-width: 0; }
+    .crs-qf__label { font-family: var(--font-body); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #8a8a87; margin: 0; }
+    .crs-qf__value { font-family: var(--font-display); font-weight: 800; font-size: 15px; color: #1d386d; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* Secciones de contenido */
+    .crs-sec { margin-bottom: 48px; }
+    .crs-sec__title { font-family: var(--font-display); font-weight: 800; font-size: 30px; line-height: 1.24; color: #1d386d; margin: 0 0 20px; }
+    .crs-prose p { font-family: var(--font-body); font-size: 16px; line-height: 1.6; color: #474644; margin: 0 0 16px; }
+    .crs-prose p:last-child { margin-bottom: 0; }
+
+    /* ¿Qué vas a aprender? */
+    .crs-learn { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 32px; }
+    .crs-learn__li { display: flex; gap: 12px; font-family: var(--font-body); font-size: 16px; line-height: 1.45; color: #474644; }
+    .crs-learn__li svg { flex: 0 0 auto; margin-top: 3px; }
+
+    /* Aviso de contenido pendiente */
+    .crs-note { display: flex; align-items: flex-start; gap: 12px; background: #fff7e6; border: 1px solid #f3dca6; border-radius: var(--radius-lg); padding: 14px 18px; margin-bottom: 20px; font-family: var(--font-body); font-size: 13.5px; line-height: 1.5; color: #8a6d2f; }
+    .crs-note strong { color: #6e5320; }
+
+    /* Temario accordion */
+    /* Un solo contenedor: blue-50 al 50% de opacidad, sin trazo. Cada módulo se separa con un border superior y solo despliega su contenido dentro del contenedor. */
+    .crs-acc { background: rgba(224, 234, 255, 0.5); border-radius: var(--radius-lg); overflow: hidden; }
+    .crs-acc__row { background: transparent; }
+    .crs-acc__row + .crs-acc__row { border-top: 1px solid rgba(29, 56, 109, 0.14); }
+    .crs-acc__head { display: flex; align-items: flex-start; gap: 16px; width: 100%; text-align: left; padding: 18px 22px; background: transparent; border: 0; cursor: pointer; font-family: var(--font-body); }
+    .crs-acc__head:hover { background: rgba(29, 56, 109, 0.04); }
+    .crs-acc__head-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+    .crs-acc__mod { font-family: var(--font-body); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #8a8a87; }
+    .crs-acc__tt { font-family: var(--font-display); font-weight: 800; font-size: 17px; color: #1d386d; }
+    .crs-acc__cnt { font-size: 13px; color: #62615e; flex: 0 0 auto; padding-top: 2px; }
+    .crs-acc__chev { transition: transform 0.2s; color: #8a8a87; flex: 0 0 auto; margin-top: 2px; }
+    .crs-acc__row.is-open .crs-acc__chev { transform: rotate(180deg); }
+    .crs-acc__body { display: none; padding: 0 22px 18px; }
+    .crs-acc__row.is-open .crs-acc__body { display: block; }
+    .crs-acc__lec { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(29, 56, 109, 0.10); font-family: var(--font-body); font-size: 15px; color: #474644; }
+    .crs-acc__lec:last-child { border-bottom: 0; }
+    .crs-acc__lec-dot { width: 8px; height: 8px; border-radius: 50%; background: #426cbe; border: 0; flex: 0 0 auto; }
+
+    /* Docente — grid: foto a la izquierda; nombre/rol arriba-derecha; bio debajo-derecha */
+    .crs-inst { display: grid; grid-template-columns: auto 1fr; grid-template-areas: "ava head" "ava bio"; column-gap: 24px; row-gap: 12px; align-items: start; background: none; border: 0; padding: 0; }
+    .crs-inst__ava { grid-area: ava; width: 92px; height: 92px; border-radius: 50%; background: #e0eaff; align-self: start; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 800; font-size: 30px; color: #1d386d; }
+    .crs-inst__ava--photo { width: 120px; height: 160px; border-radius: var(--radius-lg); object-fit: cover; background: none; filter: drop-shadow(0 4px 8px rgba(13, 25, 49, 0.22)); }
+    .crs-inst__head { grid-area: head; }
+    .crs-inst__bio  { grid-area: bio; font-family: var(--font-body); font-size: 15px; line-height: 1.55; color: #474644; margin: 0; }
+    .crs-inst__name { font-family: var(--font-display); font-weight: 800; font-size: 20px; color: #1d386d; margin: 0 0 4px; }
+    .crs-inst__role { font-family: var(--font-body); font-size: 14px; color: #62615e; margin: 0; }
+
+    /* ¿Para quién es? */
+    .crs-ulist { list-style: none; margin: 0; padding: 0; }
+    .crs-ulist li { display: flex; gap: 12px; padding: 13px 0; font-family: var(--font-body); font-size: 16px; line-height: 1.45; color: #474644; }
+    .crs-ulist li svg { flex: 0 0 auto; margin-top: 3px; }
+
+    /* FAQ */
+    .crs-faq__row { border-bottom: 1px solid #e3e1dc; }
+    .crs-faq__head { display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; padding: 20px 0; background: none; border: 0; cursor: pointer; }
+    .crs-faq__q { flex: 1; font-family: var(--font-display); font-weight: 800; font-size: 17px; color: #1d386d; }
+    .crs-faq__chev { transition: transform 0.2s; color: #8a8a87; flex: 0 0 auto; }
+    .crs-faq__row.is-open .crs-faq__chev { transform: rotate(180deg); }
+    .crs-faq__a { display: none; padding: 0 0 20px; font-family: var(--font-body); font-size: 15px; line-height: 1.6; color: #474644; }
+    .crs-faq__row.is-open .crs-faq__a { display: block; }
+
+    /* ── Tarjeta de inscripción sticky ── */
+    /* Se eleva a la altura del H1 (margin-top negativo sobre el hero) y queda sticky JUSTO debajo del header
+       (top = alto del header + 16px; --header-h lo fija el JS según el header real) */
+    .crs-enroll { position: sticky; top: calc(var(--header-h, 88px) + 16px); margin-top: -344px; z-index: 5; }
+    .crs-enroll__card { background: #fff; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 14px 30px rgba(13, 25, 49, 0.22); }
+    .crs-enroll__media { position: relative; }
+    .crs-enroll__img { width: 100%; height: 240px; object-fit: cover; display: block; }
+    .crs-enroll__body { padding: 16px 16px 20px; }
+    /* Próxima fecha de inicio */
+    .crs-startdate { display: flex; align-items: center; gap: 10px; background: var(--color-gray-50); border-radius: var(--radius-md); padding: 10px 14px; margin-bottom: 8px; }
+    .crs-startdate__ic { width: 24px; height: 24px; flex: 0 0 auto; filter: brightness(0) invert(0.27); }
+    .crs-startdate__label { font-family: var(--font-body); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--color-gray-500); margin: 0; }
+    .crs-startdate__value { font-family: var(--font-display); font-weight: 800; font-size: 15px; color: var(--color-gray-600); margin: 0; }
+    /* Precio */
+    .crs-price { display: flex; align-items: baseline; gap: 10px; margin-bottom: 8px; }
+    .crs-price__now { font-family: var(--font-display); font-weight: 800; font-size: 28px; color: #1d386d; }
+    .crs-price__was { font-family: var(--font-body); font-size: 15px; color: #8a8a87; text-decoration: line-through; }
+    /* Botones */
+    .crs-enroll .btn { width: 100%; justify-content: center; margin-bottom: 8px; }
+    /* Inscribirme (botón) + Solicitar (text link) — uno al lado del otro, encima de Wompi */
+    .crs-enroll__btnrow { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .crs-enroll__btnrow .btn { flex: 1; width: auto; margin-bottom: 0; padding-left: 12px; padding-right: 12px; }
+    .crs-leadlink { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-body); font-weight: 700; font-size: 14px; color: var(--color-red-400); text-decoration: none; white-space: nowrap; transition: opacity 0.15s; }
+    .crs-leadlink:hover { opacity: 0.7; }
+    .crs-leadlink svg { flex: 0 0 auto; }
+    /* Botón de financiación: Financiar con Wompi — misma altura que el botón Inscribirme (btn-lg) */
+    .crs-wompi { display: flex; align-items: center; justify-content: center; gap: 9px; width: 100%; background: #1d386d; border: 1px solid #1d386d; border-radius: var(--radius-full); padding: var(--sp-2) var(--sp-6); margin-bottom: 8px; font-family: var(--font-body); font-weight: 700; font-size: 16px; line-height: 1.2; color: #fff; text-decoration: none; cursor: pointer; transition: background 0.15s ease, box-shadow 0.15s ease; }
+    .crs-wompi:hover { background: #14284f; border-color: #14284f; box-shadow: 0 8px 18px rgba(29,56,109,0.28); color: #fff; }
+    .crs-wompi__logo { height: 16px; width: auto; filter: brightness(0) invert(1); }
+    .crs-wompi__sub { display: block; text-align: center; font-family: var(--font-body); font-size: 11.5px; color: #8a8a87; margin: 2px 0 14px; }
+    /* Incluye */
+    .crs-incl { margin-top: 16px; padding-top: 16px; border-top: 1px solid #e3e1dc; }
+    .crs-incl__title { font-family: var(--font-body); font-size: 14px; font-weight: 700; color: #1d386d; margin: 0 0 12px; }
+    .crs-incl li { display: flex; align-items: center; gap: 10px; padding: 2px 0; font-family: var(--font-body); font-size: 13.5px; color: #474644; list-style: none; }
+    .crs-incl ul { margin: 0; padding: 0; }
+    .crs-incl li svg { flex: 0 0 auto; }
+    .crs-enroll__help { text-align: center; font-family: var(--font-body); font-size: 12px; color: #62615e; margin: 12px 0 0; }
+    .crs-enroll__help a { color: #426cbe; }
+
+    /* ── Cursos relacionados (slider horizontal, una card a la vez) ── */
+    .crs-related { background: #fff; padding: 64px 0; }
+    .crs-related__head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
+    .crs-related__title { font-family: var(--font-display); font-weight: 800; font-size: 32px; color: #1d386d; margin: 0; }
+    /* Desktop: grid de 4 cards, sin slider; el botón "Ver todos" vive en la fila del título */
+    .crs-related__viewport { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; scrollbar-width: none; -ms-overflow-style: none; }
+    .crs-related__viewport::-webkit-scrollbar { display: none; }
+    .crs-related__slide { scroll-snap-align: center; display: flex; justify-content: center; padding: 4px 4px 8px; }
+    .crs-related__slide .course-card { width: 100%; max-width: 320px; }
+    .crs-related__foot { display: none; }
+    .crs-related__controls { display: flex; align-items: center; gap: 16px; }
+    .crs-related__nav { width: 44px; height: 44px; border-radius: 50%; border: 1px solid #cdd9ef; background: #fff; color: #1d386d; display: flex; align-items: center; justify-content: center; cursor: pointer; flex: 0 0 auto; transition: background 0.15s ease, border-color 0.15s ease; }
+    .crs-related__nav:hover { background: var(--color-blue-50); border-color: #1d386d; }
+    .crs-related__dots { display: flex; align-items: center; gap: 8px; }
+    .crs-related__dot { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 50%; background: #cdd9ef; cursor: pointer; transition: width 0.2s ease, background 0.2s ease; }
+    .crs-related__dot.is-active { width: 22px; border-radius: 4px; background: #1d386d; }
+    /* Colores de card normal sobre fondo claro (por defecto heredan claro e invisibles) */
+    .crs-related .course-card__title     { color: #1d386d; }
+    .crs-related .course-card__price-now { color: #426cbe; }
+    .crs-related .course-card__price-was { color: #474644; }
+    .crs-related .course-card__ver-link  { color: var(--color-red-400); }
+    .crs-related .course-feat            { color: #62615e; }
+    .crs-related .course-feat img        { filter: brightness(0) invert(0.38); }
+
+    /* ── Bottom nav (solo mobile; aparece al pasar la card de inscripción) ── */
+    .crs-bottomnav { display: none; }
+
+    /* ── Responsive ── */
+    @media (max-width: 991px) {
+      .crs-hero { padding-bottom: 24px; }
+      .crs-hero__inner { max-width: 100%; }
+      .crs-layout { grid-template-columns: 1fr; gap: 32px; }
+      .crs-enroll { position: static; order: -1; margin-top: 24px; }
+      .crs-quickfacts { grid-template-columns: repeat(3, 1fr); margin-top: 4px; gap: 12px; }
+
+      /* Relacionados → slider de una card a la vez */
+      .crs-related__viewport { display: flex; grid-template-columns: none; gap: 0; overflow-x: auto; scroll-snap-type: x mandatory; }
+      .crs-related__slide { flex: 0 0 100%; }
+      .crs-related__all--top { display: none; }
+      .crs-related__foot { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-top: 20px; }
+      .crs-related__controls { justify-content: center; }
+
+      /* Bottom nav del curso */
+      .crs-bottomnav {
+        display: flex; position: fixed; left: 16px; right: 16px; bottom: 20px; z-index: 60;
+        background: #1d386d; border-radius: var(--radius-xl); padding: 12px 8px;
+        box-shadow: 0 12px 30px rgba(13, 25, 49, 0.34);
+        transform: translateY(calc(100% + 28px)); opacity: 0; visibility: hidden;
+        transition: transform 0.28s ease, opacity 0.28s ease;
+      }
+      .crs-bottomnav.is-visible { transform: none; opacity: 1; visibility: visible; }
+      .crs-bottomnav__item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; text-decoration: none; color: #fff; font-family: var(--font-body); font-size: 12px; font-weight: 600; line-height: 1; }
+      .crs-bottomnav__item img { height: 24px; width: auto; }
+      .crs-bottomnav__item--wompi img { height: 18px; }
+      body.crs-bn-on .wa-float { opacity: 0; visibility: hidden; pointer-events: none; }
+    }
+    @media (max-width: 767px) {
+      .crs-hero__title { font-size: 34px; }
+      .crs-learn { grid-template-columns: 1fr; }
+      .crs-sec__title { font-size: 26px; }
+    }
+    @media (max-width: 575px) {
+      .crs-quickfacts { grid-template-columns: 1fr; }
+      .crs-inst { grid-template-areas: "ava head" "bio bio"; align-items: center; column-gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════ HEADER ═══════════ -->
+<header class="site-header" role="banner">
+  <div class="topbar" role="complementary" aria-label="Información de contacto">
+    <div class="container">
+      <div class="topbar__items">
+        <a href="tel:+5713305555" class="topbar__item topbar__item--sep">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.166 10.073a1 1 0 00-1.375-.04l-1.32 1.205a14.6 14.6 0 01-5.709-5.71l1.206-1.32a1 1 0 00-.04-1.374L4.067.962A1 1 0 002.68.978L1.148 2.51A1.5 1.5 0 001 3.25C1 9.739 6.261 15 12.75 15a1.5 1.5 0 00.74-.148l1.532-1.532a1 1 0 00.016-1.387l-1.872-1.86z" fill="#E5EBF6"/></svg>
+          +571 330 5555
+        </a>
+        <a href="mailto:cardiou_admin@lacardio.org" class="topbar__item topbar__item--sep">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.5 2h-11A1.5 1.5 0 001 3.5v9A1.5 1.5 0 002.5 14h11a1.5 1.5 0 001.5-1.5v-9A1.5 1.5 0 0013.5 2zm-1.06 1L8 6.72 3.56 3h8.88zM2.5 13a.5.5 0 01-.5-.5V3.94l5.72 4.17a.5.5 0 00.56 0L14 3.94V12.5a.5.5 0 01-.5.5h-11z" fill="#E5EBF6"/></svg>
+          cardiou_admin@lacardio.org
+        </a>
+        <a href="#" class="topbar__item topbar__item--sep">LaCardio</a>
+        <a href="#" class="topbar__item">Fundación Cardioinfantil</a>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar navbar-expand-lg" aria-label="Navegación principal">
+    <div class="container">
+      <a href="home.html" class="navbar__logo navbar-brand" aria-label="CardioU — Inicio">
+        <img src="Assets/Cardio_u_Logo_blanco.svg" alt="CardioU" class="navbar__logo-svg" width="154" height="48">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Abrir menú">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <div class="navbar__search-bar ms-4" role="search">
+          <label for="site-search" class="sr-only">Buscar cursos</label>
+          <input id="site-search" type="search" class="navbar__search-input" placeholder="¿Qué deseas aprender?" aria-label="Buscar cursos">
+          <svg class="navbar__search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7.25" stroke="#b8cef9" stroke-width="1.5"/><path d="M16.5 16.5l4 4" stroke="#b8cef9" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="navbar__right ms-auto">
+          <div class="navbar__nav" role="list">
+            <a href="catalogo.html" class="navbar__link" role="listitem">Cursos</a>
+            <a href="home.html#escuelas" class="navbar__link" role="listitem">Escuelas <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="#" class="navbar__link" role="listitem">Acerca de nosotros</a>
+          </div>
+          <a href="#enroll" class="btn btn-outline-white btn-lg">Inscríbete</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="crs-hero">
+  <div class="container">
+    <nav class="crs-breadcrumb" aria-label="Ruta de navegación">
+      <a href="home.html">Inicio</a>
+      <span class="sep" aria-hidden="true">›</span>
+      <a href="catalogo.html">Catálogo</a>
+      <span class="sep" aria-hidden="true">›</span>
+      <span aria-current="page" id="crsCrumb">Curso</span>
+    </nav>
+    <div class="crs-hero__inner">
+      <span class="course-pill" id="crsSchool">Escuela</span>
+      <h1 class="crs-hero__title" id="crsTitle">Título del curso</h1>
+      <p class="crs-hero__lead" id="crsLead">Descripción del curso.</p>
+      <div class="crs-hero__meta" id="crsMeta"></div>
+      <div class="crs-hero__by">
+        <div>
+          <div class="crs-hero__by-t">Dictado por</div>
+          <div class="crs-hero__by-n" id="crsByName">Equipo docente LaCardio</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CUERPO ═══════════ -->
+<div class="container crs-body">
+
+  <div class="crs-layout">
+    <!-- ── Columna de contenido ── -->
+    <main>
+      <!-- Quick facts (chips compactos, al ancho de la columna izquierda) -->
+      <div class="crs-quickfacts" id="crsQuickfacts"></div>
+
+      <!-- ¿Qué vas a aprender? -->
+      <section class="crs-sec">
+        <h2 class="crs-sec__title">¿Qué vas a aprender?</h2>
+        <div class="crs-learn" id="crsLearn"></div>
+      </section>
+
+      <!-- Sobre el curso -->
+      <section class="crs-sec">
+        <h2 class="crs-sec__title">Sobre el curso</h2>
+        <div class="crs-prose" id="crsAbout"></div>
+      </section>
+
+      <!-- Temario -->
+      <section class="crs-sec">
+        <h2 class="crs-sec__title">Programa del curso</h2>
+        <div class="crs-note" id="crsNote">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="#c79a3a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><strong>Contenido de referencia, en validación.</strong> El detalle de módulos y lecciones está pendiente de confirmar con LaCardio. Es la pieza clave para que el usuario decida inscribirse.</span>
+        </div>
+        <div class="crs-acc" id="crsModules"></div>
+      </section>
+
+      <!-- Docente -->
+      <section class="crs-sec">
+        <h2 class="crs-sec__title">Tu docente</h2>
+        <div class="crs-inst">
+          <div class="crs-inst__ava" id="crsInstAva">LC</div>
+          <div class="crs-inst__head">
+            <p class="crs-inst__name" id="crsInstName">Por confirmar</p>
+            <p class="crs-inst__role" id="crsInstRole">Equipo docente · LaCardio</p>
+          </div>
+          <p class="crs-inst__bio" id="crsInstBio">Información del docente pendiente de confirmar con LaCardio.</p>
+        </div>
+      </section>
+
+      <!-- ¿Para quién es? -->
+      <section class="crs-sec">
+        <h2 class="crs-sec__title">¿Para quién es este curso?</h2>
+        <ul class="crs-ulist" id="crsAudience"></ul>
+      </section>
+
+      <!-- FAQ -->
+      <section class="crs-sec">
+        <h2 class="crs-sec__title">Preguntas frecuentes</h2>
+        <div class="crs-faq" id="crsFaq"></div>
+      </section>
+    </main>
+
+    <!-- ── Tarjeta de inscripción sticky ── -->
+    <aside class="crs-enroll" id="enroll">
+      <div class="crs-enroll__card">
+        <div class="crs-enroll__media">
+          <span class="discount-chip" id="crsDiscount" hidden>-0%</span>
+          <img class="crs-enroll__img" id="crsEnrollImg" src="Assets/img-cava.png" alt="">
+        </div>
+        <div class="crs-enroll__body">
+          <!-- Próxima fecha de inicio -->
+          <div class="crs-startdate">
+            <img class="crs-startdate__ic" src="Assets/Icons/Tiempo-dm.svg" alt="" aria-hidden="true">
+            <div>
+              <p class="crs-startdate__label">Próxima fecha de inicio</p>
+              <p class="crs-startdate__value" id="crsStartDate">Por confirmar</p>
+            </div>
+          </div>
+          <!-- Precio -->
+          <div class="crs-price">
+            <span class="crs-price__now" id="crsPriceNow">$0</span>
+            <span class="crs-price__was" id="crsPriceWas">$0</span>
+          </div>
+          <!-- Acciones primarias — una al lado de la otra -->
+          <div class="crs-enroll__btnrow">
+            <a class="btn btn-primary btn-lg" id="crsPay" href="#">Inscribirme</a>
+            <a class="crs-leadlink" id="crsLeadBtn" href="#">Solicitar información <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+          <!-- Botón de financiación: Financiar con Wompi -->
+          <a class="crs-wompi" id="crsWompi" href="#" target="_blank" rel="noopener">
+            <span>Financiar con</span>
+            <img class="crs-wompi__logo" src="Assets/wompi-black.svg" alt="Wompi">
+          </a>
+          <span class="crs-wompi__sub">Paga a cuotas con tu banco · proceso seguro</span>
+          <!-- Incluye -->
+          <div class="crs-incl">
+            <p class="crs-incl__title">Este curso incluye</p>
+            <ul id="crsIncludes"></ul>
+          </div>
+          <p class="crs-enroll__help">¿Dudas? Escríbenos por <a href="https://wa.me/573176682013" target="_blank" rel="noopener">WhatsApp</a></p>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- ═══════════ CURSOS RELACIONADOS ═══════════ -->
+<section class="crs-related">
+  <div class="container">
+    <div class="crs-related__head">
+      <h2 class="crs-related__title">Cursos relacionados</h2>
+      <a href="catalogo.html" class="btn btn-outline-red btn-lg crs-related__all crs-related__all--top">Ver todos los cursos</a>
+    </div>
+    <div class="crs-related__viewport" id="crsRelated"></div>
+    <div class="crs-related__foot">
+      <div class="crs-related__controls">
+        <button class="crs-related__nav" id="crsRelPrev" type="button" aria-label="Curso anterior">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="crs-related__dots" id="crsRelDots" role="tablist" aria-label="Paginación de cursos"></div>
+        <button class="crs-related__nav" id="crsRelNext" type="button" aria-label="Curso siguiente">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <a href="catalogo.html" class="btn btn-outline-red btn-lg crs-related__all crs-related__all--bottom">Ver todos los cursos</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ BOTTOM NAV (mobile) ═══════════ -->
+<nav class="crs-bottomnav" id="crsBottomNav" aria-label="Acciones del curso">
+  <a class="crs-bottomnav__item" id="bnInfo" href="#">
+    <img src="Assets/Icons/icono-info-bottomnavbar.svg" width="24" height="24" alt="" aria-hidden="true">
+    <span>Información</span>
+  </a>
+  <a class="crs-bottomnav__item" id="bnEnroll" href="#">
+    <img src="Assets/Icons/icono-inscrip-bottomnavbar.svg" width="24" height="24" alt="" aria-hidden="true">
+    <span>Inscribirme</span>
+  </a>
+  <a class="crs-bottomnav__item crs-bottomnav__item--wompi" id="bnWompi" href="#" target="_blank" rel="noopener">
+    <img src="Assets/Wompi_LogoPrincipal 1.svg" alt="Wompi">
+    <span>Financiar</span>
+  </a>
+</nav>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="footer" role="contentinfo">
+  <div class="footer__top">
+    <a href="home.html" class="footer__logo" aria-label="CardioU inicio">
+      <img src="Assets/Cardio_u_Logo.svg" alt="CardioU" width="170">
+    </a>
+    <nav class="footer__nav" aria-label="Navegación del pie de página">
+      <a href="home.html#escuelas" class="footer__nav-link">Escuelas</a>
+      <a href="catalogo.html"      class="footer__nav-link">Cursos</a>
+      <a href="#"                  class="footer__nav-link">Acerca de nosotros</a>
+      <a href="#"                  class="footer__nav-link">Políticas de tratamiento</a>
+      <a href="#"                  class="footer__nav-link">Términos y condiciones</a>
+    </nav>
+    <div class="footer__rrss" aria-label="Redes sociales">
+      <a href="#" class="footer__rrss-icon" aria-label="Twitter / X"><img src="Assets/Twitter.svg" width="36" height="36" alt="" aria-hidden="true"></a>
+      <a href="#" class="footer__rrss-icon" aria-label="Facebook"><img src="Assets/Facebook.svg" width="36" height="36" alt="" aria-hidden="true"></a>
+      <a href="#" class="footer__rrss-icon" aria-label="YouTube"><img src="Assets/Youtube.svg" width="36" height="36" alt="" aria-hidden="true"></a>
+      <a href="#" class="footer__rrss-icon" aria-label="Instagram"><img src="Assets/Instagram.svg" width="36" height="36" alt="" aria-hidden="true"></a>
+      <a href="#" class="footer__rrss-icon" aria-label="LinkedIn"><img src="Assets/linkedin.svg" width="36" height="36" alt="" aria-hidden="true"></a>
+      <a href="#" class="footer__rrss-icon" aria-label="TikTok"><img src="Assets/tiktok.svg" width="36" height="36" alt="" aria-hidden="true"></a>
+    </div>
+  </div>
+  <div class="footer__copyright">
+    <p>Copyright © 2026 - Todos los derechos, Fundación Cardioinfantil Instituto de Cardiología, Calle 163A # 13B - 60 Bogotá, Colombia</p>
+  </div>
+</footer>
+
+<a href="https://wa.me/573176682013" class="wa-float" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+  <img src="Assets/Whatsapp-SVG.svg" class="wa-float__icon" width="32" height="32" alt="" aria-hidden="true">
+  <span class="wa-float__text">solicita asesoría ahora</span>
+</a>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- ── Detalle de curso: datos + render por ?id= ── -->
+<script>
+(function () {
+  const $  = (s, r=document) => r.querySelector(s);
+  const fmt = n => '$ ' + n.toLocaleString('es-CO');
+  const disc = c => Math.round((1 - c.now / c.was) * 100);
+
+  /* Cursos con detalle real conectado (para la visualización del cliente).
+     El resto enruta a la página "en construcción". */
+  const CONNECTED = new Set([1, 2, 3]);
+  const courseHref = c => CONNECTED.has(c.id) ? 'curso.html?id=' + c.id : 'en-construccion.html';
+
+  // Alto real del header sticky → la tarjeta de inscripción se ancla justo debajo (no detrás) del header
+  function syncHeaderHeight() {
+    const h = document.querySelector('.site-header');
+    if (h) document.documentElement.style.setProperty('--header-h', h.offsetHeight + 'px');
+  }
+  syncHeaderHeight();
+  window.addEventListener('resize', syncHeaderHeight);
+  window.addEventListener('load', syncHeaderHeight);
+
+  /* Dataset base — mismas 16 entradas del catálogo (placeholder; reemplazar por CMS/backend) */
+  const COURSES = [
+    { id:1,  title:'Inteligencia Artificial en el Entorno Hospitalario', school:'Innovación',              pill:'innovacion',    hours:36, modules:6,  rating:4.9, count:342, now:1540000, was:2190000, img:'img-ia.png',                  modality:'Virtual',    level:'Intermedio', desc:'Aplica IA a diagnóstico, gestión clínica y experiencia del paciente con casos reales del entorno hospitalario.' },
+    { id:2,  title:'Curso de Accesos Vasculares CAVA – Paciente Agudo',  school:'Enfermería',              pill:'enfermeria',    hours:65, modules:5,  rating:4.9, count:87,  now:1600000, was:2490000, img:'img-cava.png',                modality:'Híbrido',    level:'Avanzado',   desc:'Domina los accesos vasculares de alta complejidad con práctica presencial en las instalaciones de LaCardio.' },
+    { id:3,  title:'Innovación en Experiencia del Paciente',            school:'Innovación',              pill:'innovacion',    hours:60, modules:9,  rating:4.8, count:156, now:1100000, was:1790000, img:'img-innovacion.png',          modality:'Virtual',    level:'Intermedio', desc:'Rediseña la experiencia del paciente con design thinking aplicado al entorno hospitalario.' },
+    { id:4,  title:'Anticoagulación en Escenarios Cardiovasculares',    school:'Formación Continua',      pill:'continua',      hours:65, modules:6,  rating:4.7, count:203, now:1100000, was:1690000, img:'img-anticoagulacion.png',     modality:'Presencial', level:'Avanzado',   desc:'Profundiza en el manejo de la anticoagulación en escenarios cardiovasculares complejos.' },
+    { id:5,  title:'Electrocardiografía Básica y Avanzada',             school:'Formación Continua',      pill:'continua',      hours:40, modules:7,  rating:4.8, count:128, now:980000,  was:1490000, img:'IMG_card-1.png',              modality:'Virtual',    level:'Básico',     desc:'Desde la lectura básica hasta la interpretación avanzada del electrocardiograma.' },
+    { id:6,  title:'Reanimación Cardiopulmonar Avanzada (ACLS)',        school:'Formación Continua',      pill:'continua',      hours:24, modules:4,  rating:4.9, count:410, now:890000,  was:1290000, img:'IMG_card-2.png',              modality:'Presencial', level:'Intermedio', desc:'Entrena el manejo avanzado del paro cardiorrespiratorio con simulación clínica de alta fidelidad.' },
+    { id:7,  title:'Cuidado de Enfermería en UCI Cardiovascular',       school:'Enfermería',              pill:'enfermeria',    hours:50, modules:8,  rating:4.8, count:95,  now:1350000, was:1990000, img:'IMG_card-3.png',              modality:'Híbrido',    level:'Avanzado',   desc:'Cuidado integral del paciente crítico cardiovascular en la unidad de cuidados intensivos.' },
+    { id:8,  title:'Ecocardiografía para Clínicos',                     school:'Formación Continua',      pill:'continua',      hours:45, modules:7,  rating:4.9, count:176, now:1700000, was:2390000, img:'IMG_card-4.png',              modality:'Híbrido',    level:'Avanzado',   desc:'Adquiere las competencias clínicas para integrar la ecocardiografía en tu práctica diaria.' },
+    { id:9,  title:'Hemodinamia e Intervencionismo Cardíaco',          school:'Formación Continua',      pill:'continua',      hours:70, modules:10, rating:4.7, count:64,  now:2100000, was:2890000, img:'img-card-destacada-hero.jpg', modality:'Presencial', level:'Avanzado',   desc:'Profundiza en intervencionismo cardíaco y procedimientos hemodinámicos de alta complejidad.' },
+    { id:10, title:'Insuficiencia Cardíaca: Manejo Integral',          school:'Pacientes Trasplantados', pill:'investigacion', hours:30, modules:6,  rating:4.8, count:212, now:990000,  was:1490000, img:'img-ia.png',                  modality:'Virtual',    level:'Intermedio', desc:'Abordaje integral del paciente con insuficiencia cardíaca, del diagnóstico al seguimiento.' },
+    { id:11, title:'Manejo del Paciente con Arritmias',                school:'Formación Continua',      pill:'continua',      hours:38, modules:6,  rating:4.7, count:88,  now:1250000, was:1790000, img:'img-cava.png',                modality:'Virtual',    level:'Intermedio', desc:'Diagnóstico y tratamiento de las arritmias cardíacas más frecuentes en la práctica clínica.' },
+    { id:12, title:'Comunicación y Humanización en Salud',             school:'Servicio',                pill:'servicio',      hours:16, modules:3,  rating:4.9, count:330, now:490000,  was:690000,  img:'img-innovacion.png',          modality:'Virtual',    level:'Básico',     desc:'Desarrolla habilidades de comunicación empática y humanización del cuidado en salud.' },
+    { id:13, title:'Farmacología Cardiovascular Aplicada',             school:'Formación Continua',      pill:'continua',      hours:28, modules:5,  rating:4.6, count:140, now:850000,  was:1190000, img:'img-anticoagulacion.png',     modality:'Virtual',    level:'Intermedio', desc:'Uso racional de los principales grupos farmacológicos en cardiología.' },
+    { id:14, title:'Rehabilitación Cardíaca y Prevención',             school:'Servicio',                pill:'servicio',      hours:22, modules:4,  rating:4.8, count:118, now:720000,  was:1090000, img:'IMG_card-1.png',              modality:'Híbrido',    level:'Básico',     desc:'Programas de rehabilitación cardíaca y prevención secundaria centrados en el paciente.' },
+    { id:15, title:'Liderazgo Clínico para Equipos de Salud',          school:'Servicio',                pill:'servicio',      hours:18, modules:4,  rating:4.7, count:76,  now:590000,  was:890000,  img:'IMG_card-2.png',              modality:'Virtual',    level:'Intermedio', desc:'Herramientas de liderazgo y gestión para equipos clínicos de alto desempeño.' },
+    { id:16, title:'Monitoreo Hemodinámico Avanzado',                  school:'Enfermería',              pill:'enfermeria',    hours:42, modules:6,  rating:4.8, count:54,  now:1450000, was:1990000, img:'IMG_card-3.png',              modality:'Presencial', level:'Avanzado',   desc:'Interpretación y toma de decisiones a partir del monitoreo hemodinámico avanzado.' }
+  ];
+
+  /* Contenido extendido por curso (DETAILS[id]). Lo no provisto se genera con defaults. */
+  const DETAILS = {
+    1: {
+      lead: 'Programa práctico para profesionales de la salud que quieren entender, evaluar e implementar soluciones de inteligencia artificial en el entorno hospitalario, del dato clínico a la decisión.',
+      startDate: '15 de septiembre, 2026',
+      instructor: { name: 'Dr. Andrés Felipe Rincón', initials: 'AR', role: 'Médico · Líder de Innovación Digital, LaCardio', bio: 'Médico con maestría en informática biomédica y más de 10 años liderando proyectos de transformación digital, analítica de datos y apoyo a la decisión clínica en instituciones de salud. Acompaña a equipos asistenciales en la adopción responsable de la inteligencia artificial.', photo: 'dr-rincon.png' },
+      durationLabel: '6 semanas',
+      hoursLabel: '36 horas certificables',
+      about: [
+        'La inteligencia artificial está transformando el diagnóstico, la gestión clínica y la experiencia del paciente. Este curso te da una base sólida y aplicada para incorporar la IA en tu práctica con criterio clínico, ético y realista.',
+        'Es un curso de formación continua, 100% virtual, diseñado por el equipo de innovación de LaCardio. No requiere conocimientos de programación. Entrega certificación de participación expedida por la Fundación Cardioinfantil.'
+      ],
+      objectives: [
+        'Comprender los conceptos clave de inteligencia artificial y machine learning aplicados a la salud.',
+        'Identificar oportunidades reales de uso de IA en el entorno hospitalario.',
+        'Evaluar la calidad, los sesgos y las limitaciones de los datos clínicos.',
+        'Reconocer casos de uso de IA en diagnóstico, gestión y experiencia del paciente.',
+        'Aplicar criterios éticos y regulatorios al uso de IA en salud.',
+        'Estructurar la hoja de ruta de un proyecto de IA en su institución.'
+      ],
+      audience: [
+        'Médicos, enfermeras y profesionales clínicos interesados en la innovación en salud.',
+        'Líderes y coordinadores de áreas asistenciales, calidad o transformación digital.',
+        'Profesionales administrativos del sector salud que trabajan con datos clínicos.'
+      ],
+      includes: [
+        '36 horas de formación certificables',
+        'Modalidad 100% virtual a tu ritmo',
+        'Casos reales del entorno hospitalario',
+        'Certificación de participación de la Fundación Cardioinfantil'
+      ],
+      faq: [
+        { q: '¿Necesito saber programar?', a: 'No. El curso está diseñado para profesionales de la salud sin experiencia técnica; el enfoque es conceptual y aplicado, no de programación.' },
+        { q: '¿El curso entrega certificado?', a: 'Sí, recibes una certificación de participación expedida por la Fundación Cardioinfantil. Es un curso de formación continua, no equivale a un pregrado ni a un curso técnico.' },
+        { q: '¿Cómo es la modalidad virtual?', a: 'Es 100% en línea y a tu ritmo, con contenidos, lecturas y actividades que puedes realizar según tu disponibilidad dentro del cronograma del curso.' },
+        { q: '¿Qué medios de pago aceptan?', a: 'Puedes pagar el valor total o financiarlo a cuotas a través de Wompi con tu entidad bancaria. También puedes escribirnos para recibir asesoría.' }
+      ],
+      modules: [
+        { title: 'Fundamentos de la IA en salud', hours: 6, lessons: [
+          '¿Qué es la inteligencia artificial y el machine learning?',
+          'Tipos de algoritmos y su uso clínico',
+          'El dato clínico como materia prima',
+          'Mitos y realidades de la IA en medicina' ] },
+        { title: 'Datos clínicos y calidad de la información', hours: 6, lessons: [
+          'Fuentes de datos hospitalarios: historia clínica, imagen y laboratorio',
+          'Estandarización e interoperabilidad (HL7, FHIR)',
+          'Calidad, sesgos y limpieza de datos',
+          'Privacidad y protección de datos del paciente' ] },
+        { title: 'IA aplicada al diagnóstico', hours: 6, lessons: [
+          'Visión por computador en imagen médica',
+          'Sistemas de apoyo a la decisión diagnóstica',
+          'Casos en radiología, patología y cardiología',
+          'Validación clínica de los modelos' ] },
+        { title: 'IA en la gestión clínica y operativa', hours: 6, lessons: [
+          'Predicción de demanda y flujos hospitalarios',
+          'Optimización de agendas, camas y recursos',
+          'Alertas tempranas y detección del deterioro clínico',
+          'Automatización de tareas administrativas' ] },
+        { title: 'Experiencia del paciente potenciada por IA', hours: 6, lessons: [
+          'Asistentes virtuales y chatbots en salud',
+          'Personalización del seguimiento del paciente',
+          'Telemedicina e IA',
+          'Comunicación y acompañamiento al paciente' ] },
+        { title: 'Ética, regulación e implementación', hours: 6, lessons: [
+          'Marco ético de la IA en salud',
+          'Regulación y responsabilidad en el uso de IA',
+          'Gestión del cambio en equipos clínicos',
+          'Hoja de ruta para implementar un proyecto de IA' ] }
+      ]
+    },
+    2: {
+      lead: 'Curso avanzado para profesionales de la salud que intervienen en la gestión del acceso vascular en pacientes agudos, en contextos de alta complejidad.',
+      startDate: '1 de agosto, 2026',
+      instructor: { name: 'Enf. Laura Catalina Gómez', initials: 'LG', role: 'Enfermera especialista en cuidado crítico · LaCardio', bio: 'Enfermera especialista en cuidado del paciente en estado crítico, con amplia experiencia en accesos vasculares de alta complejidad y en la formación de equipos de UCI, urgencias y hospitalización. Lidera protocolos de seguridad vascular en LaCardio.', photo: 'enf-gomez.png' },
+      durationLabel: '1 mes',
+      hoursLabel: '65 horas certificables',
+      about: [
+        'El programa aborda estrategias avanzadas para la selección, inserción, mantenimiento y seguimiento de dispositivos vasculares en unidades de cuidados intensivos, urgencias, quirófano y hospitalización crítica, con un enfoque teórico-práctico y multidisciplinario.',
+        'Es un curso de formación continua para la profundización y ampliación de conocimiento. No equivale a un pregrado ni a un curso técnico. Entrega certificación de participación expedida por la Fundación Cardioinfantil.'
+      ],
+      objectives: [
+        'Desarrollar competencias clínicas avanzadas en el abordaje integral del acceso vascular.',
+        'Seleccionar el dispositivo vascular adecuado según el contexto clínico del paciente agudo.',
+        'Aplicar técnicas seguras de inserción guiadas por ecografía.',
+        'Prevenir, identificar y manejar las complicaciones asociadas a dispositivos intravasculares.',
+        'Implementar protocolos de mantenimiento y seguimiento del acceso vascular.',
+        'Trabajar de forma multidisciplinaria para mejorar la seguridad y eficacia terapéutica.'
+      ],
+      audience: [
+        'Profesionales de la salud que laboran en contextos de atención aguda y crítica.',
+        'Personal de enfermería de UCI, urgencias, quirófano y hospitalización crítica.',
+        'Médicos y especialistas involucrados en la gestión del acceso vascular.'
+      ],
+      includes: [
+        '65 horas de formación certificables',
+        'Modalidad híbrida (virtual + práctica presencial)',
+        'Práctica presencial en LaCardio',
+        'Certificación de participación de la Fundación Cardioinfantil'
+      ],
+      faq: [
+        { q: '¿El curso entrega certificado?', a: 'Sí. Al finalizar recibes una certificación de participación expedida por la Fundación Cardioinfantil. Es un curso de formación continua, no equivale a un pregrado ni a un curso técnico.' },
+        { q: '¿Cómo es la modalidad híbrida?', a: 'Combina sesiones virtuales con prácticas presenciales realizadas en las instalaciones de LaCardio.' },
+        { q: '¿Qué medios de pago aceptan?', a: 'Puedes pagar el valor total o financiarlo a cuotas a través de Wompi con tu entidad bancaria. También puedes escribirnos para recibir asesoría.' },
+        { q: '¿Hay cupos limitados?', a: 'Sí, los cupos son limitados para garantizar la calidad de la práctica presencial. Te recomendamos inscribirte con anticipación.' }
+      ],
+      /* docente: pendiente de confirmar con LaCardio */
+      modules: [
+        { title: 'Fundamentos del acceso vascular', hours: 13, lessons: [
+          'Anatomía y fisiología vascular aplicada',
+          'Tipos de dispositivos de acceso vascular',
+          'Indicaciones y selección del dispositivo',
+          'Evaluación del paciente agudo' ] },
+        { title: 'Inserción guiada por ecografía', hours: 13, lessons: [
+          'Principios de la ecografía vascular',
+          'Técnica de punción eco-guiada',
+          'Accesos venosos centrales y periféricos',
+          'Práctica simulada de inserción' ] },
+        { title: 'Catéteres PICC y líneas medias', hours: 13, lessons: [
+          'Indicaciones de PICC y midline',
+          'Técnica de inserción y verificación de la punta',
+          'Fijación y curación del sitio de inserción',
+          'Discusión de casos clínicos' ] },
+        { title: 'Mantenimiento y prevención de complicaciones', hours: 13, lessons: [
+          'Protocolos de mantenimiento del acceso',
+          'Prevención de la infección asociada a catéter',
+          'Manejo de trombosis y oclusión',
+          'Bundle de seguridad vascular' ] },
+        { title: 'Seguimiento y trabajo multidisciplinario', hours: 13, lessons: [
+          'Registro y trazabilidad del dispositivo',
+          'Educación al paciente y la familia',
+          'Indicadores de calidad y seguridad',
+          'Retiro del dispositivo y cierre del proceso' ] }
+      ]
+    },
+    3: {
+      lead: 'Aprende a rediseñar la experiencia del paciente con design thinking aplicado al entorno hospitalario, del entendimiento profundo de las personas a la implementación de soluciones medibles.',
+      startDate: '6 de octubre, 2026',
+      instructor: { name: 'Mg. Daniela Restrepo Vélez', initials: 'DR', role: 'Líder de Experiencia del Paciente · LaCardio', bio: 'Profesional en diseño de servicios con maestría en innovación, especializada en experiencia del paciente y humanización del cuidado. Ha liderado proyectos de design thinking y rediseño de servicios en entornos hospitalarios.', photo: 'mg-restrepo.png' },
+      durationLabel: '8 semanas',
+      hoursLabel: '60 horas certificables',
+      about: [
+        'La experiencia del paciente es hoy un factor decisivo en la calidad y la reputación de las instituciones de salud. Este curso integra metodologías de innovación centradas en las personas para diseñar servicios más humanos, eficientes y memorables.',
+        'Es un curso de formación continua, virtual y aplicado, diseñado por el equipo de innovación de LaCardio. Entrega certificación de participación expedida por la Fundación Cardioinfantil.'
+      ],
+      objectives: [
+        'Comprender qué es la experiencia del paciente y por qué es estratégica.',
+        'Aplicar el proceso de design thinking a retos reales de salud.',
+        'Construir el mapa del viaje del paciente e identificar puntos de dolor.',
+        'Idear, prototipar y probar soluciones centradas en el paciente.',
+        'Definir indicadores para medir y gestionar la experiencia.',
+        'Liderar la implementación y el escalamiento de iniciativas de innovación.'
+      ],
+      audience: [
+        'Profesionales de áreas de experiencia, servicio al cliente y calidad en salud.',
+        'Líderes asistenciales y administrativos que buscan humanizar la atención.',
+        'Equipos de innovación y transformación de instituciones de salud.'
+      ],
+      includes: [
+        '60 horas de formación certificables',
+        'Modalidad virtual con proyecto aplicado',
+        'Plantillas y herramientas de design thinking',
+        'Certificación de participación de la Fundación Cardioinfantil'
+      ],
+      faq: [
+        { q: '¿El curso entrega certificado?', a: 'Sí, recibes una certificación de participación expedida por la Fundación Cardioinfantil. Es un curso de formación continua, no equivale a un pregrado ni a un curso técnico.' },
+        { q: '¿Necesito experiencia previa en innovación?', a: 'No. El curso parte de los fundamentos y te acompaña paso a paso hasta aplicar las herramientas a un reto real.' },
+        { q: '¿Cómo es la modalidad virtual?', a: 'Es en línea y aplicada: combinas contenidos con actividades y un proyecto que desarrollas a lo largo del curso.' },
+        { q: '¿Qué medios de pago aceptan?', a: 'Puedes pagar el valor total o financiarlo a cuotas a través de Wompi con tu entidad bancaria. También puedes escribirnos para recibir asesoría.' }
+      ],
+      modules: [
+        { title: 'Introducción a la experiencia del paciente', hours: 7, lessons: [
+          '¿Qué es la experiencia del paciente (PX)?',
+          'Diferencia entre satisfacción y experiencia',
+          'El caso de negocio de la experiencia',
+          'Tendencias globales en experiencia del paciente' ] },
+        { title: 'Design thinking en salud', hours: 7, lessons: [
+          'Principios y mentalidad del design thinking',
+          'Las fases del proceso de innovación',
+          'Equipos y cultura de innovación',
+          'Casos en entornos hospitalarios' ] },
+        { title: 'Empatizar: entender al paciente', hours: 7, lessons: [
+          'Investigación cualitativa con pacientes',
+          'Entrevistas y observación en contexto',
+          'Construcción de mapas de empatía',
+          'Identificación de necesidades no atendidas' ] },
+        { title: 'Definir: el viaje del paciente', hours: 7, lessons: [
+          'Construcción del patient journey map',
+          'Identificación de puntos de dolor',
+          'Momentos de la verdad',
+          'Priorización de oportunidades' ] },
+        { title: 'Idear soluciones centradas en el paciente', hours: 7, lessons: [
+          'Técnicas de ideación',
+          'Co-creación con pacientes y equipos',
+          'Selección y priorización de ideas',
+          'De la idea al concepto' ] },
+        { title: 'Prototipar y experimentar', hours: 6, lessons: [
+          'Prototipado rápido de servicios',
+          'Service blueprint',
+          'Pruebas de concepto de bajo costo',
+          'Aprender del error' ] },
+        { title: 'Medir la experiencia', hours: 6, lessons: [
+          'Indicadores de experiencia (NPS, CSAT, PREM)',
+          'Encuestas y feedback en tiempo real',
+          'Análisis de datos de experiencia',
+          'Tableros de seguimiento' ] },
+        { title: 'Cultura y humanización del cuidado', hours: 6, lessons: [
+          'Humanización de la atención en salud',
+          'Comunicación empática',
+          'Compromiso del equipo de salud',
+          'Liderazgo de la experiencia' ] },
+        { title: 'Implementación y escalamiento', hours: 7, lessons: [
+          'Gestión del cambio',
+          'Hoja de ruta de innovación en experiencia',
+          'Sostenibilidad de las iniciativas',
+          'Proyecto final aplicado' ] }
+      ]
+    }
+  };
+
+  /* Defaults genéricos para cursos sin DETAILS propio */
+  function withDefaults(c) {
+    const d = DETAILS[c.id] || {};
+    return {
+      lead: d.lead || c.desc,
+      startDate: d.startDate || 'Próximamente',
+      durationLabel: d.durationLabel || (c.hours <= 24 ? '2 semanas' : c.hours <= 45 ? '3 semanas' : '1 mes'),
+      hoursLabel: d.hoursLabel || (c.hours + ' horas certificables'),
+      about: d.about || [c.desc, 'Programa de formación continua de la ' + c.school + ' de CardioU, diseñado por expertos de LaCardio con enfoque teórico-práctico.'],
+      objectives: d.objectives || [
+        'Comprender los fundamentos clave de ' + c.title.toLowerCase() + '.',
+        'Aplicar el conocimiento a casos reales del entorno clínico.',
+        'Integrar buenas prácticas basadas en la evidencia.',
+        'Desarrollar criterio clínico para la toma de decisiones.'
+      ],
+      audience: d.audience || [
+        'Profesionales de la salud interesados en ' + c.school.toLowerCase() + '.',
+        'Personal clínico que busca actualizar y profundizar sus competencias.'
+      ],
+      includes: d.includes || [
+        c.hours + ' horas de formación certificables',
+        'Modalidad ' + c.modality.toLowerCase(),
+        c.modules + ' módulos de contenido',
+        'Certificación de participación de la Fundación Cardioinfantil'
+      ],
+      faq: d.faq || [
+        { q: '¿El curso entrega certificado?', a: 'Sí, recibes una certificación de participación expedida por la Fundación Cardioinfantil.' },
+        { q: '¿Qué medios de pago aceptan?', a: 'Puedes pagar el valor total o financiarlo a cuotas a través de Wompi. También puedes escribirnos para recibir asesoría.' },
+        { q: '¿Hay cupos limitados?', a: 'Sí, los cupos son limitados. Te recomendamos inscribirte con anticipación.' }
+      ],
+      instructor: d.instructor || null,
+      modules: d.modules || null
+    };
+  }
+
+  /* Temario placeholder — se genera con N módulos según c.modules (POR CONFIRMAR con LaCardio) */
+  function placeholderModules(c) {
+    const rows = [];
+    for (let i = 1; i <= c.modules; i++) {
+      rows.push({ title: 'Tema por confirmar', lessons: 4, hours: Math.max(2, Math.round(c.hours / c.modules)) });
+    }
+    return rows;
+  }
+
+  const ICONS = {
+    check: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 12.5l2.5 2.5L16 9" stroke="#1d386d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    checkSm: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12.5l4 4L19 7" stroke="#1d386d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    star: '<svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>',
+    chev: '<svg class="crs-acc__chev" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+  };
+
+  function starsHTML() { return ICONS.star; }
+
+  /* Card de curso relacionado — reutiliza .course-card del catálogo */
+  function cardHTML(c) {
+    return ''+
+    '<article class="course-card">'+
+      '<div class="course-card__img-area">'+(c.was>c.now?'<span class="discount-chip">-'+disc(c)+'%</span>':'')+'<a class="course-card__media-link" href="'+courseHref(c)+'"><img class="course-card__photo" src="Assets/'+c.img+'" alt="'+c.title+'"></a></div>'+
+      '<div class="course-card__body">'+
+        '<span class="course-pill course-pill--'+c.pill+'">'+c.school+'</span>'+
+        '<h3 class="course-card__title"><a class="course-card__title-link" href="'+courseHref(c)+'">'+c.title+'</a></h3>'+
+        '<div class="course-card__features">'+
+          '<span class="course-feat"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">'+c.hours+' horas</span>'+
+          '<span class="course-feat course-feat--rating">'+starsHTML()+c.rating.toFixed(1)+' ('+c.count+')</span>'+
+        '</div>'+
+        '<div class="course-card__price"><span class="course-card__price-now">'+fmt(c.now)+'</span><span class="course-card__price-was">'+fmt(c.was)+'</span></div>'+
+        '<div class="course-card__actions">'+
+          '<a href="'+courseHref(c)+'" class="course-card__ver-link">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>'+
+          '<a href="'+courseHref(c)+'" class="btn btn-outline-red btn-lg">Inscribirme</a>'+
+        '</div>'+
+      '</div>'+
+    '</article>';
+  }
+
+  /* ── Render ── */
+  function render(c) {
+    const d = withDefaults(c);
+    document.title = 'CardioU — ' + c.title;
+
+    // Hero
+    $('#crsCrumb').textContent = c.title;
+    const schoolPill = $('#crsSchool');
+    schoolPill.textContent = c.school;
+    schoolPill.className = 'course-pill course-pill--' + c.pill;
+    $('#crsTitle').textContent = c.title;
+    $('#crsLead').textContent = d.lead;
+
+    // Meta pills
+    $('#crsMeta').innerHTML = [
+      '<span class="crs-meta-pill crs-meta-pill--rating">'+ICONS.star+c.rating.toFixed(1)+' ('+c.count+' reseñas)</span>',
+      '<span class="crs-meta-pill"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="">'+c.hours+' horas</span>',
+      '<span class="crs-meta-pill"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="">'+c.modules+' módulos</span>',
+      '<span class="crs-meta-pill"><img src="Assets/Icons/Screen-dm.svg" width="16" height="16" alt="">'+c.modality+'</span>',
+      '<span class="crs-meta-pill"><img src="Assets/Icons/Shield-dm.svg" width="16" height="16" alt="">Nivel '+c.level.toLowerCase()+'</span>'
+    ].join('');
+
+    // Docente (hero + sección)
+    if (d.instructor) {
+      $('#crsByName').textContent = d.instructor.name;
+      const instAva = $('#crsInstAva');
+      if (d.instructor.photo) {
+        instAva.outerHTML = '<img class="crs-inst__ava crs-inst__ava--photo" id="crsInstAva" src="Assets/' + d.instructor.photo + '" onerror="this.onerror=null;this.src=\'Assets/dr-profile-pic.png\'" alt="' + d.instructor.name + '">';
+      } else {
+        instAva.textContent = d.instructor.initials || 'LC';
+      }
+      $('#crsInstName').textContent = d.instructor.name;
+      $('#crsInstRole').textContent = d.instructor.role;
+      $('#crsInstBio').textContent = d.instructor.bio;
+    }
+
+    // Quick facts (la próxima fecha de inicio vive solo en la tarjeta de inscripción)
+    $('#crsQuickfacts').innerHTML = [
+      qf('Screen-dm.svg', 'Modalidad', c.modality),
+      qf('Tiempo-dm.svg', 'Duración', d.durationLabel),
+      qf('Feature Icon-dm.svg', 'Certificación', 'LaCardio')
+    ].join('');
+
+    // ¿Qué vas a aprender?
+    $('#crsLearn').innerHTML = d.objectives.map(o =>
+      '<div class="crs-learn__li">'+ICONS.check+'<span>'+o+'</span></div>'
+    ).join('');
+
+    // Sobre el curso
+    $('#crsAbout').innerHTML = d.about.map(p => '<p>'+p+'</p>').join('');
+
+    // Programa del curso — temario real (d.modules) o placeholder según el curso
+    const hasReal = Array.isArray(d.modules) && d.modules.length;
+    const note = $('#crsNote');
+    if (note) note.style.display = hasReal ? 'none' : 'flex';
+    const mods = hasReal ? d.modules : placeholderModules(c);
+    $('#crsModules').innerHTML = mods.map((m, i) => {
+      const lessons = Array.isArray(m.lessons)
+        ? m.lessons
+        : Array.from({length:m.lessons}).map(() => 'Lección por confirmar');
+      return ''+
+      '<div class="crs-acc__row'+(i===0?' is-open':'')+'">'+
+        '<button class="crs-acc__head" type="button">'+
+          '<span class="crs-acc__head-main">'+
+            '<span class="crs-acc__mod">MÓDULO '+(i+1)+'</span>'+
+            '<span class="crs-acc__tt">'+m.title+'</span>'+
+          '</span>'+
+          '<span class="crs-acc__cnt">'+lessons.length+' lecciones · '+m.hours+' h</span>'+
+          ICONS.chev+
+        '</button>'+
+        '<div class="crs-acc__body">'+
+          lessons.map(l => '<div class="crs-acc__lec"><span class="crs-acc__lec-dot"></span><span>'+l+'</span></div>').join('')+
+        '</div>'+
+      '</div>';
+    }).join('');
+
+    // ¿Para quién es?
+    $('#crsAudience').innerHTML = d.audience.map(a =>
+      '<li>'+ICONS.check+'<span>'+a+'</span></li>'
+    ).join('');
+
+    // FAQ
+    $('#crsFaq').innerHTML = d.faq.map((f, i) =>
+      '<div class="crs-faq__row'+(i===0?' is-open':'')+'">'+
+        '<button class="crs-faq__head" type="button">'+
+          '<span class="crs-faq__q">'+f.q+'</span>'+
+          '<svg class="crs-faq__chev" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'+
+        '</button>'+
+        '<div class="crs-faq__a">'+f.a+'</div>'+
+      '</div>'
+    ).join('');
+
+    // Tarjeta sticky
+    $('#crsEnrollImg').src = 'Assets/' + c.img;
+    $('#crsEnrollImg').alt = c.title;
+    $('#crsStartDate').textContent = d.startDate;
+    $('#crsPriceNow').textContent = fmt(c.now);
+    $('#crsPriceWas').textContent = fmt(c.was);
+    // Chip de descuento sobre la imagen de la card (mismo componente que las cards del catálogo/home)
+    const chip = $('#crsDiscount');
+    if (c.was > c.now) { chip.textContent = '-' + disc(c) + '%'; chip.hidden = false; }
+    else { chip.hidden = true; }
+    $('#crsIncludes').innerHTML = d.includes.map(it =>
+      '<li>'+ICONS.checkSm+'<span>'+it+'</span></li>'
+    ).join('');
+
+    // Wompi (flujo externo — placeholder hasta tener el link real por curso)
+    $('#crsWompi').href = 'https://checkout.wompi.co/'; // TODO: reemplazar por link de financiación real del curso
+    $('#crsPay').href = '#'; // TODO: checkout / pago total
+    $('#crsLeadBtn').href = '#'; // TODO: formulario de lead
+
+    // Bottom nav (mobile) — mismas acciones que la card de inscripción
+    $('#bnWompi').href = 'https://checkout.wompi.co/'; // TODO: link de financiación real
+    $('#bnEnroll').href = '#'; // TODO: checkout / pago total
+    $('#bnInfo').href = '#';   // TODO: formulario de lead
+
+    // Relacionados — misma escuela primero, completar hasta 4
+    const related = COURSES.filter(x => x.id !== c.id && x.school === c.school)
+      .concat(COURSES.filter(x => x.id !== c.id && x.school !== c.school))
+      .slice(0, 4);
+    $('#crsRelated').innerHTML = related.map(c => '<div class="crs-related__slide">' + cardHTML(c) + '</div>').join('');
+
+    // Accordions (temario + faq)
+    document.querySelectorAll('.crs-acc__head').forEach(h => h.addEventListener('click', () => h.closest('.crs-acc__row').classList.toggle('is-open')));
+    document.querySelectorAll('.crs-faq__head').forEach(h => h.addEventListener('click', () => h.closest('.crs-faq__row').classList.toggle('is-open')));
+  }
+
+  function qf(icon, label, value) {
+    return '<div class="crs-qf">'+
+      '<img class="crs-qf__ic" src="Assets/Icons/'+icon+'" alt="" aria-hidden="true">'+
+      '<div class="crs-qf__text">'+
+        '<p class="crs-qf__label">'+label+'</p>'+
+        '<p class="crs-qf__value">'+value+'</p>'+
+      '</div>'+
+    '</div>';
+  }
+
+  /* Init: leer ?id= (default CAVA id 2) */
+  const params = new URLSearchParams(location.search);
+  const id = parseInt(params.get('id'), 10);
+  const course = COURSES.find(c => c.id === id) || COURSES.find(c => c.id === 2) || COURSES[0];
+  render(course);
+
+  // Slider de cursos relacionados (mobile): flechas + indicador de puntos (activo = línea)
+  (function () {
+    const vp = $('#crsRelated'), prev = $('#crsRelPrev'), next = $('#crsRelNext'), dotsBox = $('#crsRelDots');
+    if (!vp || !prev || !next) return;
+    const slides = vp.querySelectorAll('.crs-related__slide');
+    const n = slides.length;
+
+    // Construir un punto por card
+    if (dotsBox) {
+      dotsBox.innerHTML = Array.from({ length: n }).map((_, i) =>
+        '<button class="crs-related__dot' + (i === 0 ? ' is-active' : '') + '" type="button" role="tab" aria-label="Ir al curso ' + (i + 1) + '"></button>'
+      ).join('');
+    }
+    const dots = dotsBox ? dotsBox.querySelectorAll('.crs-related__dot') : [];
+    const current = () => Math.round(vp.scrollLeft / vp.clientWidth);
+    const setActive = (i) => dots.forEach((d, k) => d.classList.toggle('is-active', k === i));
+
+    prev.addEventListener('click', () => vp.scrollBy({ left: -vp.clientWidth, behavior: 'smooth' }));
+    next.addEventListener('click', () => vp.scrollBy({ left:  vp.clientWidth, behavior: 'smooth' }));
+    dots.forEach((d, i) => d.addEventListener('click', () => vp.scrollTo({ left: i * vp.clientWidth, behavior: 'smooth' })));
+
+    let ticking = false;
+    vp.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => { setActive(current()); ticking = false; });
+    });
+  })();
+
+  // Bottom nav (mobile): aparece cuando la card de inscripción queda por encima del viewport
+  (function () {
+    const enrollEl = document.querySelector('.crs-enroll');
+    const nav = $('#crsBottomNav');
+    if (!enrollEl || !nav || !('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        const passed = !e.isIntersecting && e.boundingClientRect.top < 0;
+        nav.classList.toggle('is-visible', passed);
+        document.body.classList.toggle('crs-bn-on', passed);
+      });
+    }, { threshold: 0 });
+    io.observe(enrollEl);
+  })();
+})();
+</script>
+</body>
+</html>

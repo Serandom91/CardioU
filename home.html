@@ -18,8 +18,8 @@
     /* Fluid container padding — desktop: 40px, mobile: 16px */
     .container {
       max-width: 1440px;
-      padding-left: clamp(16px, 2.78vw, 40px);
-      padding-right: clamp(16px, 2.78vw, 40px);
+      padding-left: clamp(24px, 2.78vw, 40px);
+      padding-right: clamp(24px, 2.78vw, 40px);
     }
 
     /* Topbar — hide on mobile */
@@ -53,7 +53,7 @@
         grid-template-columns: 1fr !important;
         min-height: 0 !important;
         padding-top: 0;
-        padding-bottom: 0;
+        padding-bottom: 32px;
         gap: 0 !important;
       }
       /* Image moves above content, fixed 320px height */
@@ -145,6 +145,10 @@
       .course-list-section     { padding-top: var(--sp-6); padding-bottom: var(--sp-6); }
       .course-list__header     { flex-direction: column; align-items: stretch; gap: var(--sp-2); margin-bottom: var(--sp-4); }
       .course-list__header .btn { width: 100%; justify-content: center; }
+      .course-search           { flex-direction: column; gap: var(--sp-2); width: 100%; margin-bottom: var(--sp-6); }
+      .course-search__submit   { width: 100%; justify-content: center; }
+      .course-list__footer     { margin-top: var(--sp-8); }
+      .course-list__footer .btn { width: 100%; justify-content: center; }
     }
 
     /* Course cards — mobile layout */
@@ -259,6 +263,61 @@
     .accordion-button:not(.collapsed)::after { filter: brightness(0) invert(1); transform: rotate(-180deg); }
     .accordion-body      { font-family: var(--font-body); font-size: 16px; color: #b8cef9; line-height: 1.3; padding: 0 0 var(--sp-5) 0; }
     .accordion-collapse  { background: none; }
+
+    /* ── Fila de cursos con card destacada (1 row: 2 normales + 1 destacada a la derecha) ── */
+    .courses-grid .cat-dcard { padding: 28px 24px; }
+    @media (min-width: 992px) {
+      .courses-grid { grid-template-columns: repeat(10, 1fr); width: 83.3333%; margin-left: auto; margin-right: auto; }
+      .courses-grid .course-card { grid-column: span 3; }
+      .courses-grid .cat-dcard   { grid-column: span 4; padding: 32px 48px; }
+    }
+    @media (min-width: 576px) and (max-width: 991px) {
+      .courses-grid { grid-template-columns: repeat(2, 1fr); }
+      .courses-grid .cat-dcard { grid-column: span 2; }
+    }
+
+    /* ════════ HERO — PRUEBA: un solo slide, altura completa, entrada escalonada ════════ */
+    /* El carousel no debe recortar (Bootstrap pone overflow:hidden) → ver destellos completos de la imagen */
+    .hero .carousel, .hero .carousel-inner { overflow: visible; }
+    /* Ocultar (no borrar) el segundo slide y los controles del slider */
+    #heroCarousel .carousel-item:not(.active) { display: none !important; }
+    .hero__controls-wrap,
+    .hero__bottom-dots { display: none !important; }
+
+    /* Entrada: fade + desplazamiento de abajo hacia arriba, 800ms ease-out, escalonado 300ms.
+       Orden: imagen → (título + eyebrow) → resto */
+    @keyframes heroFadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero__visual,
+    .hero__eyebrow,
+    .hero__h1,
+    .hero__body,
+    .hero__buttons,
+    .hero__trust { animation: heroFadeUp 800ms ease-out both; }
+    .hero__visual { animation-delay: 0ms; }
+    .hero__eyebrow,
+    .hero__h1 { animation-delay: 300ms; }
+    .hero__body,
+    .hero__buttons,
+    .hero__trust { animation-delay: 600ms; }
+
+    /* Layout desktop según grilla (1440): pad lateral 155 (ya en .hero .container).
+       Contenido = 1130 → texto (col 2, 5 col ≈ 553) | gap 139 (gutter+col+gutter) | imagen (4 col ≈ 438). */
+    @media (min-width: 992px) {
+      /* Altura = contenido + 64px de padding arriba y abajo (sin full-viewport).
+         Texto: 5 columnas (máx 553, encogible para no empujar la imagen fuera del padding);
+         imagen: anclada al borde derecho con gap de 139px. align-items:stretch iguala las alturas. */
+      .hero__slide-grid { grid-template-columns: minmax(0, 553px) 438px; justify-content: space-between; align-items: stretch; gap: 139px; padding-top: 64px; padding-bottom: 64px; min-height: 0; }
+      /* Imagen sin recortes; misma altura que el texto y, si crece, lo hace hacia la izquierda
+         (se alinea a la derecha → el padding derecho queda limpio). */
+      .hero__visual { overflow: visible; border-radius: 0; background: transparent; display: flex; align-items: center; justify-content: flex-end; }
+      .hero__visual img { height: 100%; width: auto; max-width: none; object-fit: contain; display: block; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero__visual, .hero__eyebrow, .hero__h1, .hero__body, .hero__buttons, .hero__trust { animation: none; }
+    }
   </style>
 </head>
 <body>
@@ -303,9 +362,9 @@
           <div class="navbar__nav" role="list">
             <a href="#cursos" class="navbar__link" role="listitem">Cursos</a>
             <a href="#escuelas" class="navbar__link" role="listitem">Escuelas <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-            <a href="en-construccion.html" class="navbar__link" role="listitem">Acerca de nosotros</a>
+            <a href="#" class="navbar__link" role="listitem">Acerca de nosotros</a>
           </div>
-          <a href="en-construccion.html" class="btn btn-outline-white btn-lg">Inscríbete</a>
+          <a href="#" class="btn btn-outline-white btn-lg">Inscríbete</a>
         </div>
       </div>
     </div>
@@ -333,7 +392,7 @@
                 </p>
               </div>
               <div class="hero__buttons">
-                <a href="#cursos" class="btn btn-primary btn-lg">Explorar cursos</a>
+                <a href="catalogo.html" class="btn btn-primary btn-lg">Ver todos los cursos</a>
               </div>
               <div class="hero__trust" role="list" aria-label="Garantías">
                 <div class="hero__trust-item" role="listitem">
@@ -355,9 +414,9 @@
               </div>
             </div>
 
-            <!-- Visual derecho — ilustración slide 1 -->
+            <!-- Visual derecho — imagen hero (diseño actualizado Figma 2159:900) -->
             <div class="hero__visual" aria-hidden="true">
-              <img src="Assets/hero-img-slide-1.png" alt="">
+              <img src="Assets/nva-img-hero-cardiou.png" alt="">
             </div>
 
           </div>
@@ -397,7 +456,7 @@
                   <span class="hero__course-price-current">$1.490.000</span>
                   <span class="hero__course-price-original">$2.290.000</span>
                 </div>
-                <a href="en-construccion.html" class="btn btn-primary btn-md">Inscribirme</a>
+                <a href="#" class="btn btn-primary btn-md">Inscribirme</a>
               </div>
             </div>
 
@@ -452,20 +511,36 @@
         <p class="section-header__eyebrow">Catálogo de cursos</p>
         <h2 class="section-header__title" id="courses-title">Los cursos más valorados</h2>
       </div>
-      <a href="en-construccion.html" class="btn btn-primary btn-lg">Ver todo el catálogo</a>
     </div>
+
+    <!-- Buscador con autocompletado en vivo -->
+    <form class="course-search" role="search" action="#" onsubmit="return false;">
+      <div class="course-search__box">
+        <div class="course-search__field">
+          <svg class="course-search__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M20 20l-3.2-3.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          <input type="search" class="course-search__input" placeholder="Busca un curso, escuela o tema…"
+                 aria-label="Buscar cursos" autocomplete="off"
+                 role="combobox" aria-expanded="false" aria-controls="course-search-results" aria-autocomplete="list">
+        </div>
+        <ul class="course-search__results" id="course-search-results" role="listbox" hidden></ul>
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg course-search__submit">Buscar</button>
+    </form>
 
     <div class="courses-grid">
 
       <!-- Card 1 — Formación Continua -->
       <article class="course-card">
         <div class="course-card__img-area">
-          <span class="course-card__discount">-30%</span>
-          <img class="course-card__photo" src="Assets/IMG_card-1.png" alt="Inteligencia Artificial en el Entorno Hospitalario">
+          <span class="discount-chip">-30%</span>
+          <a class="course-card__media-link" href="curso.html?id=1"><img class="course-card__photo" src="Assets/IMG_card-1.png" alt="Inteligencia Artificial en el Entorno Hospitalario"></a>
         </div>
         <div class="course-card__body">
           <span class="course-pill course-pill--continua">Formación Continua</span>
-          <h3 class="course-card__title">Inteligencia Artificial en el Entorno Hospitalario</h3>
+          <h3 class="course-card__title"><a class="course-card__title-link" href="curso.html?id=1">Inteligencia Artificial en el Entorno Hospitalario</a></h3>
           <div class="course-card__features">
             <span class="course-feat"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">36 horas</span>
             <span class="course-feat"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="" aria-hidden="true">6 módulos</span>
@@ -480,50 +555,21 @@
             <span class="course-card__financing">Paga a cuotas con <img src="Assets/wompi-black.svg" alt="Wompi" class="course-card__financing-logo"></span>
           </div>
           <div class="course-card__actions">
-            <a href="en-construccion.html" class="course-card__ver-link">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-            <a href="en-construccion.html" class="btn btn-outline-red btn-lg">Inscribirme</a>
+            <a href="curso.html?id=1" class="course-card__ver-link">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="curso.html?id=1" class="btn btn-outline-red btn-lg">Inscribirme</a>
           </div>
         </div>
       </article>
 
-      <!-- Card 2 — Escuela de Enfermería -->
+      <!-- Card 2 (normal) — Escuela de Innovación -->
       <article class="course-card">
         <div class="course-card__img-area">
-          <span class="course-card__discount">-36%</span>
-          <img class="course-card__photo" src="Assets/IMG_card-2.png" alt="Curso de Accesos Vasculares CAVA">
-        </div>
-        <div class="course-card__body">
-          <span class="course-pill course-pill--enfermeria">Escuela de Enfermería</span>
-          <h3 class="course-card__title">Curso de Accesos Vasculares CAVA</h3>
-          <div class="course-card__features">
-            <span class="course-feat"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">65 horas</span>
-            <span class="course-feat"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="" aria-hidden="true">5 módulos</span>
-            <span class="course-feat"><img src="Assets/Icons/Feature Icon-dm.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
-            <span class="course-feat course-feat--rating">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>4.9 (87)
-            </span>
-          </div>
-          <div class="course-card__price">
-            <span class="course-card__price-now">$1.600.000</span>
-            <span class="course-card__price-was">$2.490.000</span>
-            <span class="course-card__financing">Paga a cuotas con <img src="Assets/wompi-black.svg" alt="Wompi" class="course-card__financing-logo"></span>
-          </div>
-          <div class="course-card__actions">
-            <a href="en-construccion.html" class="course-card__ver-link">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-            <a href="en-construccion.html" class="btn btn-outline-red btn-lg">Inscribirme</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- Card 3 — Escuela de Innovación -->
-      <article class="course-card">
-        <div class="course-card__img-area">
-          <span class="course-card__discount">-39%</span>
-          <img class="course-card__photo" src="Assets/IMG_card-3.png" alt="Innovación en Experiencia del Paciente">
+          <span class="discount-chip">-39%</span>
+          <a class="course-card__media-link" href="curso.html?id=3"><img class="course-card__photo" src="Assets/IMG_card-3.png" alt="Innovación en Experiencia del Paciente"></a>
         </div>
         <div class="course-card__body">
           <span class="course-pill course-pill--innovacion">Escuela de Innovación</span>
-          <h3 class="course-card__title">Innovación en Experiencia del Paciente</h3>
+          <h3 class="course-card__title"><a class="course-card__title-link" href="curso.html?id=3">Innovación en Experiencia del Paciente</a></h3>
           <div class="course-card__features">
             <span class="course-feat"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">60 horas</span>
             <span class="course-feat"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="" aria-hidden="true">9 módulos</span>
@@ -538,41 +584,46 @@
             <span class="course-card__financing">Paga a cuotas con <img src="Assets/wompi-black.svg" alt="Wompi" class="course-card__financing-logo"></span>
           </div>
           <div class="course-card__actions">
-            <a href="en-construccion.html" class="course-card__ver-link">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-            <a href="en-construccion.html" class="btn btn-outline-red btn-lg">Inscribirme</a>
+            <a href="curso.html?id=3" class="course-card__ver-link">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="curso.html?id=3" class="btn btn-outline-red btn-lg">Inscribirme</a>
           </div>
         </div>
       </article>
 
-      <!-- Card 4 — Formación Continua -->
-      <article class="course-card">
-        <div class="course-card__img-area">
-          <span class="course-card__discount">-35%</span>
-          <img class="course-card__photo" src="Assets/IMG_card-4.png" alt="Anticoagulación en Escenarios Cardiovasculares">
-        </div>
-        <div class="course-card__body">
-          <span class="course-pill course-pill--continua">Formación Continua</span>
-          <h3 class="course-card__title">Anticoagulación en Escenarios Cardiovasculares</h3>
-          <div class="course-card__features">
-            <span class="course-feat"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">65 horas</span>
-            <span class="course-feat"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="" aria-hidden="true">6 módulos</span>
-            <span class="course-feat"><img src="Assets/Icons/Feature Icon-dm.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
-            <span class="course-feat course-feat--rating">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>4.7 (203)
-            </span>
+      <!-- Card 3 (destacada) — Escuela de Enfermería -->
+      <article class="cat-dcard">
+        <img class="cat-dcard__bg" src="Assets/BG-contenedor-card-nueva.svg" alt="" aria-hidden="true">
+        <div class="cat-dcard__body">
+          <div class="cat-dcard__info">
+            <span class="course-pill course-pill--enfermeria">Escuela de Enfermería</span>
+            <div class="cat-dcard__block">
+              <h3 class="cat-dcard__title">Curso de Accesos Vasculares CAVA</h3>
+              <p class="cat-dcard__desc">Domina los accesos vasculares de alta complejidad con práctica presencial en las instalaciones de LaCardio.</p>
+              <div class="cat-dcard__features">
+                <span class="course-feat"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">65 horas</span>
+                <span class="course-feat"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="" aria-hidden="true">5 módulos</span>
+                <span class="course-feat"><img src="Assets/Icons/Feature Icon-dm.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>
+                <span class="course-feat course-feat--rating">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>4.9 (87)
+                </span>
+              </div>
+            </div>
           </div>
-          <div class="course-card__price">
-            <span class="course-card__price-now">$1.100.000</span>
-            <span class="course-card__price-was">$1.690.000</span>
-            <span class="course-card__financing">Paga a cuotas con <img src="Assets/wompi-black.svg" alt="Wompi" class="course-card__financing-logo"></span>
+          <div class="cat-dcard__price">
+            <span class="cat-dcard__price-now">$ 1.600.000</span>
+            <span class="cat-dcard__price-was">$ 2.490.000</span>
           </div>
-          <div class="course-card__actions">
-            <a href="en-construccion.html" class="course-card__ver-link">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-            <a href="en-construccion.html" class="btn btn-outline-red btn-lg">Inscribirme</a>
+          <div class="cat-dcard__actions">
+            <a href="curso.html?id=2" class="cat-dcard__ver">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="curso.html?id=2" class="btn btn-outline-white btn-lg">Inscribirme</a>
           </div>
         </div>
       </article>
 
+    </div>
+
+    <div class="course-list__footer">
+      <a href="catalogo.html" class="btn btn-primary btn-lg">Ver todos los cursos</a>
     </div>
 
   </div>
@@ -601,7 +652,7 @@
           <p class="school-card__desc">Programas de actualización y especialización para profesionales del sector salud, con enfoque en protocolos clínicos, normatividad y seguridad del paciente.</p>
           <footer class="school-card__footer">
             <span class="school-card__count">14 cursos disponibles</span>
-            <a href="en-construccion.html" class="school-card__link">Ver cursos
+            <a href="catalogo.html?escuela=Formaci%C3%B3n%20Continua" class="school-card__link">Ver todos los cursos
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
           </footer>
@@ -621,7 +672,7 @@
           <p class="school-card__desc">Acompañamiento integral para pacientes trasplantados y sus familias, con contenidos sobre cuidado, bienestar emocional y reintegración social.</p>
           <footer class="school-card__footer">
             <span class="school-card__count">1 curso disponible</span>
-            <a href="en-construccion.html" class="school-card__link">Ver cursos
+            <a href="catalogo.html" class="school-card__link">Ver todos los cursos
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
           </footer>
@@ -641,7 +692,7 @@
           <p class="school-card__desc">Herramientas de transformación digital y design thinking aplicadas al entorno hospitalario, con foco en la experiencia del paciente y la gestión del cambio.</p>
           <footer class="school-card__footer">
             <span class="school-card__count">1 curso disponible</span>
-            <a href="en-construccion.html" class="school-card__link">Ver cursos
+            <a href="catalogo.html?escuela=Innovaci%C3%B3n" class="school-card__link">Ver todos los cursos
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
           </footer>
@@ -661,7 +712,7 @@
           <p class="school-card__desc">Formación especializada en accesos vasculares y procedimientos de alta complejidad, con práctica presencial en las instalaciones de LaCardio.</p>
           <footer class="school-card__footer">
             <span class="school-card__count">3 cursos disponibles</span>
-            <a href="en-construccion.html" class="school-card__link">Ver cursos
+            <a href="catalogo.html?escuela=Enfermer%C3%ADa" class="school-card__link">Ver todos los cursos
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
           </footer>
@@ -681,7 +732,7 @@
           <p class="school-card__desc">Formación en habilidades de conexión humana y acompañamiento terapéutico para crear entornos positivos durante la hospitalización.</p>
           <footer class="school-card__footer">
             <span class="school-card__count">1 curso disponible</span>
-            <a href="en-construccion.html" class="school-card__link">Ver cursos
+            <a href="catalogo.html?escuela=Servicio" class="school-card__link">Ver todos los cursos
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
           </footer>
@@ -955,7 +1006,7 @@
           </div>
         </div>
       </div>
-      <a href="#cursos" class="btn btn-outline-white btn-lg">Inscríbete ahora</a>
+      <a href="catalogo.html" class="btn btn-outline-white btn-lg">Ver todos los cursos</a>
     </div>
     <div class="cta-final__illustration" aria-hidden="true">
       <img src="Assets/img-cta-final.png" alt="">
@@ -972,7 +1023,7 @@
     <nav class="footer__nav" aria-label="Navegación del pie de página">
       <a href="#escuelas" class="footer__nav-link">Escuelas</a>
       <a href="#cursos"   class="footer__nav-link">Cursos</a>
-      <a href="en-construccion.html" class="footer__nav-link">Acerca de nosotros</a>
+      <a href="#" class="footer__nav-link">Acerca de nosotros</a>
       <a href="#"         class="footer__nav-link">Políticas de tratamiento</a>
       <a href="#"         class="footer__nav-link">Términos y condiciones</a>
     </nav>
@@ -1077,6 +1128,143 @@
     }
     window.addEventListener('scroll', positionWa, { passive: true });
     positionWa();
+  })();
+</script>
+
+<!-- Buscador de cursos — autocompletado en vivo -->
+<script>
+  (function () {
+    const form   = document.querySelector('.course-search');
+    if (!form) return;
+    const input  = form.querySelector('.course-search__input');
+    const results = form.querySelector('.course-search__results');
+    const MIN = 3;        // mínimo de letras consecutivas
+    const MAX = 6;        // máximo de sugerencias mostradas
+
+    // Catálogo de cursos (representa el catálogo completo, no solo las cards destacadas)
+    const COURSES = [
+      { t: 'Inteligencia Artificial en el Entorno Hospitalario', c: 'Formación Continua' },
+      { t: 'Curso de Accesos Vasculares CAVA',                   c: 'Escuela de Enfermería' },
+      { t: 'Innovación en Experiencia del Paciente',            c: 'Escuela de Innovación' },
+      { t: 'Anticoagulación en Escenarios Cardiovasculares',    c: 'Formación Continua' },
+      { t: 'Electrocardiografía Básica y Avanzada',             c: 'Escuela de Electrofisiología' },
+      { t: 'Reanimación Cardiopulmonar Avanzada (ACLS)',        c: 'Escuela de Medicina' },
+      { t: 'Cuidado de Enfermería en UCI Cardiovascular',       c: 'Escuela de Enfermería' },
+      { t: 'Ecocardiografía para Clínicos',                     c: 'Escuela de Medicina' },
+      { t: 'Hemodinamia e Intervencionismo Cardíaco',          c: 'Escuela de Medicina' },
+      { t: 'Insuficiencia Cardíaca: Manejo Integral',          c: 'Formación Continua' },
+      { t: 'Manejo del Paciente con Arritmias',                c: 'Escuela de Electrofisiología' },
+      { t: 'Comunicación y Humanización en Salud',             c: 'Escuela de Habilidades' },
+      { t: 'Farmacología Cardiovascular Aplicada',             c: 'Formación Continua' },
+      { t: 'Rehabilitación Cardíaca y Prevención',             c: 'Escuela de Servicio' }
+    ];
+
+    const ICON = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+      '<path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11a2 2 0 0 1 2 2v13a1.5 1.5 0 0 0-1.5-1.5H5.5A1.5 1.5 0 0 1 4 16V5.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>' +
+      '<path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13a2 2 0 0 0-2 2v13a1.5 1.5 0 0 1 1.5-1.5h6A1.5 1.5 0 0 0 20 16V5.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+
+    // Normaliza char a char y guarda el mapeo al índice original (para resaltar respetando tildes)
+    function buildNorm(str) {
+      let norm = ''; const map = [];
+      for (let i = 0; i < str.length; i++) {
+        const n = str[i].normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        for (const ch of n) { norm += ch; map.push(i); }
+      }
+      return { norm, map };
+    }
+    // Precalcular el texto normalizado de búsqueda (título + categoría)
+    COURSES.forEach(c => { c._norm = buildNorm(c.t + ' ' + c.c).norm; });
+
+    function esc(s) {
+      return s.replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
+    }
+    function highlight(title, q) {
+      const { norm, map } = buildNorm(title);
+      const idx = norm.indexOf(q);
+      if (idx < 0) return esc(title);
+      const s = map[idx], e = map[idx + q.length - 1];
+      return esc(title.slice(0, s)) + '<mark>' + esc(title.slice(s, e + 1)) + '</mark>' + esc(title.slice(e + 1));
+    }
+
+    let active = -1;
+    let matches = [];
+
+    function close() {
+      results.hidden = true;
+      results.innerHTML = '';
+      input.setAttribute('aria-expanded', 'false');
+      input.removeAttribute('aria-activedescendant');
+      active = -1;
+    }
+
+    function render(q) {
+      matches = COURSES.filter(c => c._norm.indexOf(q) !== -1).slice(0, MAX);
+      active = -1;
+      if (matches.length === 0) {
+        results.innerHTML = '<li class="course-search__empty">Sin resultados para “' + esc(q) + '”</li>';
+        results.hidden = false;
+        input.setAttribute('aria-expanded', 'true');
+        input.removeAttribute('aria-activedescendant');
+        return;
+      }
+      results.innerHTML = matches.map((c, i) =>
+        '<li id="course-opt-' + i + '" role="option" class="course-search__result" data-i="' + i + '">' +
+          '<span class="course-search__result-icon">' + ICON + '</span>' +
+          '<span class="course-search__result-text">' +
+            '<span class="course-search__result-title">' + highlight(c.t, q) + '</span>' +
+            '<span class="course-search__result-cat">' + esc(c.c) + '</span>' +
+          '</span>' +
+        '</li>'
+      ).join('');
+      results.hidden = false;
+      input.setAttribute('aria-expanded', 'true');
+    }
+
+    function setActive(i) {
+      const items = results.querySelectorAll('.course-search__result');
+      if (!items.length) return;
+      active = (i + items.length) % items.length;
+      items.forEach((el, idx) => el.classList.toggle('is-active', idx === active));
+      input.setAttribute('aria-activedescendant', 'course-opt-' + active);
+      items[active].scrollIntoView({ block: 'nearest' });
+    }
+
+    function gotoCatalog(q) {
+      const url = 'catalogo.html' + (q ? ('?q=' + encodeURIComponent(q)) : '');
+      window.location.href = url;
+    }
+    function choose(i) {
+      if (matches[i]) { gotoCatalog(matches[i].t); }
+      else close();
+    }
+    // Enviar el buscador → catálogo con el término aplicado
+    form.addEventListener('submit', function () {
+      if (active >= 0 && matches[active]) gotoCatalog(matches[active].t);
+      else gotoCatalog(input.value.trim());
+    });
+
+    input.addEventListener('input', function () {
+      const q = buildNorm(input.value.trim()).norm;
+      if (q.length < MIN) { close(); return; }
+      render(q);
+    });
+
+    input.addEventListener('keydown', function (e) {
+      if (results.hidden) return;
+      if (e.key === 'ArrowDown')      { e.preventDefault(); setActive(active + 1); }
+      else if (e.key === 'ArrowUp')   { e.preventDefault(); setActive(active - 1); }
+      else if (e.key === 'Enter' && active >= 0) { e.preventDefault(); choose(active); }
+      else if (e.key === 'Escape')    { close(); }
+    });
+
+    results.addEventListener('mousedown', function (e) {
+      const li = e.target.closest('.course-search__result');
+      if (li) { e.preventDefault(); choose(Number(li.dataset.i)); }
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!form.contains(e.target)) close();
+    });
   })();
 </script>
 

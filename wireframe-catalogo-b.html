@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wireframe Catálogo — Opción B (Filtros arriba + hero)</title>
+<link rel="stylesheet" href="lacardio-tokens.css">
+<style>
+  /* ── Wireframe styling — grayscale skeleton + brand fonts ── */
+  :root{
+    --wf-bg:#ffffff; --wf-bg-2:#f4f3f0; --wf-line:#cfccc6; --wf-line-2:#e3e1dc;
+    --wf-fill:#e8e6e1; --wf-fill-2:#f1efeb; --wf-bar:#d6d3cd; --wf-bar-2:#e6e3dd;
+    --wf-ink:#5b5954; --wf-ink-2:#8a8884; --wf-dark:#3a3f47;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:var(--font-body,'Inter',sans-serif);color:var(--wf-ink);background:var(--wf-bg);}
+  h1,h2,h3,h4{font-family:var(--font-display,'Garet',sans-serif);font-weight:800;color:var(--wf-dark);margin:0;}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 40px;}
+  .muted{color:var(--wf-ink-2);}
+  .bar{height:10px;border-radius:6px;background:var(--wf-bar);display:block;}
+  .bar.sm{height:8px;background:var(--wf-bar-2);}
+  .bar.w90{width:90%;}.bar.w75{width:75%;}.bar.w60{width:60%;}.bar.w40{width:40%;}.bar.w30{width:30%;}
+  .imgph{background:repeating-linear-gradient(45deg,var(--wf-fill),var(--wf-fill) 10px,var(--wf-fill-2) 10px,var(--wf-fill-2) 20px);
+         border:1px dashed var(--wf-line);border-radius:8px;display:flex;align-items:center;justify-content:center;
+         color:var(--wf-ink-2);font-size:11px;letter-spacing:.12em;text-transform:uppercase;}
+  .pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--wf-line);border-radius:999px;
+        padding:8px 16px;font-size:13px;color:var(--wf-ink);background:#fff;white-space:nowrap;}
+  .pill.on{background:var(--wf-dark);color:#fff;border-color:var(--wf-dark);}
+  .btnw{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:999px;padding:10px 20px;
+        font-size:14px;font-weight:700;border:1.5px solid var(--wf-dark);color:var(--wf-dark);background:#fff;}
+  .btnw.solid{background:var(--wf-dark);color:#fff;}
+  .btnw.red{background:#ee335a;border-color:#ee335a;color:#fff;}
+
+  .wf-banner{position:sticky;top:0;z-index:50;background:#1d386d;color:#fff;font-size:12px;
+             letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:7px 12px;font-weight:700;}
+  .wf-banner span{opacity:.7;font-weight:400;letter-spacing:.04em;text-transform:none;}
+
+  /* header */
+  .nav{background:var(--wf-dark);}
+  .nav .wrap{display:flex;align-items:center;gap:24px;height:72px;}
+  .nav__logo{width:130px;height:36px;border:1px dashed rgba(255,255,255,.4);border-radius:6px;display:flex;
+             align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:11px;letter-spacing:.1em;}
+  .nav__links{display:flex;gap:20px;margin-left:auto;}
+  .nav__links span{color:rgba(255,255,255,.85);font-size:14px;}
+  .nav__btn{border:1.5px solid rgba(255,255,255,.6);color:#fff;border-radius:999px;padding:8px 18px;font-size:13px;font-weight:700;}
+  .nav__btn.solid{background:#ee335a;border-color:#ee335a;}
+
+  /* SEARCH HERO */
+  .hero{background:linear-gradient(135deg,#2f3a52,#3a3f47);color:#fff;padding:54px 0 60px;text-align:center;}
+  .hero h1{color:#fff;font-size:44px;line-height:1.12;margin-bottom:14px;}
+  .hero p{color:rgba(255,255,255,.8);max-width:540px;margin:0 auto 30px;font-size:15px;}
+  .hero__search{display:flex;gap:12px;max-width:640px;margin:0 auto 24px;}
+  .hero__search .field{flex:1;height:54px;border-radius:999px;background:#fff;display:flex;align-items:center;
+                       padding:0 24px;gap:12px;color:var(--wf-ink-2);font-size:15px;}
+  .hero__search .field::before{content:"";width:18px;height:18px;border:2px solid var(--wf-ink-2);border-radius:50%;flex:0 0 auto;}
+  .hero__search .btnw{background:#ee335a;border-color:#ee335a;color:#fff;padding:0 30px;}
+  .hero__chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+  .hero__chips .pill{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);color:#fff;}
+
+  /* STICKY FILTER TOOLBAR */
+  .filterbar{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--wf-line-2);}
+  .filterbar .wrap{display:flex;align-items:center;gap:12px;padding:14px 40px;overflow-x:auto;}
+  .filterbar .dd{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--wf-line);border-radius:10px;
+                 padding:9px 16px;font-size:13px;color:var(--wf-dark);background:#fff;white-space:nowrap;}
+  .filterbar .dd.on{border-color:var(--wf-dark);background:var(--wf-bg-2);font-weight:700;}
+  .filterbar .sort{margin-left:auto;}
+
+  /* count + active filter chips */
+  .resbar{display:flex;align-items:center;gap:12px;padding:24px 0 6px;flex-wrap:wrap;}
+  .resbar .count{font-size:14px;font-weight:700;color:var(--wf-dark);margin-right:6px;}
+  .resbar .chip{display:inline-flex;align-items:center;gap:8px;background:var(--wf-bg-2);border-radius:999px;
+                padding:6px 14px;font-size:12px;color:var(--wf-ink);}
+  .resbar .chip b{font-weight:400;color:var(--wf-ink-2);}
+  .resbar a{font-size:12px;color:var(--wf-ink-2);text-decoration:underline;}
+
+  /* FEATURED strip */
+  .featured{display:grid;grid-template-columns:1.3fr 1fr;gap:0;border:1px solid var(--wf-line-2);border-radius:16px;
+            overflow:hidden;margin:18px 0 36px;background:#fff;}
+  .featured .imgph{border:none;border-radius:0;min-height:260px;}
+  .featured__body{padding:34px;display:flex;flex-direction:column;justify-content:center;}
+  .featured__body .tag{display:inline-block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+                       color:#ee335a;margin-bottom:14px;}
+  .featured__body h2{font-size:28px;line-height:1.2;margin-bottom:14px;}
+  .featured__body .feats{display:flex;gap:12px;margin:6px 0 22px;flex-wrap:wrap;}
+  .featured__body .actions{display:flex;gap:12px;}
+
+  /* GRID — 4 wide, no sidebar */
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+  .card{display:flex;flex-direction:column;}
+  .card .imgph{height:140px;margin-bottom:14px;}
+  .card .tag{align-self:flex-start;border-bottom:3px solid var(--wf-line);padding-bottom:3px;font-size:12px;
+             color:var(--wf-ink);margin-bottom:12px;}
+  .card h3{font-size:16px;line-height:1.25;margin-bottom:12px;color:var(--wf-dark);}
+  .card .feats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+  .card .feats .pill{font-size:11px;padding:4px 10px;}
+  .card .price{display:flex;align-items:baseline;gap:10px;margin-bottom:14px;}
+  .card .price .now{height:14px;width:84px;border-radius:6px;background:var(--wf-bar);}
+  .card .price .was{height:10px;width:54px;border-radius:6px;background:var(--wf-bar-2);}
+  .card .actions{display:flex;gap:8px;margin-top:auto;}
+  .card .actions .btnw{flex:1;padding:9px 0;font-size:12px;}
+
+  /* load more */
+  .loadmore{display:flex;justify-content:center;padding:44px 0 0;}
+
+  /* footer */
+  .foot{background:var(--wf-dark);color:rgba(255,255,255,.7);padding:44px 0;margin-top:56px;}
+  .foot .cols{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:32px;}
+  .foot .bar{background:rgba(255,255,255,.18);}
+  .foot .bar.sm{background:rgba(255,255,255,.12);}
+
+  @media(max-width:880px){
+    .grid{grid-template-columns:repeat(2,1fr);}
+    .featured{grid-template-columns:1fr;}
+    .nav__links{display:none;}
+    .hero__search{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wf-banner">Wireframe · Catálogo — Opción B &nbsp; <span>Hero de búsqueda + barra de filtros sticky + grid amplio</span></div>
+
+<!-- HEADER -->
+<header class="nav">
+  <div class="wrap">
+    <div class="nav__logo">LOGO</div>
+    <div class="nav__links"><span>Escuelas ▾</span><span>Catálogo</span><span>Nosotros</span><span>Contacto</span></div>
+    <div class="nav__btn">Ingresar</div>
+    <div class="nav__btn solid">Inscríbete</div>
+  </div>
+</header>
+
+<!-- SEARCH HERO -->
+<section class="hero">
+  <div class="wrap">
+    <h1>Encuentra tu próximo curso</h1>
+    <p>Programas diseñados por expertos de LaCardio. Busca por tema o explora por escuela.</p>
+    <div class="hero__search">
+      <div class="field">Busca un curso, escuela o tema…</div>
+      <div class="btnw">Buscar</div>
+    </div>
+    <div class="hero__chips">
+      <span class="pill">Medicina</span><span class="pill">Enfermería</span><span class="pill">Innovación</span>
+      <span class="pill">Electrofisiología</span><span class="pill">Habilidades</span><span class="pill">Servicio</span>
+    </div>
+  </div>
+</section>
+
+<!-- STICKY FILTER BAR -->
+<div class="filterbar">
+  <div class="wrap">
+    <div class="dd on">Escuela: 2 ▾</div>
+    <div class="dd">Modalidad ▾</div>
+    <div class="dd">Duración ▾</div>
+    <div class="dd">Precio ▾</div>
+    <div class="dd">Nivel ▾</div>
+    <div class="dd sort">Ordenar: Populares ▾</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- RESULTS BAR with active filters -->
+  <div class="resbar">
+    <span class="count">24 cursos</span>
+    <span class="chip"><b>Escuela:</b> Medicina ✕</span>
+    <span class="chip"><b>Escuela:</b> Innovación ✕</span>
+    <a href="#">Limpiar filtros</a>
+  </div>
+
+  <!-- FEATURED course -->
+  <div class="featured">
+    <div class="imgph">Imagen destacada</div>
+    <div class="featured__body">
+      <span class="tag">★ Curso destacado</span>
+      <h2>Título del curso destacado del mes</h2>
+      <span class="bar w90" style="margin-bottom:8px;"></span>
+      <span class="bar sm w75"></span>
+      <div class="feats"><span class="pill">⏱ 36 h</span><span class="pill">▦ 6 módulos</span><span class="pill">★ 4.9 (342)</span><span class="pill">Certificado</span></div>
+      <div class="actions"><div class="btnw">Ver curso</div><div class="btnw red">Inscribirme</div></div>
+    </div>
+  </div>
+
+  <!-- GRID -->
+  <div class="grid">
+    <article class="card"><div class="imgph">Imagen</div><span class="tag">Escuela</span><h3>Título del curso de ejemplo</h3><div class="feats"><span class="pill">⏱ 36 h</span><span class="pill">★ 4.9</span></div><div class="price"><span class="now"></span><span class="was"></span></div><div class="actions"><div class="btnw">Ver</div><div class="btnw red">Inscribirme</div></div></article>
+    <article class="card"><div class="imgph">Imagen</div><span class="tag">Escuela</span><h3>Título del curso un poco más largo</h3><div class="feats"><span class="pill">⏱ 65 h</span><span class="pill">★ 4.8</span></div><div class="price"><span class="now"></span><span class="was"></span></div><div class="actions"><div class="btnw">Ver</div><div class="btnw red">Inscribirme</div></div></article>
+    <article class="card"><div class="imgph">Imagen</div><span class="tag">Escuela</span><h3>Título del curso de ejemplo</h3><div class="feats"><span class="pill">⏱ 60 h</span><span class="pill">★ 4.7</span></div><div class="price"><span class="now"></span><span class="was"></span></div><div class="actions"><div class="btnw">Ver</div><div class="btnw red">Inscribirme</div></div></article>
+    <article class="card"><div class="imgph">Imagen</div><span class="tag">Escuela</span><h3>Título del curso de ejemplo</h3><div class="feats"><span class="pill">⏱ 40 h</span><span class="pill">★ 4.9</span></div><div class="price"><span class="now"></span><span class="was"></span></div><div class="actions"><div class="btnw">Ver</div><div class="btnw red">Inscribirme</div></div></article>
+    <article class="card"><div class="imgph">Imagen</div><span class="tag">Escuela</span><h3>Título del curso de ejemplo</h3><div class="feats"><span class="pill">⏱ 24 h</span><span class="pill">★ 4.6</span></div><div class="price"><span class="now"></span><span class="was"></span></div><div class="actions"><div class="btnw">Ver</div><div class="btnw red">Inscribirme</div></div></article>
+    <article class="card"><div class="imgph">Imagen</div><span class="tag">Escuela</span><h3>Título del curso de ejemplo</h3><div class="feats"><span class="pill">⏱ 50 h</span><span class="pill">★ 4.8</span></div><div class="price"><span class="now"></span><span class="was"></span></div><div class="actions"><div class="btnw">Ver</div><div class="btnw red">Inscribirme</div></div></article>
+    <article class="card"><div class="imgph">Imagen</div><span class="tag">Escuela</span><h3>Título del curso de ejemplo</h3><div class="feats"><span class="pill">⏱ 30 h</span><span class="pill">★ 4.7</span></div><div class="price"><span class="now"></span><span class="was"></span></div><div class="actions"><div class="btnw">Ver</div><div class="btnw red">Inscribirme</div></div></article>
+    <article class="card"><div class="imgph">Imagen</div><span class="tag">Escuela</span><h3>Título del curso de ejemplo</h3><div class="feats"><span class="pill">⏱ 45 h</span><span class="pill">★ 4.9</span></div><div class="price"><span class="now"></span><span class="was"></span></div><div class="actions"><div class="btnw">Ver</div><div class="btnw red">Inscribirme</div></div></article>
+  </div>
+
+  <!-- LOAD MORE -->
+  <div class="loadmore"><div class="btnw solid">Cargar más cursos</div></div>
+</div>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="cols">
+      <div><div class="nav__logo" style="margin-bottom:16px;">LOGO</div><span class="bar sm w90" style="margin-bottom:8px;"></span><span class="bar sm w75"></span></div>
+      <div><span class="bar w40" style="margin-bottom:18px;"></span><span class="bar sm w90" style="margin-bottom:10px;"></span><span class="bar sm w75" style="margin-bottom:10px;"></span><span class="bar sm w60"></span></div>
+      <div><span class="bar w40" style="margin-bottom:18px;"></span><span class="bar sm w90" style="margin-bottom:10px;"></span><span class="bar sm w75" style="margin-bottom:10px;"></span><span class="bar sm w60"></span></div>
+      <div><span class="bar w40" style="margin-bottom:18px;"></span><span class="bar sm w90" style="margin-bottom:10px;"></span><span class="bar sm w75"></span></div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CardioU — Catálogo de cursos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="landing.css">
+  <style>
+    /* ── Shared overrides (copiados de home.html) ── */
+    .container { max-width: 1440px; padding-left: clamp(24px, 2.78vw, 40px); padding-right: clamp(24px, 2.78vw, 40px); }
+    @media (max-width: 991px) { .topbar { display: none; } }
+    .navbar-toggler { border: none; background: none; padding: 6px 10px; box-shadow: none !important; }
+    .navbar-toggler-icon { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
+    @media (max-width: 991px) {
+      .navbar                { background: #1d386d; }
+      .navbar .container     { padding-left: 24px; padding-right: 24px; }
+      .navbar__right         { flex-direction: column; align-items: flex-start; gap: 16px; width: 100%; padding: 12px 0; margin-left: 0 !important; }
+      .navbar__nav           { flex-direction: column; align-items: flex-start; gap: 8px; padding: 0; margin: 0; }
+      .navbar__link          { font-family: var(--font-display); font-size: 26px; line-height: 31px; font-weight: 800; letter-spacing: -0.01em; padding: 0; }
+      .navbar__search-bar    { width: 100%; margin-left: 0 !important; margin-top: 12px; padding: 0; }
+      .navbar__search-input  { width: 100%; }
+      .navbar__right .btn    { width: 100%; justify-content: center; }
+    }
+    @media (max-width: 767px) {
+      .footer     { padding: 0 16px; }
+      .footer__top { flex-direction: column; align-items: flex-start; gap: 24px; }
+      .footer__nav { flex-wrap: wrap; gap: 12px 20px; }
+      .footer__rrss { margin-left: 0; }
+    }
+    @media (max-width: 576px) {
+      .wa-float { right: 16px; }
+      .wa-float__text { display: none; }
+      .wa-float:hover { max-width: 52px; padding: 10px; }
+    }
+
+    /* ════════ CATÁLOGO ════════ */
+
+    /* Superficie de la página en crema (no el azul bg-page global) */
+    body { background: #f4f3f0; }
+    /* Header: sólido bg-page (sin gradient) y NO sticky en esta pantalla */
+    .site-header { position: static; }
+    .navbar { background: var(--bg-page, #1d386d); }
+
+    /* Search hero — gradient (Figma 2071:1042), padding vertical 48px */
+    .cat-hero { background: linear-gradient(0deg, #0d1931 0%, #14284f 18.091%, #193161 38.462%, #1d386d 51.442%); color: #fff; padding: 48px 0; }
+    .cat-hero__inner { text-align: center; }
+
+    /* Breadcrumb */
+    .cat-breadcrumb { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; font-family: var(--font-body); font-size: 13px; line-height: 1.3; }
+    .cat-breadcrumb a { color: #b8cef9; text-decoration: none; transition: color 0.15s; }
+    .cat-breadcrumb a:hover { color: #fff; text-decoration: underline; }
+    .cat-breadcrumb span[aria-current] { color: #fff; font-weight: 600; }
+    .cat-breadcrumb .cat-breadcrumb__sep { color: #6f8cc4; }
+    .cat-hero__eyebrow { font-family: var(--font-display); font-weight: 400; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: #b8cef9; margin: 0 0 14px; }
+    .cat-hero__title { font-family: var(--font-display); font-weight: 800; font-size: 46px; line-height: 1.2; color: #fff; margin: 0 0 16px; }
+    .cat-hero__sub { color: #b8cef9; max-width: 560px; margin: 0 auto 32px; font-size: 16px; line-height: 1.45; }
+    .cat-hero__search { display: flex; gap: 12px; max-width: 680px; margin: 0 auto 28px; }
+    .cat-hero__field { flex: 1; display: flex; align-items: center; gap: 12px; background: #fff; border-radius: var(--radius-full); padding: 0 24px; height: 56px; }
+    .cat-hero__field svg { flex: 0 0 auto; color: #62615e; }
+    .cat-hero__input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font-family: var(--font-body); font-size: 16px; color: #1d386d; }
+    .cat-hero__input::placeholder { color: #8a8a87; }
+    .cat-hero__input::-webkit-search-cancel-button { -webkit-appearance: none; }
+    .cat-hero__submit { flex: 0 0 auto; }
+    .cat-hero__chips { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    /* Pill por escuela — fondo = color de escuela, texto accesible (set inline desde JS) */
+    .cat-chip { border: 0; border-radius: var(--radius-full); padding: 8px 16px; font-family: var(--font-body); font-size: 13px; font-weight: 700; cursor: pointer; transition: transform 0.12s ease, box-shadow 0.15s ease; }
+    .cat-chip:hover { box-shadow: 0 6px 14px rgba(0,0,0,0.18); transform: translateY(-1px); }
+    .cat-chip.is-active { outline: 2px solid #fff; outline-offset: 2px; }
+
+    /* Filter bar — bloque azul flotante sobre superficie crema (Figma 2158:1340) */
+    .cat-filterbar { position: sticky; top: 0; z-index: 1020; background: transparent; padding: 20px; }
+    .cat-filterbar__inner { display: flex; align-items: center; gap: 16px; background: var(--color-blue-500, #1d386d); border-radius: var(--radius-2xl); padding: 24px; box-shadow: 0 11px 16.6px -6px rgba(14, 39, 50, 0.3); }
+    /* CTA "Inscríbete" — aparece en la barra solo al hacer scroll (cuando queda fija) */
+    .cat-filterbar__cta { display: none; flex: 0 0 auto; }
+    .cat-filterbar.is-stuck .cat-filterbar__cta { display: inline-flex; animation: catCtaIn 0.25s ease; }
+    @keyframes catCtaIn { from { opacity: 0; transform: translateX(8px); } to { opacity: 1; transform: none; } }
+
+    /* Barra colapsada (solo mobile) — [Filtros] [Inscríbete]. En desktop se oculta y los filtros
+       son hijos directos del inner (display:contents) → la fila de filtros queda intacta. */
+    .cat-filterbar__bar { display: none; }
+    .cat-filterbar__fields { display: contents; }
+    .cat-filterbar__toggle { flex: 1; background: var(--color-blue-50, #e0eaff); color: #14284f; border-color: transparent; }
+    /* En touch, los estados :hover/:focus/:active quedan "pegados" tras el tap y el botón no volvía
+       a su apariencia inicial al cerrar. Su look lo controla solo .is-open → neutralizamos sombra y transform. */
+    .cat-filterbar__toggle:hover,
+    .cat-filterbar__toggle:focus,
+    .cat-filterbar__toggle:active { box-shadow: none; transform: none; }
+    .cat-filterbar.is-open .cat-filterbar__toggle { background: transparent; border-color: var(--color-blue-50, #e0eaff); color: var(--color-blue-50, #e0eaff); }
+    .cat-filterbar__toggle-x { display: none; }
+    .cat-filterbar.is-open .cat-filterbar__toggle-ic { display: none; }
+    .cat-filterbar.is-open .cat-filterbar__toggle-x { display: inline-block; }
+
+    /* Buscador dentro de la barra fija — estilos del header + autocompletado en vivo */
+    .cat-filterbar__search { display: none; position: relative; flex: 0 0 auto; }
+    .cat-filterbar.is-stuck .cat-filterbar__search { display: block; animation: catCtaIn 0.25s ease; }
+    .cat-filterbar__search .navbar__search-bar { width: 248px; }
+    .cat-barsearch__results { position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: 40; margin: 0; padding: 8px; list-style: none; background: #fff; border: 1px solid #e3e1dc; border-radius: var(--radius-lg); box-shadow: 0 12px 32px rgba(29,56,109,0.18); max-height: 340px; overflow-y: auto; }
+    .cat-barsearch__results[hidden] { display: none; }
+    .cat-barsearch__result { display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: var(--radius-md); text-decoration: none; cursor: pointer; }
+    .cat-barsearch__result:hover, .cat-barsearch__result.is-active { background: var(--color-blue-50, #e0eaff); }
+    .cat-barsearch__result-icon { flex: 0 0 auto; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #e0eaff; color: #1d386d; }
+    .cat-barsearch__result-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+    .cat-barsearch__result-title { font-family: var(--font-body); font-size: 14px; font-weight: 600; line-height: 1.3; color: #1d386d; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cat-barsearch__result-title mark { background: #fde7ec; color: #ee335a; padding: 0 1px; border-radius: 2px; }
+    .cat-barsearch__result-cat { font-family: var(--font-body); font-size: 12px; line-height: 1.3; color: #62615e; }
+    .cat-barsearch__empty { padding: 12px 14px; font-family: var(--font-body); font-size: 13px; color: #62615e; }
+    .cat-dd { position: relative; }
+    .cat-dd__btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      height: 40px; padding: 8px 16px 8px 24px;
+      border: 0; border-radius: var(--radius-xl);
+      background: var(--color-blue-50, #e0eaff);
+      font-family: var(--font-body); font-size: 16px; line-height: 1.3; color: #14284f;
+      cursor: pointer; white-space: nowrap;
+      transition: box-shadow 0.15s ease;
+    }
+    /* Hover / focus / abierto → fondo blanco + sombra (Somnra buttons) */
+    .cat-dd__btn:hover,
+    .cat-dd__btn:focus-visible,
+    .cat-dd.is-open .cat-dd__btn { background: #ffffff; color: #14284f; box-shadow: 0 11px 16.6px -6px rgba(14, 39, 50, 0.3); outline: none; }
+    .cat-dd__btn.is-active { font-weight: 700; }
+    .cat-dd__btn svg { transition: transform 0.15s; }
+    .cat-dd.is-open .cat-dd__btn svg { transform: rotate(180deg); }
+    /* Ordenar por — botón outline sobre el azul */
+    .cat-sort { margin-left: auto; }
+    .cat-sort .cat-dd__btn { background: transparent; border: 1px solid var(--color-blue-50, #e0eaff); color: var(--color-blue-50, #e0eaff); }
+
+    .cat-dd__panel { position: absolute; top: calc(100% + 8px); left: 0; min-width: 230px; background: #fff; border: 1px solid #e3e1dc; border-radius: var(--radius-lg); box-shadow: 0 12px 32px rgba(29,56,109,0.14); padding: 10px; z-index: 30; }
+    .cat-dd__panel[hidden] { display: none; }
+    .cat-opt { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: var(--radius-md); font-family: var(--font-body); font-size: 14px; color: #474644; cursor: pointer; }
+    .cat-opt:hover { background: var(--color-blue-50, #e0eaff); }
+    .cat-opt input { width: 16px; height: 16px; accent-color: #1d386d; cursor: pointer; }
+
+    /* Grupo de opciones (Duración — radios) */
+    .cat-optgroup { padding: 2px 0 6px; min-width: 280px; }
+    .cat-optgroup__label { font-family: var(--font-body); font-size: 13px; font-weight: 700; color: #1d386d; margin: 4px 6px 8px; }
+
+    /* Slider de precio */
+    .cat-rangegroup { padding: 8px 6px; min-width: 280px; }
+    .cat-optgroup + .cat-rangegroup { border-top: 1px solid #efedea; margin-top: 6px; padding-top: 14px; }
+    .cat-rangegroup__label { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--font-body); font-size: 13px; font-weight: 700; color: #1d386d; margin: 4px 6px 16px; }
+    .cat-rangegroup__label span { font-weight: 400; color: #62615e; }
+    .cat-range { position: relative; height: 28px; margin: 0 9px 6px; }
+    .cat-range__track { position: absolute; top: 50%; left: 0; right: 0; height: 4px; transform: translateY(-50%); background: #e3e1dc; border-radius: 999px; }
+    .cat-range__fill  { position: absolute; top: 50%; height: 4px; transform: translateY(-50%); background: #1d386d; border-radius: 999px; }
+    .cat-range input[type=range] { position: absolute; top: 0; left: 0; width: 100%; height: 28px; margin: 0; background: none; pointer-events: none; -webkit-appearance: none; appearance: none; }
+    .cat-range input[type=range]::-webkit-slider-runnable-track { height: 28px; background: transparent; border: 0; }
+    .cat-range input[type=range]::-moz-range-track { height: 28px; background: transparent; border: 0; }
+    .cat-range input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 2px solid #1d386d; cursor: pointer; pointer-events: auto; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+    .cat-range input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 2px solid #1d386d; cursor: pointer; pointer-events: auto; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+
+    /* Results bar + active chips */
+    .cat-results { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 4px 0 18px; }
+    .cat-results__count { font-family: var(--font-body); font-size: 15px; font-weight: 700; color: #1d386d; margin-right: 4px; }
+    .cat-activechip { display: inline-flex; align-items: center; gap: 8px; background: #f4f3f0; border-radius: var(--radius-full); padding: 6px 8px 6px 14px; font-family: var(--font-body); font-size: 13px; color: #474644; }
+    .cat-activechip button { border: 0; background: #e0ddd6; width: 18px; height: 18px; border-radius: 50%; color: #62615e; cursor: pointer; line-height: 1; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+    .cat-activechip button:hover { background: #d3cfc7; }
+    .cat-results__clear { font-family: var(--font-body); font-size: 13px; color: #62615e; text-decoration: underline; background: none; border: 0; cursor: pointer; }
+
+    /* Featured course */
+    /* Card destacada (Figma 2159:291) — 10/12 columnas, centrada, imagen 464px */
+    .cat-featured { display: flex; align-items: stretch; gap: 48px; width: 83.3333%; margin: 0 auto 44px; }
+    .cat-featured[hidden] { display: none; }
+    .cat-featured__img { flex: 0 0 464px; width: 464px; align-self: stretch; object-fit: cover; border-radius: var(--radius-lg); box-shadow: 0 11px 18px 0 rgba(196,210,216,0.4); display: block; }
+    .cat-featured__body { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 16px; }
+    .cat-featured__head { display: flex; flex-direction: column; gap: 24px; }
+    .cat-featured__textblock { display: flex; flex-direction: column; gap: 8px; }
+    .cat-featured__eyebrow { font-family: var(--font-display); font-weight: 400; font-size: 13px; line-height: 14px; letter-spacing: 0.2em; text-transform: uppercase; color: #002d72; margin: 0; }
+    .cat-featured__title { font-family: var(--font-display); font-weight: 800; font-size: 28px; line-height: 1.24; color: #002d72; margin: 0; }
+    .cat-featured__desc { font-family: var(--font-body); font-size: 16px; line-height: 1.3; color: #474644; margin: 0; }
+    .cat-featured__features { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+    .cat-featured__price { display: flex; flex-direction: column; gap: 20px; }
+    .cat-featured__price-row { display: flex; align-items: center; gap: 8px; }
+    .cat-featured__price-now { font-family: var(--font-display); font-weight: 800; font-size: 24px; line-height: 1.24; color: #002d72; }
+    .cat-featured__price-was { font-family: var(--font-body); font-size: 14px; color: #83827f; text-decoration: line-through; }
+    .cat-featured__actions { display: flex; gap: 20px; }
+
+    /* Grid — 10/12 columnas centrado; normal=3 col, destacada=4 col (3+3+4) */
+    .cat-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 40px 24px; width: 83.3333%; margin: 0 auto; }
+    .cat-grid .course-card { grid-column: span 3; }
+    .cat-grid .cat-dcard   { grid-column: span 4; }
+    .cat-body .course-card__title     { color: #1d386d; }
+    .cat-body .course-feat            { color: #474644; }
+    /* En las cards destacadas (azul oscuro) el texto debe ser blanco para que se lea */
+    .cat-body .cat-dcard__features .course-feat { color: #fff; }
+    .cat-body .course-card__price-now { color: #426cbe; }
+    .cat-body .course-card__price-was { color: #474644; }
+    .cat-body .course-card__ver-link  { color: var(--color-red-400); }
+    .cat-grid .course-card__actions   { flex-wrap: nowrap; gap: 10px; }
+    .cat-grid .course-card__actions .btn { flex: 1; justify-content: center; }
+
+    /* Card destacada: apariencia en landing.css (componente compartido); aquí solo la ubicación en grid (span 4) */
+
+    /* Pills de card: usan los colores correctos de landing.css
+       (continua #ff0040, enfermeria #6ea4dd, innovacion #2a55c3, servicio #a4c6fc, investigacion #165b8b) */
+
+    /* Empty state */
+    .cat-empty { text-align: center; padding: 64px 0; color: #62615e; font-family: var(--font-body); }
+    .cat-empty h3 { font-family: var(--font-display); color: #1d386d; font-size: 22px; margin: 0 0 8px; }
+
+    /* Load more */
+    .cat-loadmore { display: flex; justify-content: center; padding: 48px 0 0; }
+    .cat-loadmore[hidden] { display: none; }
+
+    .cat-body { padding-bottom: 64px; }
+
+    /* ── Mobile ── */
+    @media (max-width: 991px) {
+      .cat-hero { padding: 6px 24px 24px; }
+      /* El padding lateral lo da .cat-hero (24px); el .container interno no debe duplicarlo */
+      .cat-hero .container { padding-left: 0; padding-right: 0; }
+      .cat-hero__title { font-size: 32px; line-height: 40px; letter-spacing: -0.01em; }
+      .cat-hero__search { flex-direction: column; }
+      /* En columna, flex:1 colapsaría el alto (flex-basis 0 pisa height:56px) → fijar el alto */
+      .cat-hero__field { flex: 0 0 auto; }
+      .cat-hero__submit { width: 100%; justify-content: center; }
+      .cat-filterbar { padding: 16px; }
+      .cat-filterbar__inner { display: block; padding: 16px; }
+      /* Barra colapsada: Filtros + Inscríbete, uno al lado del otro */
+      .cat-filterbar__bar { display: flex; gap: 12px; }
+      .cat-filterbar__bar .btn { flex: 1; }
+      /* Filtros ocultos hasta tocar "Filtros" */
+      .cat-filterbar__fields { display: none; }
+      .cat-filterbar.is-open .cat-filterbar__fields { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+      /* Buscador visible dentro del panel; dropdowns y orden a todo el ancho */
+      .cat-filterbar.is-open .cat-filterbar__search { display: block; width: 100%; }
+      .cat-filterbar.is-open .cat-filterbar__search .navbar__search-bar { width: 100%; }
+      .cat-filterbar.is-open .cat-dd,
+      .cat-filterbar.is-open .cat-dd__btn { width: 100%; }
+      .cat-filterbar.is-open .cat-dd__btn { justify-content: space-between; }
+      .cat-filterbar.is-open .cat-dd__panel { width: 100%; }
+      .cat-filterbar.is-open .cat-sort { margin-left: 0; }
+      /* En mobile el CTA del panel no aplica (la barra ya trae "Inscríbete") */
+      .cat-filterbar.is-stuck .cat-filterbar__cta { display: none; }
+      .cat-featured { flex-direction: column; width: 100%; gap: 24px; }
+      .cat-featured__img { flex: none; width: 100%; height: 240px; align-self: auto; }
+      .cat-featured__title { font-size: 26px; line-height: 31px; letter-spacing: -0.01em; }
+      .cat-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 18px; width: 100%; }
+      .cat-grid .course-card { grid-column: span 1; }
+      .cat-grid .cat-dcard { grid-column: span 2; padding: 28px 24px; }
+    }
+    @media (max-width: 575px) {
+      .cat-grid { grid-template-columns: 1fr; gap: 40px; }
+      .cat-grid .course-card { grid-column: auto; }
+      .cat-grid .cat-dcard { grid-column: auto; }
+      .cat-sort { margin-left: 0; }
+      .cat-dd, .cat-dd__btn { width: 100%; }
+      .cat-dd__btn { justify-content: space-between; }
+      .cat-dd__panel { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header" role="banner">
+  <div class="topbar" role="complementary" aria-label="Información de contacto">
+    <div class="container">
+      <div class="topbar__items">
+        <a href="tel:+5713305555" class="topbar__item topbar__item--sep">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.166 10.073a1 1 0 00-1.375-.04l-1.32 1.205a14.6 14.6 0 01-5.709-5.71l1.206-1.32a1 1 0 00-.04-1.374L4.067.962A1 1 0 002.68.978L1.148 2.51A1.5 1.5 0 001 3.25C1 9.739 6.261 15 12.75 15a1.5 1.5 0 00.74-.148l1.532-1.532a1 1 0 00.016-1.387l-1.872-1.86z" fill="#E5EBF6"/></svg>
+          +571 330 5555
+        </a>
+        <a href="mailto:cardio-u@lacardio.org" class="topbar__item topbar__item--sep">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.5 2h-11A1.5 1.5 0 001 3.5v9A1.5 1.5 0 002.5 14h11a1.5 1.5 0 001.5-1.5v-9A1.5 1.5 0 0013.5 2zm-1.06 1L8 6.72 3.56 3h8.88zM2.5 13a.5.5 0 01-.5-.5V3.94l5.72 4.17a.5.5 0 00.56 0L14 3.94V12.5a.5.5 0 01-.5.5h-11z" fill="#E5EBF6"/></svg>
+          cardio-u@lacardio.org
+        </a>
+        <a href="#" class="topbar__item topbar__item--sep">LaCardio</a>
+        <a href="#" class="topbar__item">Fundación Cardioinfantil</a>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar navbar-expand-lg" aria-label="Navegación principal">
+    <div class="container">
+      <a href="home.html" class="navbar__logo navbar-brand" aria-label="CardioU — Inicio">
+        <img src="Assets/Cardio_u_Logo_blanco.svg" alt="CardioU" class="navbar__logo-svg" width="154" height="48">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Abrir menú">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <div class="navbar__search-bar ms-4" role="search">
+          <label for="site-search" class="sr-only">Buscar cursos</label>
+          <input id="site-search" type="search" class="navbar__search-input" placeholder="¿Qué deseas aprender?" aria-label="Buscar cursos">
+          <svg class="navbar__search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7.25" stroke="#b8cef9" stroke-width="1.5"/><path d="M16.5 16.5l4 4" stroke="#b8cef9" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="navbar__right ms-auto">
+          <div class="navbar__nav" role="list">
+            <a href="catalogo.html" class="navbar__link" role="listitem">Cursos</a>
+            <a href="home.html#escuelas" class="navbar__link" role="listitem">Escuelas <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="#" class="navbar__link" role="listitem">Acerca de nosotros</a>
+          </div>
+          <a href="#" class="btn btn-outline-white btn-lg">Inscríbete</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- ── SEARCH HERO ── -->
+<section class="cat-hero" aria-labelledby="cat-title">
+  <div class="container">
+    <nav class="cat-breadcrumb" aria-label="Ruta de navegación">
+      <a href="home.html">Inicio</a>
+      <span class="cat-breadcrumb__sep" aria-hidden="true">›</span>
+      <span aria-current="page">Catálogo de cursos</span>
+    </nav>
+    <div class="cat-hero__inner">
+      <p class="cat-hero__eyebrow">Catálogo de cursos</p>
+      <h1 class="cat-hero__title" id="cat-title">Encuentra tu próximo curso</h1>
+      <p class="cat-hero__sub">Programas diseñados por los especialistas de LaCardio. Busca por tema o explora por escuela.</p>
+      <form class="cat-hero__search" role="search" onsubmit="return false;">
+        <div class="cat-hero__field">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3.2-3.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <input type="search" class="cat-hero__input" id="catSearch" placeholder="Busca un curso, escuela o tema…" aria-label="Buscar cursos" autocomplete="off">
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg cat-hero__submit">Buscar</button>
+      </form>
+      <div class="cat-hero__chips" id="catChips" role="group" aria-label="Filtrar por escuela"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STICKY FILTER BAR ── -->
+<div class="cat-filterbar__sentinel" aria-hidden="true"></div>
+<div class="cat-filterbar">
+  <div class="cat-filterbar__inner">
+
+    <!-- Barra colapsada (mobile): Filtros + Inscríbete -->
+    <div class="cat-filterbar__bar">
+      <button type="button" class="btn btn-lg cat-filterbar__toggle" id="catFiltersToggle" aria-expanded="false" aria-controls="catFilters">
+        <img class="cat-filterbar__toggle-ic" src="Assets/Icons/icono-filtro.svg" width="20" height="20" alt="" aria-hidden="true">
+        <svg class="cat-filterbar__toggle-x" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span class="cat-filterbar__toggle-label">Filtros</span>
+      </button>
+      <a href="#" class="btn btn-outline-white btn-lg cat-filterbar__bar-cta">Inscríbete</a>
+    </div>
+
+    <!-- Filtros (colapsables en mobile; fila completa en desktop vía display:contents) -->
+    <div class="cat-filterbar__fields" id="catFilters">
+
+      <div class="cat-filterbar__search" role="search">
+        <div class="navbar__search-bar">
+          <label for="barSearch" class="sr-only">Buscar cursos</label>
+          <input id="barSearch" type="search" class="navbar__search-input" placeholder="¿Qué deseas aprender?" aria-label="Buscar cursos" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="barSearchResults" aria-autocomplete="list">
+          <svg class="navbar__search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7.25" stroke="#b8cef9" stroke-width="1.5"/><path d="M16.5 16.5l4 4" stroke="#b8cef9" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <ul class="cat-barsearch__results" id="barSearchResults" role="listbox" hidden></ul>
+      </div>
+
+      <div class="cat-dd" data-dd="escuela">
+        <button type="button" class="cat-dd__btn">Escuela <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="cat-dd__panel" hidden>
+          <label class="cat-opt"><input type="checkbox" data-filter="school" value="Formación Continua"> Formación Continua</label>
+          <label class="cat-opt"><input type="checkbox" data-filter="school" value="Enfermería"> Enfermería</label>
+          <label class="cat-opt"><input type="checkbox" data-filter="school" value="Innovación"> Innovación</label>
+          <label class="cat-opt"><input type="checkbox" data-filter="school" value="Servicio"> Servicio</label>
+          <label class="cat-opt"><input type="checkbox" data-filter="school" value="Pacientes Trasplantados"> Pacientes Trasplantados</label>
+        </div>
+      </div>
+
+      <div class="cat-dd" data-dd="modalidad">
+        <button type="button" class="cat-dd__btn">Modalidad <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="cat-dd__panel" hidden>
+          <label class="cat-opt"><input type="checkbox" data-filter="modality" value="Virtual"> Virtual</label>
+          <label class="cat-opt"><input type="checkbox" data-filter="modality" value="Presencial"> Presencial</label>
+          <label class="cat-opt"><input type="checkbox" data-filter="modality" value="Híbrido"> Híbrido</label>
+        </div>
+      </div>
+
+      <div class="cat-dd" data-dd="duracionprecio">
+        <button type="button" class="cat-dd__btn">Duración y precio <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="cat-dd__panel" hidden>
+          <div class="cat-optgroup">
+            <div class="cat-optgroup__label">Duración</div>
+            <label class="cat-opt"><input type="radio" name="duracion" data-filter="duration" value="" checked> Todas las duraciones</label>
+            <label class="cat-opt"><input type="radio" name="duracion" data-filter="duration" value="0-20"> Menos de 20 horas</label>
+            <label class="cat-opt"><input type="radio" name="duracion" data-filter="duration" value="20-50"> Entre 20 y 50 horas</label>
+            <label class="cat-opt"><input type="radio" name="duracion" data-filter="duration" value="50-999"> Más de 50 horas</label>
+          </div>
+          <div class="cat-rangegroup">
+            <div class="cat-rangegroup__label">Precio <span id="priceVal"></span></div>
+            <div class="cat-range" id="priceRange">
+              <div class="cat-range__track"></div>
+              <div class="cat-range__fill" id="priceFill"></div>
+              <input type="range" id="priceMin" aria-label="Precio mínimo">
+              <input type="range" id="priceMax" aria-label="Precio máximo">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cat-dd" data-dd="nivel">
+        <button type="button" class="cat-dd__btn">Nivel <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="cat-dd__panel" hidden>
+          <label class="cat-opt"><input type="checkbox" data-filter="level" value="Básico"> Básico</label>
+          <label class="cat-opt"><input type="checkbox" data-filter="level" value="Intermedio"> Intermedio</label>
+          <label class="cat-opt"><input type="checkbox" data-filter="level" value="Avanzado"> Avanzado</label>
+        </div>
+      </div>
+
+      <div class="cat-dd cat-sort" data-dd="orden">
+        <button type="button" class="cat-dd__btn">Ordenar: <span id="sortLabel">Más populares</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="cat-dd__panel" hidden style="left:auto;right:0;">
+          <label class="cat-opt"><input type="radio" name="orden" data-filter="sort" value="popular" checked> Más populares</label>
+          <label class="cat-opt"><input type="radio" name="orden" data-filter="sort" value="rating"> Mejor valorados</label>
+          <label class="cat-opt"><input type="radio" name="orden" data-filter="sort" value="price-asc"> Precio: menor a mayor</label>
+          <label class="cat-opt"><input type="radio" name="orden" data-filter="sort" value="price-desc"> Precio: mayor a menor</label>
+          <label class="cat-opt"><input type="radio" name="orden" data-filter="sort" value="recent"> Más recientes</label>
+        </div>
+      </div>
+
+      <a href="#" class="btn btn-outline-white btn-lg cat-filterbar__cta">Inscríbete</a>
+
+      </div>
+    </div>
+</div>
+
+<!-- ── BODY ── -->
+<div class="cat-body">
+  <div class="container">
+
+    <!-- Results bar -->
+    <div class="cat-results">
+      <span class="cat-results__count" id="catCount">—</span>
+      <span id="catActiveChips" style="display:flex;gap:8px;flex-wrap:wrap;"></span>
+      <button type="button" class="cat-results__clear" id="catClear" hidden>Limpiar filtros</button>
+    </div>
+
+    <!-- Featured -->
+    <article class="cat-featured" id="catFeatured" hidden></article>
+
+    <!-- Grid -->
+    <div class="cat-grid" id="catGrid"></div>
+
+    <!-- Empty state -->
+    <div class="cat-empty" id="catEmpty" hidden>
+      <h3>Sin resultados</h3>
+      <p>No encontramos cursos que coincidan. Prueba con otros filtros o términos de búsqueda.</p>
+    </div>
+
+    <!-- Load more -->
+    <div class="cat-loadmore" id="catLoadMore" hidden>
+      <button type="button" class="btn btn-outline-red btn-lg" id="catLoadMoreBtn">Cargar más cursos</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer class="footer" role="contentinfo">
+  <div class="footer__top">
+    <a href="home.html" class="footer__logo" aria-label="CardioU inicio">
+      <img src="Assets/Cardio_u_Logo.svg" alt="CardioU" width="170">
+    </a>
+    <nav class="footer__nav" aria-label="Navegación del pie de página">
+      <a href="home.html#escuelas" class="footer__nav-link">Escuelas</a>
+      <a href="catalogo.html"      class="footer__nav-link">Cursos</a>
+      <a href="#"                  class="footer__nav-link">Acerca de nosotros</a>
+      <a href="#"                  class="footer__nav-link">Políticas de tratamiento</a>
+      <a href="#"                  class="footer__nav-link">Términos y condiciones</a>
+    </nav>
+    <div class="footer__rrss" aria-label="Redes sociales">
+      <a href="#" class="footer__rrss-icon" aria-label="Twitter / X"><img src="Assets/Twitter.svg" width="36" height="36" alt="" aria-hidden="true"></a>
+      <a href="#" class="footer__rrss-icon" aria-label="Facebook"><img src="Assets/Facebook.svg" width="36" height="36" alt="" aria-hidden="true"></a>
+      <a href="#" class="footer__rrss-icon" aria-label="YouTube"><img src="Assets/Youtube.svg" width="36" height="36" alt="" aria-hidden="true"></a>
+      <a href="#" class="footer__rrss-icon" aria-label="Instagram"><img src="Assets/Instagram.svg" width="36" height="36" alt="" aria-hidden="true"></a>
+      <a href="#" class="footer__rrss-icon" aria-label="LinkedIn"><img src="Assets/linkedin.svg" width="36" height="36" alt="" aria-hidden="true"></a>
+      <a href="#" class="footer__rrss-icon" aria-label="TikTok"><img src="Assets/tiktok.svg" width="36" height="36" alt="" aria-hidden="true"></a>
+    </div>
+  </div>
+  <div class="footer__copyright">
+    <p>Copyright © 2026 - Todos los derechos, Fundación Cardioinfantil Instituto de Cardiología, Calle 163A # 13B - 60 Bogotá, Colombia</p>
+  </div>
+</footer>
+
+<a href="https://wa.me/573XXXXXXXXX" class="wa-float" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+  <img src="Assets/Whatsapp-SVG.svg" class="wa-float__icon" width="32" height="32" alt="" aria-hidden="true">
+  <span class="wa-float__text">solicita asesoría ahora</span>
+</a>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- ── Catálogo: datos + búsqueda + filtros + orden ── -->
+<script>
+(function () {
+  // Dataset de cursos (placeholder — reemplazar por datos reales del CMS/backend)
+  const COURSES = [
+    { id:1,  title:'Inteligencia Artificial en el Entorno Hospitalario', school:'Innovación',          pill:'innovacion',    hours:36, modules:6, rating:4.9, count:342, now:1540000, was:2190000, img:'img-ia.png',                    modality:'Virtual',    level:'Intermedio', featured:true,
+            desc:'Aplica IA a diagnóstico, gestión clínica y experiencia del paciente con casos reales del entorno hospitalario.' },
+    { id:2,  title:'Curso de Accesos Vasculares CAVA',                   school:'Enfermería',          pill:'enfermeria',    hours:65, modules:5, rating:4.9, count:87,  now:1600000, was:2490000, img:'img-cava.png',                  modality:'Híbrido',    level:'Avanzado', destacado:true,
+            desc:'Domina los accesos vasculares de alta complejidad con práctica presencial en las instalaciones de LaCardio.' },
+    { id:3,  title:'Innovación en Experiencia del Paciente',            school:'Innovación',          pill:'innovacion',    hours:60, modules:9, rating:4.8, count:156, now:1100000, was:1790000, img:'img-innovacion.png',            modality:'Virtual',    level:'Intermedio', destacado:true,
+            desc:'Rediseña la experiencia del paciente con design thinking aplicado al entorno hospitalario.' },
+    { id:4,  title:'Anticoagulación en Escenarios Cardiovasculares',    school:'Formación Continua',  pill:'continua',      hours:65, modules:6, rating:4.7, count:203, now:1100000, was:1690000, img:'img-anticoagulacion.png',       modality:'Presencial', level:'Avanzado' },
+    { id:5,  title:'Electrocardiografía Básica y Avanzada',             school:'Formación Continua',  pill:'continua',      hours:40, modules:7, rating:4.8, count:128, now:980000,  was:1490000, img:'IMG_card-1.png',                modality:'Virtual',    level:'Básico' },
+    { id:6,  title:'Reanimación Cardiopulmonar Avanzada (ACLS)',        school:'Formación Continua',  pill:'continua',      hours:24, modules:4, rating:4.9, count:410, now:890000,  was:1290000, img:'IMG_card-2.png',                modality:'Presencial', level:'Intermedio', destacado:true,
+            desc:'Entrena el manejo avanzado del paro cardiorrespiratorio con simulación clínica de alta fidelidad.' },
+    { id:7,  title:'Cuidado de Enfermería en UCI Cardiovascular',       school:'Enfermería',          pill:'enfermeria',    hours:50, modules:8, rating:4.8, count:95,  now:1350000, was:1990000, img:'IMG_card-3.png',                modality:'Híbrido',    level:'Avanzado' },
+    { id:8,  title:'Ecocardiografía para Clínicos',                     school:'Formación Continua',  pill:'continua',      hours:45, modules:7, rating:4.9, count:176, now:1700000, was:2390000, img:'IMG_card-4.png',                modality:'Híbrido',    level:'Avanzado' },
+    { id:9,  title:'Hemodinamia e Intervencionismo Cardíaco',          school:'Formación Continua',  pill:'continua',      hours:70, modules:10,rating:4.7, count:64,  now:2100000, was:2890000, img:'img-card-destacada-hero.jpg',   modality:'Presencial', level:'Avanzado', destacado:true,
+            desc:'Profundiza en intervencionismo cardíaco y procedimientos hemodinámicos de alta complejidad.' },
+    { id:10, title:'Insuficiencia Cardíaca: Manejo Integral',          school:'Pacientes Trasplantados', pill:'investigacion', hours:30, modules:6, rating:4.8, count:212, now:990000,  was:1490000, img:'img-ia.png',                modality:'Virtual',    level:'Intermedio' },
+    { id:11, title:'Manejo del Paciente con Arritmias',                school:'Formación Continua',  pill:'continua',      hours:38, modules:6, rating:4.7, count:88,  now:1250000, was:1790000, img:'img-cava.png',                  modality:'Virtual',    level:'Intermedio' },
+    { id:12, title:'Comunicación y Humanización en Salud',             school:'Servicio',            pill:'servicio',      hours:16, modules:3, rating:4.9, count:330, now:490000,  was:690000,  img:'img-innovacion.png',            modality:'Virtual',    level:'Básico', destacado:true,
+            desc:'Desarrolla habilidades de comunicación empática y humanización del cuidado en salud.' },
+    { id:13, title:'Farmacología Cardiovascular Aplicada',             school:'Formación Continua',  pill:'continua',      hours:28, modules:5, rating:4.6, count:140, now:850000,  was:1190000, img:'img-anticoagulacion.png',       modality:'Virtual',    level:'Intermedio' },
+    { id:14, title:'Rehabilitación Cardíaca y Prevención',             school:'Servicio',            pill:'servicio',      hours:22, modules:4, rating:4.8, count:118, now:720000,  was:1090000, img:'IMG_card-1.png',                modality:'Híbrido',    level:'Básico' },
+    { id:15, title:'Liderazgo Clínico para Equipos de Salud',          school:'Servicio',            pill:'servicio',      hours:18, modules:4, rating:4.7, count:76,  now:590000,  was:890000,  img:'IMG_card-2.png',                modality:'Virtual',    level:'Intermedio' },
+    { id:16, title:'Monitoreo Hemodinámico Avanzado',                  school:'Enfermería',          pill:'enfermeria',    hours:42, modules:6, rating:4.8, count:54,  now:1450000, was:1990000, img:'IMG_card-3.png',                modality:'Presencial', level:'Avanzado' }
+  ];
+
+  // Escuelas activas (colores Figma) + texto con buen contraste (WCAG) desde nuestra paleta
+  const SCHOOLS = [
+    { name:'Formación Continua',      pill:'continua',      bg:'#ff0040', text:'#ffffff' },
+    { name:'Enfermería',              pill:'enfermeria',    bg:'#6ea4dd', text:'#1d386d' },
+    { name:'Innovación',              pill:'innovacion',    bg:'#2a55c3', text:'#ffffff' },
+    { name:'Servicio',                pill:'servicio',      bg:'#a4c6fc', text:'#1d386d' },
+    { name:'Pacientes Trasplantados', pill:'investigacion', bg:'#165b8b', text:'#ffffff' }
+  ];
+  const PAGE = 9; // filas completas de 3 cards (2 normales + 1 destacada)
+
+  // Límites del slider de precio (a partir del dataset)
+  const PRICE_MIN = 490000, PRICE_MAX = 2100000;
+
+  // Estado
+  const state = { q:'', school:new Set(), modality:new Set(), level:new Set(),
+                  duration:'', durationLabel:'', priceLo:PRICE_MIN, priceHi:PRICE_MAX,
+                  sort:'popular', visible:PAGE };
+
+  // Helpers
+  const $  = (s, r=document) => r.querySelector(s);
+  const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+  const norm = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  const fmt  = n => '$ ' + n.toLocaleString('es-CO');
+  const disc = c => Math.round((1 - c.now / c.was) * 100);
+
+  /* Cursos con detalle real conectado (para la visualización del cliente).
+     El resto enruta a la página "en construcción". */
+  const CONNECTED = new Set([1, 2, 3]);
+  const courseHref = c => CONNECTED.has(c.id) ? 'curso.html?id=' + c.id : 'en-construccion.html';
+
+  // Elementos
+  const grid     = $('#catGrid');
+  const featured = $('#catFeatured');
+  const empty    = $('#catEmpty');
+  const countEl  = $('#catCount');
+  const chipsEl  = $('#catChips');
+  const activeEl = $('#catActiveChips');
+  const clearBtn = $('#catClear');
+  const loadWrap = $('#catLoadMore');
+  const sortLbl  = $('#sortLabel');
+
+  // Render chips de escuela en el hero (fondo = color de escuela, texto accesible)
+  chipsEl.innerHTML = SCHOOLS.map(s => '<button type="button" class="cat-chip" data-school="'+s.name+'" style="background:'+s.bg+';color:'+s.text+'">'+s.name+'</button>').join('');
+
+  function starsHTML() {
+    return '<svg width="16" height="16" viewBox="0 0 16 16" fill="#EF9F27" aria-hidden="true"><path d="M8 1l1.85 3.75L14 5.5l-3 2.92.71 4.13L8 10.5l-3.71 2.05L5 8.42 2 5.5l4.15-.75z"/></svg>';
+  }
+  function pillLabel(c){ return c.school; }
+
+  function cardHTML(c) {
+    return ''+
+    '<article class="course-card">'+
+      '<div class="course-card__img-area">'+(c.was>c.now?'<span class="discount-chip">-'+disc(c)+'%</span>':'')+'<a class="course-card__media-link" href="'+courseHref(c)+'"><img class="course-card__photo" src="Assets/'+c.img+'" alt="'+c.title+'"></a></div>'+
+      '<div class="course-card__body">'+
+        '<span class="course-pill course-pill--'+c.pill+'">'+pillLabel(c)+'</span>'+
+        '<h3 class="course-card__title"><a class="course-card__title-link" href="'+courseHref(c)+'">'+c.title+'</a></h3>'+
+        '<div class="course-card__features">'+
+          '<span class="course-feat"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">'+c.hours+' horas</span>'+
+          '<span class="course-feat"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="" aria-hidden="true">'+c.modules+' módulos</span>'+
+          '<span class="course-feat course-feat--rating">'+starsHTML()+c.rating.toFixed(1)+' ('+c.count+')</span>'+
+        '</div>'+
+        '<div class="course-card__price"><span class="course-card__price-now">'+fmt(c.now)+'</span><span class="course-card__price-was">'+fmt(c.was)+'</span></div>'+
+        '<div class="course-card__actions">'+
+          '<a href="'+courseHref(c)+'" class="course-card__ver-link">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>'+
+          '<a href="'+courseHref(c)+'" class="btn btn-outline-red btn-lg">Inscribirme</a>'+
+        '</div>'+
+      '</div>'+
+    '</article>';
+  }
+
+  // Card destacada en grid (fondo azul + formas, texto blanco) — Figma 2159:493
+  function cardDestacadoHTML(c) {
+    return ''+
+    '<article class="cat-dcard">'+
+      '<img class="cat-dcard__bg" src="Assets/BG-contenedor-card-nueva.svg" alt="" aria-hidden="true">'+
+      '<div class="cat-dcard__body">'+
+        '<div class="cat-dcard__info">'+
+          '<span class="course-pill course-pill--'+c.pill+'">'+c.school+'</span>'+
+          '<div class="cat-dcard__block">'+
+            '<h3 class="cat-dcard__title">'+c.title+'</h3>'+
+            '<p class="cat-dcard__desc">'+(c.desc||'')+'</p>'+
+            '<div class="cat-dcard__features">'+
+              '<span class="course-feat"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">'+c.hours+' horas</span>'+
+              '<span class="course-feat"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="" aria-hidden="true">'+c.modules+' módulos</span>'+
+              '<span class="course-feat"><img src="Assets/Icons/Feature Icon-dm.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>'+
+              '<span class="course-feat course-feat--rating">'+starsHTML()+c.rating.toFixed(1)+' ('+c.count+')</span>'+
+            '</div>'+
+          '</div>'+
+        '</div>'+
+        '<div class="cat-dcard__price"><span class="cat-dcard__price-now">'+fmt(c.now)+'</span><span class="cat-dcard__price-was">'+fmt(c.was)+'</span></div>'+
+        '<div class="cat-dcard__actions">'+
+          '<a href="'+courseHref(c)+'" class="cat-dcard__ver">Ver curso <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>'+
+          '<a href="'+courseHref(c)+'" class="btn btn-outline-white btn-lg">Inscribirme</a>'+
+        '</div>'+
+      '</div>'+
+    '</article>';
+  }
+
+  function featuredHTML(c) {
+    return ''+
+    '<img class="cat-featured__img" src="Assets/img-curso-destacado.jpg" alt="'+c.title+'">'+
+    '<div class="cat-featured__body">'+
+      '<div class="cat-featured__head">'+
+        '<div class="cat-featured__textblock">'+
+          '<p class="cat-featured__eyebrow">Curso destacado</p>'+
+          '<h2 class="cat-featured__title">'+c.title+'</h2>'+
+          '<p class="cat-featured__desc">'+(c.desc||'')+'</p>'+
+        '</div>'+
+        '<div class="cat-featured__features">'+
+          '<span class="course-feat" style="color:#474644"><img src="Assets/Icons/Tiempo-dm.svg" width="16" height="16" alt="" aria-hidden="true">'+c.hours+' horas</span>'+
+          '<span class="course-feat" style="color:#474644"><img src="Assets/Icons/Modulos-dm.svg" width="16" height="16" alt="" aria-hidden="true">'+c.modules+' módulos</span>'+
+          '<span class="course-feat course-feat--rating" style="color:#474644">'+starsHTML()+c.rating.toFixed(1)+' ('+c.count+')</span>'+
+          '<span class="course-feat" style="color:#474644"><img src="Assets/Icons/Feature Icon-dm.svg" width="16" height="16" alt="" aria-hidden="true">Certificado</span>'+
+        '</div>'+
+      '</div>'+
+      '<div class="cat-featured__price">'+
+        '<div class="cat-featured__price-row">'+
+          '<span class="cat-featured__price-now">'+fmt(c.now)+'</span>'+
+          '<span class="cat-featured__price-was">'+fmt(c.was)+'</span>'+
+        '</div>'+
+        '<div class="cat-featured__actions">'+
+          '<a href="'+courseHref(c)+'" class="btn btn-outline-red btn-lg">Ver curso</a>'+
+          '<a href="'+courseHref(c)+'" class="btn btn-primary btn-lg">Inscribirme</a>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  }
+
+  function durNarrowed()   { return state.duration !== ''; }
+  function priceNarrowed() { return state.priceLo > PRICE_MIN || state.priceHi < PRICE_MAX; }
+
+  function hasActiveFilters() {
+    return state.q !== '' || state.school.size || state.modality.size || state.level.size || durNarrowed() || priceNarrowed();
+  }
+
+  function filtered() {
+    const q = norm(state.q);
+    return COURSES.filter(c => {
+      if (q && norm(c.title + ' ' + c.school).indexOf(q) === -1) return false;
+      if (state.school.size && !state.school.has(c.school)) return false;
+      if (state.modality.size && !state.modality.has(c.modality)) return false;
+      if (state.level.size && !state.level.has(c.level)) return false;
+      if (state.duration) { const [a,b] = state.duration.split('-').map(Number); if (c.hours < a || c.hours > b) return false; }
+      if (c.now < state.priceLo || c.now > state.priceHi) return false;
+      return true;
+    });
+  }
+
+  function sorted(list) {
+    const l = list.slice();
+    switch (state.sort) {
+      case 'rating':     l.sort((a,b)=> b.rating - a.rating || b.count - a.count); break;
+      case 'price-asc':  l.sort((a,b)=> a.now - b.now); break;
+      case 'price-desc': l.sort((a,b)=> b.now - a.now); break;
+      case 'recent':     l.sort((a,b)=> b.id - a.id); break;
+      default:           l.sort((a,b)=> b.count - a.count); // popular
+    }
+    return l;
+  }
+
+  function renderActiveChips() {
+    const chips = [];
+    const push = (label, type, value) => chips.push('<span class="cat-activechip">'+label+' <button type="button" data-rm-type="'+type+'" data-rm-value="'+value+'" aria-label="Quitar filtro">✕</button></span>');
+    state.school.forEach(v => push(v, 'school', v));
+    state.modality.forEach(v => push(v, 'modality', v));
+    state.level.forEach(v => push(v, 'level', v));
+    if (durNarrowed())   push('Duración: ' + state.durationLabel, 'duration', '');
+    if (priceNarrowed()) push('Precio: ' + fmt(state.priceLo) + ' – ' + fmt(state.priceHi), 'price', '');
+    activeEl.innerHTML = chips.join('');
+    const anyFilter = state.school.size || state.modality.size || state.level.size || durNarrowed() || priceNarrowed();
+    clearBtn.hidden = !anyFilter;
+  }
+
+  // Orden del grid: filas de 2 normales + 1 destacada; la destacada alterna
+  // de lado por fila (par → derecha [n,n,d]; impar → izquierda [d,n,n]).
+  function buildLayout(list) {
+    const normals = list.filter(c => !c.destacado);
+    const dests   = list.filter(c => c.destacado);
+    const out = [];
+    let r = 0;
+    while (normals.length || dests.length) {
+      const row = [];
+      const n1 = normals.shift(), n2 = normals.shift(), d = dests.shift();
+      if (d) {
+        if (r % 2 === 0) { if (n1) row.push(n1); if (n2) row.push(n2); row.push(d); }
+        else            { row.push(d); if (n1) row.push(n1); if (n2) row.push(n2); }
+      } else {
+        if (n1) row.push(n1); if (n2) row.push(n2);
+      }
+      out.push.apply(out, row);
+      r++;
+    }
+    return out;
+  }
+
+  function render() {
+    const all = sorted(filtered());
+    countEl.textContent = all.length + (all.length === 1 ? ' curso' : ' cursos');
+
+    // Featured solo en vista por defecto (sin filtros ni búsqueda)
+    const showFeatured = !hasActiveFilters();
+    const fc = COURSES.find(c => c.featured);
+    let gridList = all;
+    if (showFeatured && fc) {
+      featured.innerHTML = featuredHTML(fc);
+      featured.hidden = false;
+      gridList = all.filter(c => c.id !== fc.id);
+    } else {
+      featured.hidden = true;
+    }
+
+    empty.hidden = all.length !== 0;
+
+    const layout = buildLayout(gridList);
+    const slice = layout.slice(0, state.visible);
+    grid.innerHTML = slice.map(c => c.destacado ? cardDestacadoHTML(c) : cardHTML(c)).join('');
+    loadWrap.hidden = state.visible >= layout.length;
+
+    renderActiveChips();
+
+    // Sync hero chips
+    $$('.cat-chip', chipsEl).forEach(ch => ch.classList.toggle('is-active', state.school.has(ch.dataset.school)));
+    // Sync dropdown button active states
+    $$('.cat-dd').forEach(dd => {
+      const t = dd.dataset.dd;
+      const btn = $('.cat-dd__btn', dd);
+      let on = false;
+      if (t==='escuela')        on = state.school.size>0;
+      if (t==='modalidad')      on = state.modality.size>0;
+      if (t==='nivel')          on = state.level.size>0;
+      if (t==='duracionprecio') on = durNarrowed() || priceNarrowed();
+      if (btn && t!=='orden') btn.classList.toggle('is-active', on);
+    });
+  }
+
+  // ── Eventos ──
+
+  // Búsqueda hero
+  $('#catSearch').addEventListener('input', function () { state.q = this.value.trim(); state.visible = PAGE; render(); });
+
+  // Chips de escuela (hero)
+  chipsEl.addEventListener('click', function (e) {
+    const ch = e.target.closest('.cat-chip'); if (!ch) return;
+    const v = ch.dataset.school;
+    if (state.school.has(v)) state.school.delete(v); else state.school.add(v);
+    syncSchoolCheckboxes();
+    state.visible = PAGE; render();
+  });
+
+  function syncSchoolCheckboxes() {
+    $$('input[data-filter="school"]').forEach(cb => { cb.checked = state.school.has(cb.value); });
+  }
+
+  // Inputs de los dropdowns (checkbox/radio; los sliders se manejan aparte)
+  $$('.cat-dd__panel input:not([type=range])').forEach(inp => {
+    inp.addEventListener('change', function () {
+      const f = this.dataset.filter, v = this.value;
+      if (f === 'school')   { this.checked ? state.school.add(v) : state.school.delete(v); }
+      else if (f === 'modality') { this.checked ? state.modality.add(v) : state.modality.delete(v); }
+      else if (f === 'level')    { this.checked ? state.level.add(v) : state.level.delete(v); }
+      else if (f === 'duration') { state.duration = v; state.durationLabel = this.closest('.cat-opt').textContent.trim(); }
+      else if (f === 'sort')     { state.sort = v; sortLbl.textContent = this.closest('.cat-opt').textContent.trim(); }
+      state.visible = PAGE; render();
+    });
+  });
+
+  // ── Dual-range sliders (Duración y precio) ──
+  function setupRange(minEl, maxEl, fillEl, lo, hi, onChange) {
+    minEl.min = maxEl.min = lo; minEl.max = maxEl.max = hi;
+    function paint(loV, hiV) {
+      const pLo = (loV - lo) / (hi - lo) * 100, pHi = (hiV - lo) / (hi - lo) * 100;
+      fillEl.style.left = pLo + '%';
+      fillEl.style.width = (pHi - pLo) + '%';
+    }
+    function handle(which) {
+      let loV = +minEl.value, hiV = +maxEl.value;
+      if (loV > hiV) { if (which === 'min') loV = hiV; else hiV = loV; minEl.value = loV; maxEl.value = hiV; }
+      paint(loV, hiV);
+      onChange(loV, hiV);
+    }
+    minEl.addEventListener('input', () => handle('min'));
+    maxEl.addEventListener('input', () => handle('max'));
+    return { paint, setVals(loV, hiV) { minEl.value = loV; maxEl.value = hiV; paint(loV, hiV); } };
+  }
+
+  const priceValEl = $('#priceVal');
+  $('#priceMin').step = $('#priceMax').step = 10000;
+
+  const priceRange = setupRange($('#priceMin'), $('#priceMax'), $('#priceFill'), PRICE_MIN, PRICE_MAX, (lo, hi) => {
+    state.priceLo = lo; state.priceHi = hi; priceValEl.textContent = fmt(lo) + ' – ' + fmt(hi);
+    state.visible = PAGE; render();
+  });
+  // Duración: radios (rangos predefinidos) en vez de slider
+  function resetDur()   { state.duration = ''; state.durationLabel = ''; const r = document.querySelector('input[data-filter="duration"][value=""]'); if (r) r.checked = true; }
+  function resetPrice() { state.priceLo = PRICE_MIN; state.priceHi = PRICE_MAX; priceRange.setVals(PRICE_MIN, PRICE_MAX); priceValEl.textContent = fmt(PRICE_MIN) + ' – ' + fmt(PRICE_MAX); }
+  resetDur(); resetPrice();
+
+  // Abrir/cerrar dropdowns
+  $$('.cat-dd__btn').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      const dd = this.closest('.cat-dd');
+      const open = dd.classList.contains('is-open');
+      closeAllDD();
+      if (!open) { dd.classList.add('is-open'); $('.cat-dd__panel', dd).hidden = false; }
+    });
+  });
+  function closeAllDD() {
+    $$('.cat-dd').forEach(dd => { dd.classList.remove('is-open'); const p = $('.cat-dd__panel', dd); if (p) p.hidden = true; });
+  }
+  document.addEventListener('click', function (e) { if (!e.target.closest('.cat-dd')) closeAllDD(); });
+
+  // Quitar chip activo
+  activeEl.addEventListener('click', function (e) {
+    const b = e.target.closest('[data-rm-type]'); if (!b) return;
+    const t = b.dataset.rmType, v = b.dataset.rmValue;
+    if (t==='school')   { state.school.delete(v); syncSchoolCheckboxes(); }
+    if (t==='modality') { state.modality.delete(v); $$('input[data-filter="modality"]').forEach(cb=>{ if(cb.value===v) cb.checked=false; }); }
+    if (t==='level')    { state.level.delete(v); $$('input[data-filter="level"]').forEach(cb=>{ if(cb.value===v) cb.checked=false; }); }
+    if (t==='duration') { resetDur(); }
+    if (t==='price')    { resetPrice(); }
+    state.visible = PAGE; render();
+  });
+
+  // Limpiar filtros
+  clearBtn.addEventListener('click', function () {
+    state.school.clear(); state.modality.clear(); state.level.clear();
+    $$('.cat-dd__panel input[type="checkbox"]').forEach(cb=>cb.checked=false);
+    resetDur(); resetPrice();
+    state.visible = PAGE; render();
+  });
+
+  // Cargar más
+  $('#catLoadMoreBtn').addEventListener('click', function () { state.visible += PAGE; render(); });
+
+  // ── Buscador de la barra fija: autocompletado en vivo (3+ letras) ──
+  (function () {
+    const input = $('#barSearch'), box = $('#barSearchResults');
+    if (!input || !box) return;
+    const MIN = 3, MAX = 6;
+    const ICON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+      '<path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11a2 2 0 0 1 2 2v13a1.5 1.5 0 0 0-1.5-1.5H5.5A1.5 1.5 0 0 1 4 16V5.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>' +
+      '<path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13a2 2 0 0 0-2 2v13a1.5 1.5 0 0 1 1.5-1.5h6A1.5 1.5 0 0 0 20 16V5.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+    function buildNorm(str) {
+      let n = ''; const map = [];
+      for (let i = 0; i < str.length; i++) {
+        const c = str[i].normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        for (const ch of c) { n += ch; map.push(i); }
+      }
+      return { norm: n, map };
+    }
+    const esc = s => s.replace(/[&<>"]/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[m]));
+    function highlight(title, q) {
+      const { norm, map } = buildNorm(title);
+      const idx = norm.indexOf(q); if (idx < 0) return esc(title);
+      const s = map[idx], e = map[idx + q.length - 1];
+      return esc(title.slice(0, s)) + '<mark>' + esc(title.slice(s, e + 1)) + '</mark>' + esc(title.slice(e + 1));
+    }
+    let matches = [], active = -1;
+    function close() { box.hidden = true; box.innerHTML = ''; active = -1; input.setAttribute('aria-expanded', 'false'); input.removeAttribute('aria-activedescendant'); }
+    function render(q) {
+      matches = COURSES.filter(c => buildNorm(c.title + ' ' + c.school).norm.indexOf(q) !== -1).slice(0, MAX);
+      active = -1;
+      if (!matches.length) { box.innerHTML = '<li class="cat-barsearch__empty">Sin resultados para “' + esc(q) + '”</li>'; }
+      else {
+        box.innerHTML = matches.map((c, i) =>
+          '<li id="bar-opt-' + i + '" role="option" class="cat-barsearch__result" data-i="' + i + '">' +
+            '<span class="cat-barsearch__result-icon">' + ICON + '</span>' +
+            '<span class="cat-barsearch__result-text">' +
+              '<span class="cat-barsearch__result-title">' + highlight(c.title, q) + '</span>' +
+              '<span class="cat-barsearch__result-cat">' + esc(c.school) + '</span>' +
+            '</span></li>'
+        ).join('');
+      }
+      box.hidden = false; input.setAttribute('aria-expanded', 'true');
+    }
+    function setActive(i) {
+      const items = box.querySelectorAll('.cat-barsearch__result'); if (!items.length) return;
+      active = (i + items.length) % items.length;
+      items.forEach((el, idx) => el.classList.toggle('is-active', idx === active));
+      input.setAttribute('aria-activedescendant', 'bar-opt-' + active);
+      items[active].scrollIntoView({ block: 'nearest' });
+    }
+    function go(i) { if (matches[i]) window.location.href = courseHref(matches[i]); }
+    input.addEventListener('input', function () {
+      const q = buildNorm(input.value.trim()).norm;
+      if (q.length < MIN) { close(); return; }
+      render(q);
+    });
+    input.addEventListener('keydown', function (e) {
+      if (box.hidden) return;
+      if (e.key === 'ArrowDown')      { e.preventDefault(); setActive(active + 1); }
+      else if (e.key === 'ArrowUp')   { e.preventDefault(); setActive(active - 1); }
+      else if (e.key === 'Enter' && active >= 0) { e.preventDefault(); go(active); }
+      else if (e.key === 'Escape')    { close(); }
+    });
+    box.addEventListener('mousedown', function (e) {
+      const li = e.target.closest('.cat-barsearch__result'); if (li) { e.preventDefault(); go(Number(li.dataset.i)); }
+    });
+    document.addEventListener('click', function (e) { if (!e.target.closest('.cat-filterbar__search')) close(); });
+  })();
+
+  // Init: ?q= o ?escuela= desde la URL (ej. al venir del home)
+  const params = new URLSearchParams(location.search);
+  if (params.get('q'))       { state.q = params.get('q'); $('#catSearch').value = state.q; }
+  if (params.get('escuela')) { state.school.add(params.get('escuela')); syncSchoolCheckboxes(); }
+
+  render();
+})();
+</script>
+
+<script>
+  /* Filter bar: mostrar "Inscríbete" cuando la barra queda fija (scroll) */
+  (function () {
+    const sentinel = document.querySelector('.cat-filterbar__sentinel');
+    const fbar = document.querySelector('.cat-filterbar');
+    if (!sentinel || !fbar || !('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver(function (entries) {
+      const e = entries[0];
+      fbar.classList.toggle('is-stuck', !e.isIntersecting && e.boundingClientRect.top < 0);
+    }, { threshold: [0] });
+    io.observe(sentinel);
+  })();
+
+  /* Filtros mobile: toggle del contenedor colapsable (Filtros ⇄ Cerrar) */
+  (function () {
+    const fbar = document.querySelector('.cat-filterbar');
+    const toggle = document.getElementById('catFiltersToggle');
+    if (!fbar || !toggle) return;
+    const label = toggle.querySelector('.cat-filterbar__toggle-label');
+    toggle.addEventListener('click', function () {
+      const open = fbar.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (label) label.textContent = open ? 'Cerrar' : 'Filtros';
+      toggle.blur(); // quita el foco para que en touch no quede el estado "pegado"
+    });
+  })();
+</script>
+
+<script>
+  /* WA float — anclar sobre el footer al hacer scroll */
+  (function () {
+    const btn = document.querySelector('.wa-float');
+    const anchor = document.querySelector('.footer');
+    if (!btn || !anchor) return;
+    const gap = 16;
+    function pos() {
+      const top = anchor.getBoundingClientRect().top;
+      btn.style.bottom = top < window.innerHeight ? (window.innerHeight - top + gap) + 'px' : '32px';
+    }
+    window.addEventListener('scroll', pos, { passive: true });
+    pos();
+  })();
+</script>
+
+</body>
+</html>

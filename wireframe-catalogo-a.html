@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wireframe Catálogo — Opción A (Sidebar de filtros)</title>
+<link rel="stylesheet" href="lacardio-tokens.css">
+<style>
+  /* ── Wireframe styling — grayscale skeleton + brand fonts ── */
+  :root{
+    --wf-bg:#ffffff; --wf-bg-2:#f4f3f0; --wf-line:#cfccc6; --wf-line-2:#e3e1dc;
+    --wf-fill:#e8e6e1; --wf-fill-2:#f1efeb; --wf-bar:#d6d3cd; --wf-bar-2:#e6e3dd;
+    --wf-ink:#5b5954; --wf-ink-2:#8a8884; --wf-dark:#3a3f47;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:var(--font-body,'Inter',sans-serif);color:var(--wf-ink);background:var(--wf-bg);}
+  h1,h2,h3,h4{font-family:var(--font-display,'Garet',sans-serif);font-weight:800;color:var(--wf-dark);margin:0;}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 40px;}
+  .muted{color:var(--wf-ink-2);}
+
+  /* skeleton helpers */
+  .bar{height:10px;border-radius:6px;background:var(--wf-bar);display:block;}
+  .bar.sm{height:8px;background:var(--wf-bar-2);}
+  .bar.w90{width:90%;} .bar.w75{width:75%;} .bar.w60{width:60%;} .bar.w40{width:40%;} .bar.w30{width:30%;}
+  .imgph{background:repeating-linear-gradient(45deg,var(--wf-fill),var(--wf-fill) 10px,var(--wf-fill-2) 10px,var(--wf-fill-2) 20px);
+         border:1px dashed var(--wf-line);border-radius:8px;display:flex;align-items:center;justify-content:center;
+         color:var(--wf-ink-2);font-size:11px;letter-spacing:.12em;text-transform:uppercase;}
+  .pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--wf-line);border-radius:999px;
+        padding:7px 14px;font-size:13px;color:var(--wf-ink);background:#fff;}
+  .btnw{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:999px;padding:10px 20px;
+        font-size:14px;font-weight:700;border:1.5px solid var(--wf-dark);color:var(--wf-dark);background:#fff;}
+  .btnw.solid{background:var(--wf-dark);color:#fff;}
+  .box{border:1px solid var(--wf-line-2);border-radius:12px;background:#fff;}
+
+  /* wireframe banner */
+  .wf-banner{position:sticky;top:0;z-index:50;background:#1d386d;color:#fff;font-size:12px;
+             letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:7px 12px;font-weight:700;}
+  .wf-banner span{opacity:.7;font-weight:400;letter-spacing:.04em;text-transform:none;}
+
+  /* header */
+  .nav{background:var(--wf-dark);}
+  .nav .wrap{display:flex;align-items:center;gap:24px;height:72px;}
+  .nav__logo{width:130px;height:36px;border:1px dashed rgba(255,255,255,.4);border-radius:6px;display:flex;
+             align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:11px;letter-spacing:.1em;}
+  .nav__search{flex:1;max-width:360px;height:40px;border-radius:999px;background:rgba(255,255,255,.12);
+               display:flex;align-items:center;padding:0 16px;color:rgba(255,255,255,.6);font-size:13px;gap:8px;}
+  .nav__links{display:flex;gap:20px;margin-left:auto;}
+  .nav__links span{color:rgba(255,255,255,.85);font-size:14px;}
+  .nav__btn{border:1.5px solid rgba(255,255,255,.6);color:#fff;border-radius:999px;padding:8px 18px;font-size:13px;font-weight:700;}
+  .nav__btn.solid{background:#ee335a;border-color:#ee335a;}
+
+  /* page head */
+  .crumb{font-size:12px;color:var(--wf-ink-2);padding:20px 0 0;}
+  .pagehead{padding:14px 0 26px;}
+  .pagehead h1{font-size:40px;line-height:1.15;margin-bottom:10px;}
+  .pagehead p{max-width:560px;margin:0 0 22px;font-size:15px;}
+  .searchbar{display:flex;gap:12px;max-width:680px;}
+  .searchbar .field{flex:1;height:52px;border:1px solid var(--wf-line);border-radius:999px;background:#fff;
+                    display:flex;align-items:center;padding:0 22px;gap:10px;color:var(--wf-ink-2);font-size:14px;}
+  .searchbar .field::before{content:"";width:18px;height:18px;border:2px solid var(--wf-ink-2);border-radius:50%;flex:0 0 auto;}
+
+  /* toolbar */
+  .toolbar{display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-top:1px solid var(--wf-line-2);
+           border-bottom:1px solid var(--wf-line-2);margin-bottom:28px;}
+  .toolbar .count{font-size:14px;color:var(--wf-dark);font-weight:700;}
+
+  /* layout: sidebar + grid */
+  .catalog{display:grid;grid-template-columns:264px 1fr;gap:36px;padding-bottom:56px;}
+  .filters{align-self:start;position:sticky;top:96px;}
+  .filters__head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+  .filters__head h3{font-size:18px;}
+  .filters__head a{font-size:12px;color:var(--wf-ink-2);text-decoration:underline;}
+  .fgroup{border-top:1px solid var(--wf-line-2);padding:18px 0;}
+  .fgroup__title{display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:700;
+                 color:var(--wf-dark);margin-bottom:14px;}
+  .fgroup__title::after{content:"–";color:var(--wf-ink-2);}
+  .check{display:flex;align-items:center;gap:10px;margin-bottom:11px;font-size:13px;color:var(--wf-ink);}
+  .check i{width:16px;height:16px;border:1.5px solid var(--wf-line);border-radius:4px;flex:0 0 auto;display:block;}
+  .check.on i{background:var(--wf-dark);border-color:var(--wf-dark);}
+  .range{height:6px;border-radius:999px;background:var(--wf-line-2);position:relative;margin:18px 4px 8px;}
+  .range::before,.range::after{content:"";position:absolute;top:50%;width:16px;height:16px;border-radius:50%;
+            background:#fff;border:2px solid var(--wf-dark);transform:translateY(-50%);}
+  .range::before{left:18%;} .range::after{left:64%;}
+
+  /* card grid */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .card{display:flex;flex-direction:column;}
+  .card .imgph{height:150px;margin-bottom:14px;}
+  .card .tag{align-self:flex-start;border-bottom:3px solid var(--wf-line);padding-bottom:3px;font-size:12px;
+             color:var(--wf-ink);margin-bottom:12px;}
+  .card h3{font-size:17px;line-height:1.25;margin-bottom:12px;color:var(--wf-dark);}
+  .card .feats{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;}
+  .card .feats .pill{font-size:11px;padding:4px 10px;}
+  .card .price{display:flex;align-items:baseline;gap:10px;margin-bottom:14px;}
+  .card .price .now{height:14px;width:90px;border-radius:6px;background:var(--wf-bar);}
+  .card .price .was{height:10px;width:60px;border-radius:6px;background:var(--wf-bar-2);}
+  .card .actions{display:flex;gap:10px;margin-top:auto;}
+  .card .actions .btnw{flex:1;padding:9px 0;font-size:13px;}
+
+  /* pagination */
+  .pager{display:flex;justify-content:center;gap:8px;padding:36px 0 0;}
+  .pager span{width:38px;height:38px;border:1px solid var(--wf-line);border-radius:8px;display:flex;
+              align-items:center;justify-content:center;font-size:14px;color:var(--wf-ink);}
+  .pager span.on{background:var(--wf-dark);color:#fff;border-color:var(--wf-dark);}
+
+  /* footer */
+  .foot{background:var(--wf-dark);color:rgba(255,255,255,.7);padding:44px 0;margin-top:20px;}
+  .foot .cols{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:32px;}
+  .foot .bar{background:rgba(255,255,255,.18);}
+  .foot .bar.sm{background:rgba(255,255,255,.12);}
+
+  /* annotation callouts */
+  .note{position:relative;}
+  .anno{font-size:11px;color:#ee335a;border:1px dashed #ee335a;border-radius:6px;padding:3px 8px;display:inline-block;margin:6px 0;}
+
+  @media(max-width:880px){
+    .catalog{grid-template-columns:1fr;}
+    .filters{position:static;}
+    .grid{grid-template-columns:repeat(2,1fr);}
+    .nav__links{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wf-banner">Wireframe · Catálogo — Opción A &nbsp; <span>Sidebar de filtros persistente + grid 3 columnas</span></div>
+
+<!-- HEADER -->
+<header class="nav">
+  <div class="wrap">
+    <div class="nav__logo">LOGO</div>
+    <div class="nav__search">○ &nbsp; ¿Qué deseas aprender?</div>
+    <div class="nav__links"><span>Escuelas ▾</span><span>Nosotros</span><span>Contacto</span></div>
+    <div class="nav__btn">Ingresar</div>
+    <div class="nav__btn solid">Inscríbete</div>
+  </div>
+</header>
+
+<!-- PAGE HEAD -->
+<div class="wrap">
+  <div class="crumb">Inicio › <strong>Catálogo de cursos</strong></div>
+  <div class="pagehead">
+    <h1>Catálogo de cursos</h1>
+    <p class="muted">Explora todos los programas de CardioU. Filtra por escuela, modalidad, duración y precio para encontrar el curso ideal.</p>
+    <div class="searchbar">
+      <div class="field">Busca un curso, escuela o tema…</div>
+      <div class="btnw solid">Buscar</div>
+    </div>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <div class="count">24 cursos encontrados</div>
+    <div class="pill">Ordenar por: Más populares ▾</div>
+  </div>
+
+  <!-- CATALOG: sidebar + grid -->
+  <div class="catalog">
+
+    <!-- SIDEBAR FILTERS -->
+    <aside class="filters">
+      <div class="filters__head">
+        <h3>Filtros</h3>
+        <a href="#">Limpiar todo</a>
+      </div>
+
+      <div class="fgroup">
+        <div class="fgroup__title">Escuela</div>
+        <div class="check on"><i></i> Medicina</div>
+        <div class="check"><i></i> Enfermería</div>
+        <div class="check on"><i></i> Innovación</div>
+        <div class="check"><i></i> Electrofisiología</div>
+        <div class="check"><i></i> Habilidades</div>
+        <div class="check"><i></i> Servicio</div>
+      </div>
+
+      <div class="fgroup">
+        <div class="fgroup__title">Modalidad</div>
+        <div class="check"><i></i> Virtual</div>
+        <div class="check"><i></i> Presencial</div>
+        <div class="check"><i></i> Híbrido</div>
+      </div>
+
+      <div class="fgroup">
+        <div class="fgroup__title">Duración</div>
+        <div class="check"><i></i> Menos de 20 h</div>
+        <div class="check"><i></i> 20 – 50 h</div>
+        <div class="check"><i></i> Más de 50 h</div>
+      </div>
+
+      <div class="fgroup">
+        <div class="fgroup__title">Precio</div>
+        <div class="range"></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;" class="muted"><span>$0</span><span>$2.5M</span></div>
+      </div>
+
+      <div class="fgroup">
+        <div class="fgroup__title">Nivel</div>
+        <div class="check"><i></i> Básico</div>
+        <div class="check"><i></i> Intermedio</div>
+        <div class="check"><i></i> Avanzado</div>
+      </div>
+    </aside>
+
+    <!-- GRID -->
+    <section>
+      <div class="grid">
+        <!-- card x9 -->
+        <article class="card"><div class="imgph">Imagen</div><span class="tag">Escuela</span><h3>Título del curso de ejemplo</h3><div class="feats"><span class="pill">⏱ 36 h</span><span class="pill">▦ 6 módulos</span><span class="pill">★ 4.9</span></div><div class="price"><span class="now"></span><span class="was"></span></div><div class="actions"><div class="btnw">Ver curso</div><div class="btnw solid">Inscribirme</div></div></article>
+        <article class="card"><div class="imgph">Imagen</div><span class="tag">Escuela</span><h3>Título del curso de ejemplo más largo</h3><div class="feats"><span class="pill">⏱ 65 h</span><span class="pill">▦ 5 módulos</span><span class="pill">★ 4.8</span></div><div class="price"><span class="now"></span><span class="was"></span></div><div class="actions"><div class="btnw">Ver curso</div><div class="btnw solid">Inscribirme</div></div></article>
+        <article class="card"><div class="imgph">Imagen</div><span class="tag">Escuela</span><h3>Título del curso de ejemplo</h3><div class="feats"><span class="pill">⏱ 60 h</span><span class="pill">▦ 9 módulos</span><span class="pill">★ 4.7</span></div><div class="price"><span class="now"></span><span class="was"></span></div><div class="actions"><div class="btnw">Ver curso</div><div class="btnw solid">Inscribirme</div></div></article>
+        <article class="card"><div class="imgph">Imagen</div><span class="tag">Escuela</span><h3>Título del curso de ejemplo</h3><div class="feats"><span class="pill">⏱ 40 h</span><span class="pill">▦ 7 módulos</span><span class="pill">★ 4.9</span></div><div class="price"><span class="now"></span><span class="was"></span></div><div class="actions"><div class="btnw">Ver curso</div><div class="btnw solid">Inscribirme</div></div></article>
+        <article class="card"><div class="imgph">Imagen</div><span class="tag">Escuela</span><h3>Título del curso de ejemplo</h3><div class="feats"><span class="pill">⏱ 24 h</span><span class="pill">▦ 4 módulos</span><span class="pill">★ 4.6</span></div><div class="price"><span class="now"></span><span class="was"></span></div><div class="actions"><div class="btnw">Ver curso</div><div class="btnw solid">Inscribirme</div></div></article>
+        <article class="card"><div class="imgph">Imagen</div><span class="tag">Escuela</span><h3>Título del curso de ejemplo</h3><div class="feats"><span class="pill">⏱ 50 h</span><span class="pill">▦ 8 módulos</span><span class="pill">★ 4.8</span></div><div class="price"><span class="now"></span><span class="was"></span></div><div class="actions"><div class="btnw">Ver curso</div><div class="btnw solid">Inscribirme</div></div></article>
+        <article class="card"><div class="imgph">Imagen</div><span class="tag">Escuela</span><h3>Título del curso de ejemplo</h3><div class="feats"><span class="pill">⏱ 30 h</span><span class="pill">▦ 6 módulos</span><span class="pill">★ 4.7</span></div><div class="price"><span class="now"></span><span class="was"></span></div><div class="actions"><div class="btnw">Ver curso</div><div class="btnw solid">Inscribirme</div></div></article>
+        <article class="card"><div class="imgph">Imagen</div><span class="tag">Escuela</span><h3>Título del curso de ejemplo</h3><div class="feats"><span class="pill">⏱ 45 h</span><span class="pill">▦ 7 módulos</span><span class="pill">★ 4.9</span></div><div class="price"><span class="now"></span><span class="was"></span></div><div class="actions"><div class="btnw">Ver curso</div><div class="btnw solid">Inscribirme</div></div></article>
+        <article class="card"><div class="imgph">Imagen</div><span class="tag">Escuela</span><h3>Título del curso de ejemplo</h3><div class="feats"><span class="pill">⏱ 36 h</span><span class="pill">▦ 6 módulos</span><span class="pill">★ 4.8</span></div><div class="price"><span class="now"></span><span class="was"></span></div><div class="actions"><div class="btnw">Ver curso</div><div class="btnw solid">Inscribirme</div></div></article>
+      </div>
+
+      <!-- PAGINATION -->
+      <div class="pager">
+        <span>‹</span><span class="on">1</span><span>2</span><span>3</span><span>…</span><span>8</span><span>›</span>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="cols">
+      <div><div class="nav__logo" style="margin-bottom:16px;">LOGO</div><span class="bar sm w90" style="margin-bottom:8px;"></span><span class="bar sm w75"></span></div>
+      <div><span class="bar w40" style="margin-bottom:18px;"></span><span class="bar sm w90" style="margin-bottom:10px;"></span><span class="bar sm w75" style="margin-bottom:10px;"></span><span class="bar sm w60"></span></div>
+      <div><span class="bar w40" style="margin-bottom:18px;"></span><span class="bar sm w90" style="margin-bottom:10px;"></span><span class="bar sm w75" style="margin-bottom:10px;"></span><span class="bar sm w60"></span></div>
+      <div><span class="bar w40" style="margin-bottom:18px;"></span><span class="bar sm w90" style="margin-bottom:10px;"></span><span class="bar sm w75"></span></div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
