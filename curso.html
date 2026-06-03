@@ -44,8 +44,11 @@
        a los lados del contenedor; arriba se ve azul y al hacer scroll el gris pasa bajo el header sticky. */
     body { background: #f4f3f0; }
     .crs-body { background: #f4f3f0; }
-    /* Header: sticky + gradiente como el home. Hereda de landing.css (.site-header sticky/opaco,
-       .navbar gradient). Sin overrides aquí. */
+    /* Header: navbar SÓLIDO (page) mientras el hero está arriba — si dejáramos el gradiente, su parte
+       transparente mostraría el gris del body detrás. Al dejar atrás el hero (.is-scrolled) vuelve el
+       gradiente, cuyo fade se funde con el gris del contenido al hacer scroll. */
+    .site-header .navbar { background: var(--bg-page); transition: background 0.2s ease; }
+    .site-header.is-scrolled .navbar { background: linear-gradient(180deg, var(--bg-page) 0%, rgba(29, 56, 109, 0) 100%); }
 
     /* ── HERO oscuro (gradient Figma 2071:1042) ── */
     .crs-hero { background: linear-gradient(0deg, #0d1931 0%, #14284f 18.091%, #193161 38.462%, #1d386d 51.442%); color: #fff; padding: 24px 0 56px; }
@@ -508,6 +511,21 @@
   syncHeaderHeight();
   window.addEventListener('resize', syncHeaderHeight);
   window.addEventListener('load', syncHeaderHeight);
+
+  // Header: sólido (page) sobre el hero; gradiente al dejar atrás el hero
+  (function () {
+    const hero = document.querySelector('.crs-hero');
+    const header = document.querySelector('.site-header');
+    if (!hero || !header) return;
+    let ticking = false;
+    function update() {
+      header.classList.toggle('is-scrolled', hero.getBoundingClientRect().bottom <= header.offsetHeight);
+      ticking = false;
+    }
+    window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  })();
 
   /* Dataset base — mismas 16 entradas del catálogo (placeholder; reemplazar por CMS/backend) */
   const COURSES = [
